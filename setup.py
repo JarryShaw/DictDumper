@@ -6,14 +6,14 @@ import setuptools
 
 
 # README
-with open('./README.rst', 'r', encoding='utf-8') as file:
+with open('./README.rst', 'r') as file:
     long_desc = file.read()
 
 
 # set-up script for pip distribution
 setuptools.setup(
     name = 'jsformat',
-    version = '0.1.0',
+    version = '0.1.1',
     author = 'Jarry Shaw',
     author_email = 'jarryshaw@icloud.com',
     url = 'https://github.com/JarryShaw/jsformat',

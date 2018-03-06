@@ -6,17 +6,17 @@ jsformat
  The ``jsformat`` project is an open source Python program works as a
 stream format output dumper.
 
- Currently, it supports following formats ——
+ Currently, it supports following formats --
 
--  Dumper —— base class for ``jsformat``, all classes are derived from
+-  Dumper -- base class for ``jsformat``, all classes are derived from
    it
 
--  HTML —— JavaScript file based on ``Vue.js`` (deprecated)
+-  HTML -- JavaScript file based on ``Vue.js`` (deprecated)
 
--  JSON —— JSON (JavaScript Object Notation) file
+-  JSON -- JSON (JavaScript Object Notation) file
 
--  PLIST —— Apple Property List (plist) file
+-  PLIST -- Apple Property List (plist) file
 
--  Tree —— Tree-view text file
+-  Tree -- Tree-view text file
 
--  XML —— XML file with no ``dtd`` (deprecated)
+-  XML -- XML file with no ``dtd`` (deprecated)
