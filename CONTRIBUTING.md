@@ -1,8 +1,8 @@
 How to Contribute
 =================
 
-  The JSFORMAT project is an open source Python3 program focus on stream
-format output dumper.
+  The `jsformat` project is an open source Python program works as a
+  stream format output dumper.
 
 Pull Requests
 -------------

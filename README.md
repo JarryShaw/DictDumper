@@ -2,8 +2,7 @@
 
 &nbsp;
 
-&emsp; The `jsformat` project is an open source Python program focus on stream
-format output dumper.
+&emsp; The `jsformat` project is an open source Python program works as a stream format output dumper.
 
 &emsp; Currently, it supports following formats ——
 
