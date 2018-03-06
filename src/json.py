@@ -11,7 +11,7 @@ import textwrap
 # Dump a JSON file for PCAP analyser
 
 
-from .dumper import Dumper
+from .dumper import Dumper, type_check
 
 
 HEADER_START = '{\n'
@@ -106,7 +106,7 @@ class JSON(Dumper):
 
             self._vctr[self._tctr] += 1
 
-            _type = type(_text).__name__
+            _type = type_check(_text)
             MAGIC_TYPES[_type](self, _text, _file)
 
         self._vctr[self._tctr] = 0

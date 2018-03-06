@@ -10,6 +10,7 @@ import textwrap
 # Write a macOS Property List file
 
 
+from .dumper import type_check
 from .xml import MAGIC_TYPES, XML
 
 
@@ -64,7 +65,7 @@ class PLIST(XML):
             _keys = '{tabs}<key>{item}</key>\n'.format(tabs=_tabs, item=_item)
             _file.write(_keys)
 
-            _type = type(_text).__name__
+            _type = type_check(_text)
             MAGIC_TYPES[_type](self, _text, _file)
 
         self._tctr -= 1

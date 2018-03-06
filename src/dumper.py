@@ -3,6 +3,7 @@
 
 
 import abc
+import datetime
 import os
 
 
@@ -13,6 +14,14 @@ import os
 ABCMeta = abc.ABCMeta
 abstractmethod = abc.abstractmethod
 abstractproperty = abc.abstractproperty
+
+
+def type_check(content):
+    types = (dict, list, tuple, str, bytes, int, float, bool, type(None), datetime.datetime)
+    for kind in types:
+        if isinstance(content, kind):
+            return kind.__name__
+    return str.__name__
 
 
 class Dumper(object):

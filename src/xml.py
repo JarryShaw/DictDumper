@@ -13,7 +13,7 @@ import textwrap
 # Write a XML file for PCAP analyser
 
 
-from .dumper import Dumper
+from .dumper import Dumper, type_check
 
 
 HEADER_START = '''\
@@ -107,7 +107,7 @@ class XML(Dumper):
             _keys = '{tabs}<key>{item}</key>\n'.format(tabs=_tabs, item=_item)
             _file.write(_keys)
 
-            _type = type(_text).__name__
+            _type = type_check(_text)
             MAGIC_TYPES[_type](self, _text, _file)
 
         self._tctr -= 1

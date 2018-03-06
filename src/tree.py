@@ -11,7 +11,7 @@ import textwrap
 # Dump a TEXT file for PCAP analyser
 
 
-from .dumper import Dumper
+from .dumper import Dumper, type_check
 
 
 HEADER_START = 'PCAP File Tree-View Format\n'
@@ -21,17 +21,16 @@ TEMP_BRANCH = '  |   '
 TEMP_SPACES = '      '
 
 MAGIC_TYPES = dict(
-    dict = lambda self, text, file: self._append_branch(text, file),    # branch
-    Info = lambda self, text, file: self._append_branch(text, file),    # branch
-    list = lambda self, text, file: self._append_array(text, file),     # array
-    tuple = lambda self, text, file: self._append_array(text, file),    # array
-    str = lambda self, text, file: self._append_string(text, file),     # string
-    bytes = lambda self, text, file: self._append_bytes(text, file),    # string
-    datetime = lambda self, text, file: self._append_date(text, file),  # string
-    int = lambda self, text, file: self._append_number(text, file),     # number
-    float = lambda self, text, file: self._append_number(text, file),   # number
-    bool = lambda self, text, file: self._append_bool(text, file),      # True | False
-    NoneType = lambda self, text, file: self._append_none(text, file),  # N/A
+    dict = lambda self_, text, file_: self_._append_branch(text, file_),    # branch
+    list = lambda self_, text, file_: self_._append_array(text, file_),     # array
+    tuple = lambda self_, text, file_: self_._append_array(text, file_),    # array
+    str = lambda self_, text, file_: self_._append_string(text, file_),     # string
+    bytes = lambda self_, text, file_: self_._append_bytes(text, file_),    # string
+    datetime = lambda self_, text, file_: self_._append_date(text, file_),  # string
+    int = lambda self_, text, file_: self_._append_number(text, file_),     # number
+    float = lambda self_, text, file_: self_._append_number(text, file_),   # number
+    bool = lambda self_, text, file_: self_._append_bool(text, file_),      # True | False
+    NoneType = lambda self_, text, file_: self_._append_none(text, file_),  # N/A
 )
 
 
@@ -98,7 +97,7 @@ class Tree(Dumper):
             _text = '{tabs}{bptr}'.format(tabs=_tabs, bptr=_bptr)
             _file.write(_text)
 
-            _type = type(_item).__name__
+            _type = type_check(_text)
             MAGIC_TYPES[_type](self, _item, _file)
 
             _suff = '\n' if _nctr < _tlen else ''
@@ -111,7 +110,7 @@ class Tree(Dumper):
         self._tctr += 1
         _vlen = len(value)
         for (_vctr, (_item, _text)) in enumerate(value.items()):
-            _type = type(_text).__name__
+            _type = type_check(_text)
 
             flag_dict = (_type == 'dict')
             flag_tuple = (_type == 'tuple' and len(_text) > 1)
