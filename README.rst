@@ -49,8 +49,8 @@ About
 -  ``jsformat.HTML`` -- dump JavaScript file under ``Vue.js`` framework
    (**deprecated**)
 
-.. figure:: https://github.com/JarryShaw/doc/jsformat.png
-   :alt: 
+.. figure:: ./doc/jsformat.png
+   :alt:
 
 .. _header-n60:
 
@@ -59,7 +59,7 @@ Installation:
 
     Note that ``jsformat`` only supports Python versions **since 3.0**
 
-.. code:: 
+.. code::
 
     pip install jsformat
 
