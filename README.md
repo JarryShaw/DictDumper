@@ -18,12 +18,12 @@
 
 &emsp; Currently, it supports following formats --
 
- - Dumper -- abstract base class of all dumpers
- - JSON -- dump JavaScript object notation (JSON) format file
- - PLIST -- dump Apple property list (PLIST) format file
- - Tree -- dump a tree-view text (TXT) format file
- - XML -- dump extensible Mmarkup language (XML) file (base class)
- - HTML -- dump JavaScript file under `Vue.js` framework (deprecated)
+ - `jsformat.Dumper` -- abstract base class of all dumpers
+ - `jsformat.JSON` -- dump JavaScript object notation (`JSON`) format file
+ - `jsformat.PLIST` -- dump Apple property list (`PLIST`) format file
+ - `jsformat.Tree` -- dump a tree-view text (`TXT`) format file
+ - `jsformat.XML` -- dump extensible Mmarkup language (`XML`) file (__base class__)
+ - `jsformat.HTML` -- dump JavaScript file under `Vue.js` framework (__deprecated__)
 
 &nbsp;
 
@@ -72,7 +72,6 @@ test
 ```python
 import datetime
 import time
-dumper(test_1, name='test_1')
 test_2 = dict(
     foo = [1, 2.0, 3],          # list
     bar = (1.0, 2, 3.0),        # tuple

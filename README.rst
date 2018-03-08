@@ -1,4 +1,4 @@
-.. _header-n0:
+.. _header-n150:
 
 jsformat
 ========
@@ -6,7 +6,7 @@ jsformat
  The ``jsformat`` project is an open source Python program works as a
 stream format output dumper.
 
--  `About <#header-n34>`__
+-  `About <#header-n184>`__
 
    -  ``jsformat.Dumper``
 
@@ -22,30 +22,34 @@ stream format output dumper.
 
 -  `Installation <#installation>`__
 
--  `Usage <#header-n65>`__
+-  `Usage <#header-n215>`__
 
 --------------
 
-.. _header-n34:
+.. _header-n184:
 
 About
 -----
 
  Currently, it supports following formats --
 
--  Dumper -- abstract base class of all dumpers
+-  ``jsformat.Dumper`` -- abstract base class of all dumpers
 
--  JSON -- dump JavaScript object notation (JSON) format file
+-  ``jsformat.JSON`` -- dump JavaScript object notation (``JSON``)
+   format file
 
--  PLIST -- dump Apple property list (PLIST) format file
+-  ``jsformat.PLIST`` -- dump Apple property list (``PLIST``) format
+   file
 
--  Tree -- dump a tree-view text (TXT) format file
+-  ``jsformat.Tree`` -- dump a tree-view text (``TXT``) format file
 
--  XML -- dump extensible Mmarkup language (XML) file (base class)
+-  ``jsformat.XML`` -- dump extensible Mmarkup language (``XML``) file
+   (**base class**)
 
--  HTML -- dump JavaScript file under ``Vue.js`` framework (deprecated)
+-  ``jsformat.HTML`` -- dump JavaScript file under ``Vue.js`` framework
+   (**deprecated**)
 
-.. _header-n58:
+.. _header-n208:
 
 Installation:
 -------------
@@ -56,7 +60,7 @@ Installation:
 
     pip install jsformat
 
-.. _header-n65:
+.. _header-n215:
 
 Usage
 -----
@@ -98,7 +102,6 @@ initialisation, you can simple call the instance to dump contents.
 
     import datetime
     import time
-    dumper(test_1, name='test_1')
     test_2 = dict(
         foo = [1, 2.0, 3],          # list
         bar = (1.0, 2, 3.0),        # tuple
