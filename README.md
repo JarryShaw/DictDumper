@@ -25,7 +25,7 @@
  - `jsformat.XML` -- dump extensible Mmarkup language (`XML`) file (__base class__)
  - `jsformat.HTML` -- dump JavaScript file under `Vue.js` framework (__deprecated__)
 
-![](https://github.com/JarryShaw/doc/jsformat.png)
+![](https://github.com/JarryShaw/jsformat/doc/jsformat.png)
 
 &nbsp;
 
