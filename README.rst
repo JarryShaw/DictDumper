@@ -1,4 +1,4 @@
-.. _header-n150:
+.. _header-n0:
 
 jsformat
 ========
@@ -6,7 +6,7 @@ jsformat
  The ``jsformat`` project is an open source Python program works as a
 stream format output dumper.
 
--  `About <#header-n184>`__
+-  `About <#header-n34>`__
 
    -  ``jsformat.Dumper``
 
@@ -22,11 +22,11 @@ stream format output dumper.
 
 -  `Installation <#installation>`__
 
--  `Usage <#header-n215>`__
+-  `Usage <#header-n67>`__
 
 --------------
 
-.. _header-n184:
+.. _header-n34:
 
 About
 -----
@@ -49,7 +49,10 @@ About
 -  ``jsformat.HTML`` -- dump JavaScript file under ``Vue.js`` framework
    (**deprecated**)
 
-.. _header-n208:
+.. figure:: https://github.com/JarryShaw/doc/jsformat.png
+   :alt: 
+
+.. _header-n60:
 
 Installation:
 -------------
@@ -60,7 +63,7 @@ Installation:
 
     pip install jsformat
 
-.. _header-n215:
+.. _header-n67:
 
 Usage
 -----
