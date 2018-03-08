@@ -11,55 +11,85 @@ import textwrap
 # Dump a TEXT file for PCAP analyser
 
 
-from .dumper import Dumper, type_check
+from jsformat.dumper import Dumper, _type_check
 
 
-HEADER_START = 'PCAP File Tree-View Format\n'
-HEADER_END = ' '
+# headers
+_HEADER_START = 'PCAP File Tree-View Format\n'   # head
+_HEADER_END = ''                               # tail
 
-TEMP_BRANCH = '  |   '
-TEMP_SPACES = '      '
 
-MAGIC_TYPES = dict(
-    dict = lambda self_, text, file_: self_._append_branch(text, file_),    # branch
-    list = lambda self_, text, file_: self_._append_array(text, file_),     # array
-    tuple = lambda self_, text, file_: self_._append_array(text, file_),    # array
-    str = lambda self_, text, file_: self_._append_string(text, file_),     # string
-    bytes = lambda self_, text, file_: self_._append_bytes(text, file_),    # string
-    datetime = lambda self_, text, file_: self_._append_date(text, file_),  # string
-    int = lambda self_, text, file_: self_._append_number(text, file_),     # number
-    float = lambda self_, text, file_: self_._append_number(text, file_),   # number
-    bool = lambda self_, text, file_: self_._append_bool(text, file_),      # True | False
-    NoneType = lambda self_, text, file_: self_._append_none(text, file_),  # N/A
+# templates
+_TEMP_BRANCH = '  |   '  # branch
+_TEMP_SPACES = '      '  # space
+
+
+# magic types
+_MAGIC_TYPES = dict(
+    dict = lambda self, text, file: self._append_branch(text, file),    # branch
+    list = lambda self, text, file: self._append_array(text, file),     # array
+    tuple = lambda self, text, file: self._append_array(text, file),    # array
+    str = lambda self, text, file: self._append_string(text, file),     # string
+    bytes = lambda self, text, file: self._append_bytes(text, file),    # string
+    datetime = lambda self, text, file: self._append_date(text, file),  # string
+    int = lambda self, text, file: self._append_number(text, file),     # number
+    float = lambda self, text, file: self._append_number(text, file),   # number
+    bool = lambda self, text, file: self._append_bool(text, file),      # True | False
+    NoneType = lambda self, text, file: self._append_none(text, file),  # N/A
 )
 
 
 class Tree(Dumper):
-    """Tree-view Format
+    """Dump a tree-view text (TXT) format file.
 
-    value   ::=  branch | array | string | number | bool | N/A
+    Usage:
+        >>> dumper = Tree(file_name)
+        >>> dumper(content_dict_1, name=content_name_1)
+        >>> dumper(content_dict_2, name=content_name_2)
+        ............
 
-    string
-      |-- string
-      |     |-- string -> value
-      |     |-- string
-      |     |     |-- string -> value
-      |     |     |-- string -> value
-      |     |-- string -> value
-      |     |-- string -> value
-      |           |-- string -> value
-      |           |-- string -> value
-      |-- string -> value, value, value
-      |-- string -> True
-      |-- string -> False
-      |-- string -> N/A
-      |-- string -> value
-      |-- string -> value
+    Properties:
+        * kind - str, return 'plist'
+
+    Methods:
+        * _dump_header - initially dump file heads and tails
+        * _append_value - call this function to write contents
+
+    Attributes:
+        * _file - FileIO, output file
+        * _sptr - int (file pointer), indicates start of appending point
+        * _tctr - int, tab level counter
+        * _hrst - str, _HEADER_START
+        * _hend - str, _HEADER_END
+        * _bctr - dict, blank branch counter dict
+
+    Terminology:
+        value   ::=  branch | array | string | number | bool | N/A
+        string
+          |-- string
+          |     |-- string -> value
+          |     |-- string
+          |     |     |-- string -> value
+          |     |     |-- string -> value
+          |     |-- string -> value
+          |     |-- string -> value
+          |           |-- string -> value
+          |           |-- string -> value
+          |-- string -> value, value, value
+          |-- string -> True
+          |-- string -> False
+          |-- string -> N/A
+          |-- string -> value
+          |-- string -> value
 
     """
+    ##########################################################################
+    # Attributes.
+    ##########################################################################
+
     _tctr = -1
-    _hsrt = HEADER_START
-    _hend = HEADER_END
+    _hsrt = _HEADER_START
+    _hend = _HEADER_END
 
     ##########################################################################
     # Properties.
@@ -67,13 +97,22 @@ class Tree(Dumper):
 
     @property
     def kind(self):
+        """File format of current dumper."""
         return 'txt'
 
     ##########################################################################
     # Utilities.
     ##########################################################################
 
-    def append_value(self, value, _file, _name):
+    def _append_value(self, value, _file, _name):
+        """Call this function to write contents.
+
+        Keyword arguments:
+            * value - dict, content to be dunped
+            * _file - FileIO, output file
+            * _name - str, name of current content dict
+
+        """
         _keys = '\n' + _name + '\n'
         _file.seek(self._sptr, os.SEEK_SET)
         _file.write(_keys)
@@ -82,6 +121,13 @@ class Tree(Dumper):
         self._append_branch(value, _file)
 
     def _append_array(self, value, _file):
+        """Call this function to write array contents.
+
+        Keyword arguments:
+            * value - dict, content to be dunped
+            * _file - FileIO, output file
+
+        """
         if not value:
             self._append_none(None, _file)
 
@@ -91,26 +137,33 @@ class Tree(Dumper):
         if _tlen:
             _bptr = '  |-->'
             for _ in range(self._tctr + 1):
-                _tabs += TEMP_SPACES if self._bctr[_] else TEMP_BRANCH
+                _tabs += _TEMP_SPACES if self._bctr[_] else _TEMP_BRANCH
 
         for (_nctr, _item) in enumerate(value):
             _text = '{tabs}{bptr}'.format(tabs=_tabs, bptr=_bptr)
             _file.write(_text)
 
-            _type = type_check(_text)
-            MAGIC_TYPES[_type](self, _item, _file)
+            _type = _type_check(_text)
+            _MAGIC_TYPES[_type](self, _item, _file)
 
             _suff = '\n' if _nctr < _tlen else ''
             _file.write(_suff)
 
     def _append_branch(self, value, _file):
+        """Call this function to write branch contents.
+
+        Keyword arguments:
+            * value - dict, content to be dunped
+            * _file - FileIO, output file
+
+        """
         if not value:
             self._append_none(None, _file)
 
         self._tctr += 1
         _vlen = len(value)
         for (_vctr, (_item, _text)) in enumerate(value.items()):
-            _type = type_check(_text)
+            _type = _type_check(_text)
 
             flag_dict = (_type == 'dict')
             flag_tuple = (_type == 'tuple' and len(_text) > 1)
@@ -122,7 +175,7 @@ class Tree(Dumper):
 
             _labs = ''
             for _ in range(self._tctr):
-                _labs += TEMP_SPACES if self._bctr[_] else TEMP_BRANCH
+                _labs += _TEMP_SPACES if self._bctr[_] else _TEMP_BRANCH
 
             _keys = '{labs}  |-- {item}{pref}'.format(labs=_labs, item=_item, pref=_pref)
             _file.write(_keys)
@@ -130,7 +183,7 @@ class Tree(Dumper):
             if _vctr == _vlen - 1:
                 self._bctr[self._tctr] = 1
 
-            MAGIC_TYPES[_type](self, _text, _file)
+            _MAGIC_TYPES[_type](self, _text, _file)
 
             _suff = '' if _type == 'dict' else '\n'
             _file.write(_suff)
@@ -139,6 +192,13 @@ class Tree(Dumper):
         self._tctr -= 1
 
     def _append_string(self, value, _file):
+        """Call this function to write string contents.
+
+        Keyword arguments:
+            * value - dict, content to be dunped
+            * _file - FileIO, output file
+
+        """
         if not value:
             self._append_none(None, _file)
 
@@ -147,6 +207,13 @@ class Tree(Dumper):
         _file.write(_labs)
 
     def _append_bytes(self, value, _file):
+        """Call this function to write bytes contents.
+
+        Keyword arguments:
+            * value - dict, content to be dunped
+            * _file - FileIO, output file
+
+        """
         # binascii.b2a_base64(value) -> plistlib.Data
         # binascii.a2b_base64(Data) -> value(bytes)
         if not value:
@@ -155,7 +222,7 @@ class Tree(Dumper):
         if len(value) > 16:
             _tabs = ''
             for _ in range(self._tctr + 1):
-                _tabs += TEMP_SPACES if self._bctr[_] else TEMP_BRANCH
+                _tabs += _TEMP_SPACES if self._bctr[_] else _TEMP_BRANCH
 
             _list = []
             for (_ictr, _item) in enumerate(textwrap.wrap(value.hex(), 32)):
@@ -170,21 +237,49 @@ class Tree(Dumper):
         _file.write(_labs)
 
     def _append_date(self, value, _file):
+        """Call this function to write date contents.
+
+        Keyword arguments:
+            * value - dict, content to be dunped
+            * _file - FileIO, output file
+
+        """
         _text = value.strftime('%Y-%m-%d %H:%M:%S')
         _labs = ' {text}'.format(text=_text)
         _file.write(_labs)
 
     def _append_number(self, value, _file):
+        """Call this function to write number contents.
+
+        Keyword arguments:
+            * value - dict, content to be dunped
+            * _file - FileIO, output file
+
+        """
         _text = value
         _labs = ' {text}'.format(text=_text)
         _file.write(_labs)
 
     def _append_bool(self, value, _file):
+        """Call this function to write bool contents.
+
+        Keyword arguments:
+            * value - dict, content to be dunped
+            * _file - FileIO, output file
+
+        """
         _text = 'True' if value else 'False'
         _labs = ' {text}'.format(text=_text)
         _file.write(_labs)
 
     def _append_none(self, value, _file):
+        """Call this function to write none contents.
+
+        Keyword arguments:
+            * value - dict, content to be dunped
+            * _file - FileIO, output file
+
+        """
         _text = 'N/A'
         _labs = ' {text}'.format(text=_text)
         _file.write(_labs)

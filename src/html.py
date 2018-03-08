@@ -11,15 +11,21 @@ import textwrap
 # Dump a JavaScript file for PCAP analyser
 
 
-from .json import JSON
+from jsformat.json import JSON
 
 
-HEADER_START = '''\
+__all__ = ['JavaScript']
+
+
+# head
+_HEADER_START = '''\
 // demo data
 var data = {
 '''
 
-HEADER_END = """
+
+# tail
+_HEADER_END = """
 }
 
 // define the item component
@@ -71,7 +77,43 @@ var demo = new Vue({
 
 
 class JavaScript(JSON):
+    """Dump JavaScript file under `Vue.js` framework.
 
-    _hsrt = HEADER_START
-    _hend = HEADER_END
+    Usage:
+        >>> dumper = JavaScript(file_name)
+        >>> dumper(content_dict_1, name=content_name_1)
+        >>> dumper(content_dict_2, name=content_name_2)
+        ............
+
+    Properties:
+        * kind - str, return 'js'
+
+    Methods:
+        * _dump_header - initially dump file heads and tails
+        * _append_value - call this function to write contents
+
+    Attributes:
+        * _file - FileIO, output file
+        * _sptr - int (file pointer), indicates start of appending point
+        * _tctr - int, tab level counter
+        * _hrst - str, _HEADER_START
+        * _hend - str, _HEADER_END
+        * _vctr - dict, value counter dict
+
+    """
+    ##########################################################################
+    # Properties.
+    ##########################################################################
+
+    @property
+    def kind(self):
+        """File format of current dumper."""
+        return 'js'
+
+    ##########################################################################
+    # Attributes.
+    ##########################################################################
+
+    _hsrt = _HEADER_START
+    _hend = _HEADER_END
     _vctr = collections.defaultdict(int)    # value counter dict

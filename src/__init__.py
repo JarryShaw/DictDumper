@@ -3,13 +3,16 @@
 
 
 # Base Class for jsFormat
-from .dumper import Dumper
+from jsformat.dumper import Dumper
 
 # Utility Classes
-from .json import JSON
-from .plist import PLIST
-from .tree import Tree
+from jsformat.json import JSON
+from jsformat.plist import PLIST
+from jsformat.tree import Tree
 
 # Deprecated / Base Classes
-from .html import JavaScript
-from .xml import XML
+from jsformat.html import JavaScript
+from jsformat.xml import XML
+
+
+__all__ = ['JSON', 'PLIST', 'Tree']

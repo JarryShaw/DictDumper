@@ -13,7 +13,7 @@ with open('./README.rst', 'r') as file:
 # set-up script for pip distribution
 setuptools.setup(
     name = 'jsformat',
-    version = '0.1.3',
+    version = '0.1.5',
     author = 'Jarry Shaw',
     author_email = 'jarryshaw@icloud.com',
     url = 'https://github.com/JarryShaw/jsformat',
@@ -21,7 +21,7 @@ setuptools.setup(
     keywords = 'formatting dumper stream',
     description = 'A stream format output dumper.',
     long_description = long_desc,
-    python_requires = '>=3.6',
+    python_requires = '>=3.0',
     py_modules = ['jsformat'],
     packages = ['jsformat'],
     package_data = {
@@ -44,6 +44,12 @@ setuptools.setup(
         'Operating System :: Unix',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.0',
+        'Programming Language :: Python :: 3.1',
+        'Programming Language :: Python :: 3.2',
+        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3 :: Only',
         'Programming Language :: Python :: Implementation',
