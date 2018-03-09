@@ -1,7 +1,11 @@
-#!/usr/bin/python3
 # -*- coding: utf-8 -*-
+"""base dumper
 
+``jsformat.dumper`` contains ``Dumper`` only, which is an
+abstract base class for all dumpers, eg. HTML, JSON, PLIST,
+Tree, and XML.
 
+"""
 import abc
 import datetime
 import os

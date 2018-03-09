@@ -1,7 +1,32 @@
-#!/usr/bin/python3
 # -*- coding: utf-8 -*-
+"""stream formatted output dumper
 
+``jsformat`` is an open source Python program works as a
+stream formatted output dumper. Currently, it supports
+following formats --
 
+-  ``jsformat.Dumper``
+        abstract base class of all dumpers
+
+-  ``jsformat.JSON``
+        dump JavaScript object notation (``JSON``)
+        format file
+
+-  ``jsformat.PLIST``
+        dump Apple property list (``PLIST``) format file
+
+-  ``jsformat.Tree``
+        dump tree-view text (``TXT``) format file
+
+-  ``jsformat.XML``
+        dump extensible Mmarkup language (``XML``) file;
+        this is a deprecated base class
+
+-  ``jsformat.HTML``
+        dump JavaScript file under ``Vue.js`` framework
+        this class is deprecated due to grammar error
+
+"""
 # Base Class for jsFormat
 from jsformat.dumper import Dumper
 

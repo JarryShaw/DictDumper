@@ -1,7 +1,20 @@
-#!/usr/bin/python3
 # -*- coding: utf-8 -*-
+"""dumper a XML file (DEPRECATED)
 
+    Note that this file is deprecated.
 
+``jsformat.xml`` contains ``XML`` only, which dumpers an
+extensible markup language (XML) format file. However, due
+to lack of supported ``dtd``, the output file is currently
+meaningless, thus it is now deprecated. Usage sample is
+described as below.
+
+    >>> dumper = XML(file_name)
+    >>> dumper(content_dict_1, name=content_name_1)
+    >>> dumper(content_dict_2, name=content_name_2)
+    ............
+
+"""
 # TODO: Supports more `dtd`s of XML.
 
 
@@ -30,7 +43,7 @@ _HEADER_END = '''\
 
 
 class XML(Dumper):
-    """Dump extensible Mmarkup language (XML) file.
+    """Dump extensible markup language (XML) file.
 
     Note:
         This is a base dumper for XML format. No `dtd` supported.

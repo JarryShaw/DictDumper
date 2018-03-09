@@ -4,7 +4,7 @@ jsformat
 ========
 
  The ``jsformat`` project is an open source Python program works as a
-stream format output dumper.
+stream formatted output dumper.
 
 -  `About <#header-n34>`__
 
@@ -41,13 +41,13 @@ About
 -  ``jsformat.PLIST`` -- dump Apple property list (``PLIST``) format
    file
 
--  ``jsformat.Tree`` -- dump a tree-view text (``TXT``) format file
+-  ``jsformat.Tree`` -- dump tree-view text (``TXT``) format file
 
 -  ``jsformat.XML`` -- dump extensible Mmarkup language (``XML``) file
    (**base class**)
 
 -  ``jsformat.HTML`` -- dump JavaScript file under ``Vue.js`` framework
-   (**deprecated**)
+   (**DEPRECATED**)
 
 .. figure:: ./doc/jsformat.png
    :alt:
@@ -104,14 +104,13 @@ initialisation, you can simple call the instance to dump contents.
 .. code:: python
 
     import datetime
-    import time
     test_2 = dict(
         foo = [1, 2.0, 3],          # list
         bar = (1.0, 2, 3.0),        # tuple
         boo = dict(                 # dict
             foo_again = 'a long long bytes',
                                     # bytes
-            bar_again = datetime.datetime.fromtimestamp(time.time()),
+            bar_again = datetime.datetime.today(),
                                     # datetime
             boo_again = -1.0,       # float
         ),

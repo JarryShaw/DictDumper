@@ -1,7 +1,16 @@
-#!/usr/bin/python3
 # -*- coding: utf-8 -*-
+"""dumper a tree-view file
 
+``jsformat.tree`` contains ``Tree`` only, which dumpers a
+tree-view text (TXT) format file. Usage sample is described
+as below.
 
+    >>> dumper = Tree(file_name)
+    >>> dumper(content_dict_1, name=content_name_1)
+    >>> dumper(content_dict_2, name=content_name_2)
+    ............
+
+"""
 import collections
 import os
 import textwrap

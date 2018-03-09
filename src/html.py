@@ -1,7 +1,19 @@
-#!/usr/bin/python3
 # -*- coding: utf-8 -*-
+"""dumper a JavaScript file (DEPRECARED)
 
+    Note that this file is deprecated.
 
+``jsformat.html`` contains ``HTML`` only, which dumpers a
+JavaScript file according to ``Vue.js`` framework. However,
+due to errors in grammar, the output file won't work, thus
+it is now deprecated. Usage sample is described as below.
+
+    >>> dumper = JavaScript(file_name)
+    >>> dumper(content_dict_1, name=content_name_1)
+    >>> dumper(content_dict_2, name=content_name_2)
+    ............
+
+"""
 import collections
 import os
 import textwrap

@@ -1,7 +1,16 @@
-#!/usr/bin/python3
 # -*- coding: utf-8 -*-
+"""dumper a PLIST file
 
+``jsformat.plist`` contains ``PLIST`` only, which dumpers an
+Apple property list (PLIST) file. Usage sample is described
+as below.
 
+    >>> dumper = PLIST(file_name)
+    >>> dumper(content_dict_1, name=content_name_1)
+    >>> dumper(content_dict_2, name=content_name_2)
+    ............
+
+"""
 import os
 import textwrap
 
