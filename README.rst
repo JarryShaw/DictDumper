@@ -3,7 +3,7 @@
 jsformat
 ========
 
- The ``jsformat`` project is an open source Python program works as a
+The ``jsformat`` project is an open source Python program works as a
 stream formatted output dumper.
 
 -  `About <#header-n34>`__
@@ -31,7 +31,7 @@ stream formatted output dumper.
 About
 -----
 
- Currently, it supports following formats --
+Currently, it supports following formats --
 
 -  ``jsformat.Dumper`` -- abstract base class of all dumpers
 
@@ -49,8 +49,8 @@ About
 -  ``jsformat.HTML`` -- dump JavaScript file under ``Vue.js`` framework
    (**DEPRECATED**)
 
-.. figure:: ./doc/jsformat.png
-   :alt:
+.. figure:: /Users/jarryshaw/Documents/GitHub/TreeViewer/src/jsformat/doc/jsformat.png
+   :alt: 
 
 .. _header-n60:
 
@@ -59,7 +59,7 @@ Installation:
 
     Note that ``jsformat`` only supports Python versions **since 3.0**
 
-.. code::
+.. code:: 
 
     pip install jsformat
 
@@ -68,7 +68,7 @@ Installation:
 Usage
 -----
 
- ``jsformat`` is quite easy to use. After installation, importation, and
+``jsformat`` is quite easy to use. After installation, importation, and
 initialisation, you can simple call the instance to dump contents.
 
     Take ``jsformat.Tree`` for example
@@ -88,7 +88,7 @@ initialisation, you can simple call the instance to dump contents.
     )
     dumper(test_1, name='test_1')
 
-.. code:: shell
+.. code:: 
 
     $ cat out.txt
     PCAP File Tree-View Format
@@ -117,7 +117,7 @@ initialisation, you can simple call the instance to dump contents.
     )
     dumper(test_2, name='test_2')
 
-.. code:: shell
+.. code:: 
 
     $ cat out.txt
     PCAP File Tree-View Format

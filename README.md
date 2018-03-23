@@ -59,7 +59,7 @@ test_1 = dict(
 )
 dumper(test_1, name='test_1')
 ```
-```shell
+```
 $ cat out.txt
 PCAP File Tree-View Format
 
@@ -86,7 +86,7 @@ test_2 = dict(
 )
 dumper(test_2, name='test_2')
 ```
-```shell
+```
 $ cat out.txt
 PCAP File Tree-View Format
 
