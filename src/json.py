@@ -106,7 +106,7 @@ class JSON(Dumper):
         """Call this function to write contents.
 
         Keyword arguments:
-            * value - dict, content to be dunped
+            * value - dict, content to be dumped
             * _file - FileIO, output file
             * _name - str, name of current content dict
 
@@ -129,7 +129,7 @@ class JSON(Dumper):
         """Call this function to write array contents.
 
         Keyword arguments:
-            * value - dict, content to be dunped
+            * value - dict, content to be dumped
             * _file - FileIO, output file
 
         """
@@ -157,7 +157,7 @@ class JSON(Dumper):
         """Call this function to write object contents.
 
         Keyword arguments:
-            * value - dict, content to be dunped
+            * value - dict, content to be dumped
             * _file - FileIO, output file
 
         """
@@ -186,7 +186,7 @@ class JSON(Dumper):
         """Call this function to write string contents.
 
         Keyword arguments:
-            * value - dict, content to be dunped
+            * value - dict, content to be dumped
             * _file - FileIO, output file
 
         """
@@ -198,7 +198,7 @@ class JSON(Dumper):
         """Call this function to write bytes contents.
 
         Keyword arguments:
-            * value - dict, content to be dunped
+            * value - dict, content to be dumped
             * _file - FileIO, output file
 
         """
@@ -216,7 +216,7 @@ class JSON(Dumper):
         """Call this function to write date contents.
 
         Keyword arguments:
-            * value - dict, content to be dunped
+            * value - dict, content to be dumped
             * _file - FileIO, output file
 
         """
@@ -228,7 +228,7 @@ class JSON(Dumper):
         """Call this function to write number contents.
 
         Keyword arguments:
-            * value - dict, content to be dunped
+            * value - dict, content to be dumped
             * _file - FileIO, output file
 
         """
@@ -240,7 +240,7 @@ class JSON(Dumper):
         """Call this function to write bool contents.
 
         Keyword arguments:
-            * value - dict, content to be dunped
+            * value - dict, content to be dumped
             * _file - FileIO, output file
 
         """
@@ -252,7 +252,7 @@ class JSON(Dumper):
         """Call this function to write null contents.
 
         Keyword arguments:
-            * value - dict, content to be dunped
+            * value - dict, content to be dumped
             * _file - FileIO, output file
 
         """

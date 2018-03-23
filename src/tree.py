@@ -117,7 +117,7 @@ class Tree(Dumper):
         """Call this function to write contents.
 
         Keyword arguments:
-            * value - dict, content to be dunped
+            * value - dict, content to be dumped
             * _file - FileIO, output file
             * _name - str, name of current content dict
 
@@ -133,7 +133,7 @@ class Tree(Dumper):
         """Call this function to write array contents.
 
         Keyword arguments:
-            * value - dict, content to be dunped
+            * value - dict, content to be dumped
             * _file - FileIO, output file
 
         """
@@ -162,7 +162,7 @@ class Tree(Dumper):
         """Call this function to write branch contents.
 
         Keyword arguments:
-            * value - dict, content to be dunped
+            * value - dict, content to be dumped
             * _file - FileIO, output file
 
         """
@@ -204,7 +204,7 @@ class Tree(Dumper):
         """Call this function to write string contents.
 
         Keyword arguments:
-            * value - dict, content to be dunped
+            * value - dict, content to be dumped
             * _file - FileIO, output file
 
         """
@@ -219,7 +219,7 @@ class Tree(Dumper):
         """Call this function to write bytes contents.
 
         Keyword arguments:
-            * value - dict, content to be dunped
+            * value - dict, content to be dumped
             * _file - FileIO, output file
 
         """
@@ -249,7 +249,7 @@ class Tree(Dumper):
         """Call this function to write date contents.
 
         Keyword arguments:
-            * value - dict, content to be dunped
+            * value - dict, content to be dumped
             * _file - FileIO, output file
 
         """
@@ -261,7 +261,7 @@ class Tree(Dumper):
         """Call this function to write number contents.
 
         Keyword arguments:
-            * value - dict, content to be dunped
+            * value - dict, content to be dumped
             * _file - FileIO, output file
 
         """
@@ -273,7 +273,7 @@ class Tree(Dumper):
         """Call this function to write bool contents.
 
         Keyword arguments:
-            * value - dict, content to be dunped
+            * value - dict, content to be dumped
             * _file - FileIO, output file
 
         """
@@ -285,7 +285,7 @@ class Tree(Dumper):
         """Call this function to write none contents.
 
         Keyword arguments:
-            * value - dict, content to be dunped
+            * value - dict, content to be dumped
             * _file - FileIO, output file
 
         """

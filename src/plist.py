@@ -115,7 +115,7 @@ class PLIST(XML):
         """Call this function to write contents.
 
         Keyword arguments:
-            * value - dict, content to be dunped
+            * value - dict, content to be dumped
             * _file - FileIO, output file
             * _name - str, name of current content dict
 
@@ -131,7 +131,7 @@ class PLIST(XML):
         """Call this function to write array contents.
 
         Keyword arguments:
-            * value - dict, content to be dunped
+            * value - dict, content to be dumped
             * _file - FileIO, output file
 
         """
@@ -154,7 +154,7 @@ class PLIST(XML):
         """Call this function to write dict contents.
 
         Keyword arguments:
-            * value - dict, content to be dunped
+            * value - dict, content to be dumped
             * _file - FileIO, output file
 
         """
@@ -182,7 +182,7 @@ class PLIST(XML):
         """Call this function to write string contents.
 
         Keyword arguments:
-            * value - dict, content to be dunped
+            * value - dict, content to be dumped
             * _file - FileIO, output file
 
         """
@@ -195,7 +195,7 @@ class PLIST(XML):
         """Call this function to write data contents.
 
         Keyword arguments:
-            * value - dict, content to be dunped
+            * value - dict, content to be dumped
             * _file - FileIO, output file
 
         """
@@ -221,7 +221,7 @@ class PLIST(XML):
         """Call this function to write date contents.
 
         Keyword arguments:
-            * value - dict, content to be dunped
+            * value - dict, content to be dumped
             * _file - FileIO, output file
 
         """
@@ -234,7 +234,7 @@ class PLIST(XML):
         """Call this function to write integer contents.
 
         Keyword arguments:
-            * value - dict, content to be dunped
+            * value - dict, content to be dumped
             * _file - FileIO, output file
 
         """
@@ -247,7 +247,7 @@ class PLIST(XML):
         """Call this function to write real contents.
 
         Keyword arguments:
-            * value - dict, content to be dunped
+            * value - dict, content to be dumped
             * _file - FileIO, output file
 
         """
@@ -260,7 +260,7 @@ class PLIST(XML):
         """Call this function to write bool contents.
 
         Keyword arguments:
-            * value - dict, content to be dunped
+            * value - dict, content to be dumped
             * _file - FileIO, output file
 
         """

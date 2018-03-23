@@ -25,7 +25,7 @@ abstractproperty = abc.abstractproperty
 
 def _type_check(content):
     """Check content type for function call."""
-    TYPE = (dict, list, tuple, str, bytes, int, float, bool, type(None), datetime.datetime)
+    TYPE = (dict, list, tuple, str, bytes, bool, int, float, type(None), datetime.datetime)
     for kind in TYPE:
         if isinstance(content, kind):
             return kind.__name__
