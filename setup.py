@@ -6,14 +6,18 @@ import setuptools
 
 
 # README
-with open('./README.rst', 'r') as file:
+with open('./README.md', 'r') as file:
     long_desc = file.read()
+
+
+# version string
+__version__ = '0.2.1.post3'
 
 
 # set-up script for pip distribution
 setuptools.setup(
     name = 'jsformat',
-    version = '0.2.1.post1',
+    version = __version__,
     author = 'Jarry Shaw',
     author_email = 'jarryshaw@icloud.com',
     url = 'https://github.com/JarryShaw/jsformat',
@@ -21,6 +25,7 @@ setuptools.setup(
     keywords = 'formatting dumper stream',
     description = 'A stream format output dumper.',
     long_description = long_desc,
+    long_description_content_type='text/markdown',
     python_requires = '>=3.0',
     py_modules = ['jsformat'],
     packages = ['jsformat'],
