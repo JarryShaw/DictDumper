@@ -211,7 +211,7 @@ class Tree(Dumper):
         if not value:
             self._append_none(None, _file)
 
-        _text = value
+        _text = value or 'NULL'
         _labs = ' {text}'.format(text=_text)
         _file.write(_labs)
 

@@ -187,7 +187,7 @@ class PLIST(XML):
 
         """
         _tabs = '\t' * self._tctr
-        _text = value or 'N/A'
+        _text = value
         _labs = '{tabs}<string>{text}</string>\n'.format(tabs=_tabs, text=_text)
         _file.write(_labs)
 
@@ -203,18 +203,21 @@ class PLIST(XML):
         # binascii.a2b_base64(Data) -> value(bytes)
 
         _tabs = '\t' * self._tctr
-        _labs = '{tabs}<data>\n'.format(tabs=_tabs)
+        _text = str(value)[2:-1]
+        _labs = '{tabs}<data>{text}</data>\n'.format(tabs=_tabs, text=_text)
+        # _labs = '{tabs}<data>\n'.format(tabs=_tabs)
 
-        _list = []
-        for _item in textwrap.wrap(value.hex(), 32):
-            _text = ' '.join(textwrap.wrap(_item, 2))
-            _item = '{tabs}\t{text}'.format(tabs=_tabs, text=_text)
-            _list.append(_item)
-        _labs += '\n'.join(_list)
+        # _list = []
+        # for _item in textwrap.wrap(value.hex(), 32):
+        #     _text = ' '.join(textwrap.wrap(_item, 2))
+        #     _item = '{tabs}\t{text}'.format(tabs=_tabs, text=_text)
+        #     _list.append(_item)
+        # _labs += '\n'.join(_list)
+
         # _data = [H for H in iter(
         #         functools.partial(io.StringIO(value.hex()).read, 2), '')
         #         ]  # to split bytes string into length-2 hex string list
-        _labs += '\n{tabs}</data>\n'.format(tabs=_tabs)
+        # _labs += '\n{tabs}</data>\n'.format(tabs=_tabs)
         _file.write(_labs)
 
     def _append_date(self, value, _file):
