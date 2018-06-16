@@ -203,7 +203,7 @@ class PLIST(XML):
         # binascii.a2b_base64(Data) -> value(bytes)
 
         _tabs = '\t' * self._tctr
-        _text = str(value)[2:-1]
+        _text = value.hex() # str(value)[2:-1]
         _labs = '{tabs}<data>{text}</data>\n'.format(tabs=_tabs, text=_text)
         # _labs = '{tabs}<data>\n'.format(tabs=_tabs)
 
@@ -229,7 +229,7 @@ class PLIST(XML):
 
         """
         _tabs = '\t' * self._tctr
-        _text = value.strftime('%Y-%m-%dT%H:%M:%SZ')
+        _text = value.strftime('%Y-%m-%dT%H:%M:%S.%fZ')
         _labs = '{tabs}<date>{text}</date>\n'.format(tabs=_tabs, text=_text)
         _file.write(_labs)
 

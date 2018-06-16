@@ -253,7 +253,7 @@ class Tree(Dumper):
             * _file - FileIO, output file
 
         """
-        _text = value.strftime('%Y-%m-%d %H:%M:%S')
+        _text = value.strftime('%Y-%m-%d %H:%M:%S.%f')
         _labs = ' {text}'.format(text=_text)
         _file.write(_labs)
 
@@ -289,6 +289,6 @@ class Tree(Dumper):
             * _file - FileIO, output file
 
         """
-        _text = 'N/A'
+        _text = 'NIL'
         _labs = ' {text}'.format(text=_text)
         _file.write(_labs)

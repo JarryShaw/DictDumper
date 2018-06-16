@@ -82,11 +82,11 @@ class Dumper(object):
     # Not hashable
     __hash__ = None
 
-    def __new__(cls, fname):
+    def __new__(cls, fname, **kwargs):
         self = super().__new__(cls)
         return self
 
-    def __init__(self, fname):
+    def __init__(self, fname, **kwargs):
         if not os.path.isfile(fname):
             open(fname, 'w+').close()
         self._file = fname          # dump file name

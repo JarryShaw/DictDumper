@@ -11,7 +11,7 @@ with open('./README.md', 'r') as file:
 
 
 # version string
-__version__ = '0.3.2'
+__version__ = '0.3.3'
 
 
 # set-up script for pip distribution
@@ -26,14 +26,14 @@ setuptools.setup(
     description = 'A stream format output dumper.',
     long_description = long_desc,
     long_description_content_type='text/markdown',
+    install_requires = ['setuptools'],
     python_requires = '>=3.0',
     py_modules = ['jsformat'],
     packages = ['jsformat'],
     package_data = {
         '': [
-            'LICENSE.txt',
+            'LICENSE',
             'README.md',
-            'README.rst',
         ],
     },
     classifiers = [

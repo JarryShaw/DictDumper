@@ -220,7 +220,7 @@ class JSON(Dumper):
             * _file - FileIO, output file
 
         """
-        _text = value.strftime('%Y-%m-%dT%H:%M:%SZ')
+        _text = value.strftime('%Y-%m-%dT%H:%M:%S.%fZ')
         _labs = ' "{text}"'.format(text=_text)
         _file.write(_labs)
 
