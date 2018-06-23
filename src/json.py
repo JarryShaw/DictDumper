@@ -190,7 +190,7 @@ class JSON(Dumper):
             * _file - FileIO, output file
 
         """
-        _text = value.replace('"', '\\"')
+        _text = str(value).replace('"', '\\"')
         _labs = ' "{text}"'.format(text=_text)
         _file.write(_labs)
 

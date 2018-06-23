@@ -8,7 +8,10 @@ Tree, and XML.
 """
 import abc
 import datetime
+import functools
 import os
+import warnings
+import sys
 
 
 # Abstract Base Class of Dumpers
@@ -30,6 +33,17 @@ def _type_check(content):
         if isinstance(content, kind):
             return kind.__name__
     return str.__name__
+
+
+def deprecation(func):
+    @functools.wraps(func)
+    def wrapper(cls, *args, **kargs):
+        if cls.__name__ in ('Dumper', 'JavaScript', 'XML'):
+            sys.tracelimit = 0
+            warnings.simplefilter('default')
+            warnings.warn(f'{cls.__name__} is deprecated', DeprecationWarning, stacklevel=2)
+        return func(cls, *args, **kargs)
+    return wrapper
 
 
 class Dumper(object):
@@ -82,6 +96,7 @@ class Dumper(object):
     # Not hashable
     __hash__ = None
 
+    @deprecation
     def __new__(cls, fname, **kwargs):
         self = super().__new__(cls)
         return self
@@ -90,7 +105,7 @@ class Dumper(object):
         if not os.path.isfile(fname):
             open(fname, 'w+').close()
         self._file = fname          # dump file name
-        self._dump_header()          # initialise output file
+        self._dump_header()         # initialise output file
 
     def __call__(self, value, *, name=None):
         with open(self._file, 'r+') as _file:
