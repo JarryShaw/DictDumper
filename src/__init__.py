@@ -1,43 +1,43 @@
 # -*- coding: utf-8 -*-
 """stream formatted output dumper
 
-``jsformat`` is an open source Python program works as a
+``dictdumper`` is an open source Python program works as a
 stream formatted output dumper. Currently, it supports
 following formats --
 
--  ``jsformat.Dumper``
+-  ``dictdumper.Dumper``
         abstract base class of all dumpers
 
--  ``jsformat.JSON``
+-  ``dictdumper.JSON``
         dump JavaScript object notation (``JSON``)
         format file
 
--  ``jsformat.PLIST``
+-  ``dictdumper.PLIST``
         dump Apple property list (``PLIST``) format file
 
--  ``jsformat.Tree``
+-  ``dictdumper.Tree``
         dump tree-view text (``TXT``) format file
 
--  ``jsformat.XML``
+-  ``dictdumper.XML``
         dump extensible Mmarkup language (``XML``) file;
         this is a deprecated base class
 
--  ``jsformat.HTML``
+-  ``dictdumper.HTML``
         dump JavaScript file under ``Vue.js`` framework
         this class is deprecated due to grammar error
 
 """
 # Base Class for jsFormat
-from jsformat.dumper import Dumper
+from dictdumper.dumper import Dumper
 
 # Utility Classes
-from jsformat.json import JSON
-from jsformat.plist import PLIST
-from jsformat.tree import Tree
+from dictdumper.json import JSON
+from dictdumper.plist import PLIST
+from dictdumper.tree import Tree
 
 # Deprecated / Base Classes
-from jsformat.html import JavaScript
-from jsformat.xml import XML
+from dictdumper.html import JavaScript
+from dictdumper.xml import XML
 
 
 __all__ = ['JSON', 'PLIST', 'Tree']

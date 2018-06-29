@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """dumper a JSON file
 
-``jsformat.json`` contains ``JSON`` only, which dumpers a
+``dictdumper.json`` contains ``JSON`` only, which dumpers a
 JavaScript object notation (JSON) file. Usage sample is
 described as below.
 
@@ -20,7 +20,7 @@ import textwrap
 # Dump a JSON file for PCAP analyser
 
 
-from jsformat.dumper import Dumper, _type_check
+from dictdumper.dumper import Dumper, _type_check
 
 
 # head

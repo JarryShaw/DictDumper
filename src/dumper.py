@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """base dumper
 
-``jsformat.dumper`` contains ``Dumper`` only, which is an
+``dictdumper.dumper`` contains ``Dumper`` only, which is an
 abstract base class for all dumpers, eg. HTML, JSON, PLIST,
 Tree, and XML.
 
@@ -39,8 +39,6 @@ def deprecation(func):
     @functools.wraps(func)
     def wrapper(cls, *args, **kargs):
         if cls.__name__ in ('Dumper', 'JavaScript', 'XML'):
-            sys.tracelimit = 0
-            warnings.simplefilter('default')
             warnings.warn(f'{cls.__name__} is deprecated', DeprecationWarning, stacklevel=2)
         return func(cls, *args, **kargs)
     return wrapper

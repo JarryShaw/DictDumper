@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """dumper a PLIST file
 
-``jsformat.plist`` contains ``PLIST`` only, which dumpers an
+``dictdumper.plist`` contains ``PLIST`` only, which dumpers an
 Apple property list (PLIST) file. Usage sample is described
 as below.
 
@@ -19,8 +19,8 @@ import textwrap
 # Write a macOS Property List file
 
 
-from jsformat.dumper import _type_check
-from jsformat.xml import XML
+from dictdumper.dumper import _type_check
+from dictdumper.xml import XML
 
 
 # head

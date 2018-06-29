@@ -3,7 +3,7 @@
 
     Note that this file is deprecated.
 
-``jsformat.xml`` contains ``XML`` only, which dumpers an
+``dictdumper.xml`` contains ``XML`` only, which dumpers an
 extensible markup language (XML) format file. However, due
 to lack of supported ``dtd``, the output file is currently
 meaningless, thus it is now deprecated. Usage sample is
@@ -26,7 +26,7 @@ import textwrap
 # Write a XML file for PCAP analyser
 
 
-from jsformat.dumper import Dumper
+from dictdumper.dumper import Dumper
 
 
 # head

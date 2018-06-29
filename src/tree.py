@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """dumper a tree-view file
 
-``jsformat.tree`` contains ``Tree`` only, which dumpers a
+``dictdumper.tree`` contains ``Tree`` only, which dumpers a
 tree-view text (TXT) format file. Usage sample is described
 as below.
 
@@ -20,7 +20,7 @@ import textwrap
 # Dump a TEXT file for PCAP analyser
 
 
-from jsformat.dumper import Dumper, _type_check
+from dictdumper.dumper import Dumper, _type_check
 
 
 # headers

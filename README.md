@@ -1,14 +1,14 @@
-# jsformat
+# DictDumper
 
-&emsp; The `jsformat` project is an open source Python program works as a stream formatted output dumper.
+&emsp; The `dictdumper` project is an open source Python program works as a stream formatted output dumper for `dict`.
 
 - [About](#about)
-    * `jsformat.Dumper`
-    * `jsformat.JSON`
-    * `jsformat.PLIST`
-    * `jsformat.Tree`
-    * `jsformat.XML`
-    * `jsformat.HTML`
+    * `dictdumper.Dumper`
+    * `dictdumper.JSON`
+    * `dictdumper.PLIST`
+    * `dictdumper.Tree`
+    * `dictdumper.XML`
+    * `dictdumper.HTML`
 - [Installation](#installation)
 - [Usage](#usage)
 
@@ -18,36 +18,36 @@
 
 &emsp; Currently, it supports following formats --
 
- - `jsformat.Dumper` -- abstract base class of all dumpers
- - `jsformat.JSON` -- dump JavaScript object notation (`JSON`) format file
- - `jsformat.PLIST` -- dump Apple property list (`PLIST`) format file
- - `jsformat.Tree` -- dump tree-view text (`TXT`) format file
- - `jsformat.XML` -- dump extensible Mmarkup language (`XML`) file (__base class__)
- - `jsformat.HTML` -- dump JavaScript file under `Vue.js` framework (__DEPRECATED__)
+ - `dictdumper.Dumper` -- abstract base class of all dumpers
+ - `dictdumper.JSON` -- dump JavaScript object notation (`JSON`) format file
+ - `dictdumper.PLIST` -- dump Apple property list (`PLIST`) format file
+ - `dictdumper.Tree` -- dump tree-view text (`TXT`) format file
+ - `dictdumper.XML` -- dump extensible Mmarkup language (`XML`) file (__base class__)
+ - `dictdumper.HTML` -- dump JavaScript file under `Vue.js` framework (__DEPRECATED__)
 
-![](./doc/jsformat.png)
+![](./doc/dictdumper.png)
 
 &nbsp;
 
 ### Installation:
 
-> Note that `jsformat` only supports Python versions __since 3.0__
+> Note that `dictdumper` only supports Python versions __since 3.0__
 
 ```
-pip install jsformat
+pip install dictdumper
 ```
 
 &nbsp;
 
 ### Usage
 
-&emsp; `jsformat` is quite easy to use. After installation, importation, and initialisation, you can simple call the instance to dump contents.
+&emsp; `dictdumper` is quite easy to use. After installation, importation, and initialisation, you can simple call the instance to dump contents.
 
-> Take `jsformat.Tree` for example
+> Take `dictdumper.Tree` for example
 
 ```python
-import jsformat
-dumper = jsformat.Tree('out.txt')
+import dictdumper
+dumper = dictdumper.Tree('out.txt')
 test_1 = dict(
     foo = -1,                   # int
     bar = 'Hello, world!',      # string

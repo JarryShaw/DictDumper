@@ -11,25 +11,25 @@ with open('./README.md', 'r') as file:
 
 
 # version string
-__version__ = '0.4.1'
+__version__ = '0.5.0.post1'
 
 
 # set-up script for pip distribution
 setuptools.setup(
-    name = 'jsformat',
+    name = 'dictdumper',
     version = __version__,
     author = 'Jarry Shaw',
     author_email = 'jarryshaw@icloud.com',
-    url = 'https://github.com/JarryShaw/jsformat',
+    url = 'https://github.com/JarryShaw/dictdumper#dictdumper',
     license = 'GNU General Public License v3 (GPLv3)',
     keywords = 'formatting dumper stream',
-    description = 'A stream format output dumper.',
+    description = 'Python dict formatted dumper.',
     long_description = long_desc,
     long_description_content_type='text/markdown',
     install_requires = ['setuptools'],
     python_requires = '>=3.0',
-    py_modules = ['jsformat'],
-    packages = ['jsformat'],
+    py_modules = ['dictdumper'],
+    packages = ['dictdumper'],
     package_data = {
         '': [
             'LICENSE',

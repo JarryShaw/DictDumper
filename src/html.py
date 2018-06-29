@@ -3,7 +3,7 @@
 
     Note that this file is deprecated.
 
-``jsformat.html`` contains ``HTML`` only, which dumpers a
+``dictdumper.html`` contains ``HTML`` only, which dumpers a
 JavaScript file according to ``Vue.js`` framework. However,
 due to errors in grammar, the output file won't work, thus
 it is now deprecated. Usage sample is described as below.
@@ -23,7 +23,7 @@ import textwrap
 # Dump a JavaScript file for PCAP analyser
 
 
-from jsformat.json import JSON
+from dictdumper.json import JSON
 
 
 __all__ = ['JavaScript']
