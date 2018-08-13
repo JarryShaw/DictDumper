@@ -25,7 +25,7 @@
  - `dictdumper.XML` -- dump extensible Mmarkup language (`XML`) file (__base class__)
  - `dictdumper.HTML` -- dump JavaScript file under `Vue.js` framework (__DEPRECATED__)
 
-![](./doc/dictdumper.png)
+![](https://github.com/JarryShaw/dictdumper/blob/master/doc/dictdumper.png)
 
 &nbsp;
 
