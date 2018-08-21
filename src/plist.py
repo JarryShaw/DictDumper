@@ -11,6 +11,7 @@ as below.
     ............
 
 """
+import base64
 import collections
 import datetime
 import os
@@ -243,7 +244,7 @@ class PLIST(XML):
         # binascii.a2b_base64(Data) -> value(bytes)
 
         _tabs = '\t' * self._tctr
-        _text = value.hex() # str(value)[2:-1]
+        _text =  base64.b64encode(value).decode() # value.hex() # str(value)[2:-1]
         _labs = '{tabs}<data>{text}</data>\n'.format(tabs=_tabs, text=_text)
         # _labs = '{tabs}<data>\n'.format(tabs=_tabs)
 
