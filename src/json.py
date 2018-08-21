@@ -12,6 +12,7 @@ described as below.
 
 """
 import collections
+import datetime
 import os
 import textwrap
 
@@ -20,7 +21,7 @@ import textwrap
 # Dump a JSON file for PCAP analyser
 
 
-from dictdumper.dumper import Dumper, _type_check
+from dictdumper.dumper import Dumper
 
 
 # head
@@ -32,19 +33,39 @@ _HEADER_END = '\n}'
 
 
 # magic types
-_MAGIC_TYPES = dict(
-    str = lambda self, text, file: self._append_string(text, file),     # string
-    bytes = lambda self, text, file: self._append_bytes(text, file),    # string
-    datetime = lambda self, text, file: self._append_date(text, file),  # string
-    int = lambda self, text, file: self._append_number(text, file),     # number
-    float = lambda self, text, file: self._append_number(text, file),   # number
-    dict = lambda self, text, file: self._append_object(text, file),    # object
-    Info = lambda self, text, file: self._append_object(text, file),    # object
-    list = lambda self, text, file: self._append_array(text, file),     # array
-    tuple = lambda self, text, file: self._append_array(text, file),    # array
-    bool = lambda self, text, file: self._append_bool(text, file),      # true | false
-    NoneType = lambda self, text, file: self._append_null(text, file),  # null
-)
+_MAGIC_TYPES = collections.defaultdict(
+    lambda : (lambda self, text, file: self._append_string(text, file)), dict(
+    # string
+    str = lambda self, text, file: self._append_string(text, file),     
+
+    # bytes
+    bytes = lambda self, text, file: self._append_bytes(text, file),    
+    bytearray = lambda self, text, file: self._append_bytes(text, file),
+    memoryview = lambda self, text, file: self._append_bytes(text, file),
+
+    # date
+    datetime = lambda self, text, file: self._append_date(text, file),  
+
+    # number
+    int = lambda self, text, file: self._append_number(text, file),     
+    float = lambda self, text, file: self._append_number(text, file),   
+
+    # object
+    dict = lambda self, text, file: self._append_object(text, file),     
+
+    # array
+    list = lambda self, text, file: self._append_array(text, file),     
+    tuple = lambda self, text, file: self._append_array(text, file),    
+    range = lambda self, text, file: self._append_array(text, file),
+    set = lambda self, text, file: self._append_array(text, file),
+    frozenset = lambda self, text, file: self._append_array(text, file),
+
+    # bool
+    bool = lambda self, text, file: self._append_bool(text, file),      
+
+    # null
+    NoneType = lambda self, text, file: self._append_null(text, file),  
+))
 
 
 class JSON(Dumper):
@@ -60,8 +81,7 @@ class JSON(Dumper):
         * kind - str, return 'json'
 
     Methods:
-        * _dump_header - initially dump file heads and tails
-        * _append_value - call this function to write contents
+        * object_hook - default/customised object hooks
 
     Attributes:
         * _file - FileIO, output file
@@ -70,6 +90,10 @@ class JSON(Dumper):
         * _hrst - str, _HEADER_START
         * _hend - str, _HEADER_END
         * _vctr - dict, value counter dict
+
+    Utilities:
+        * _dump_header - initially dump file heads and tails
+        * _append_value - call this function to write contents
 
     Terminology:
         object    ::=  "{}" | ("{" members "}")
@@ -89,6 +113,21 @@ class JSON(Dumper):
     def kind(self):
         """File format of current dumper."""
         return 'json'
+
+    ##########################################################################
+    # Type codes.
+    ##########################################################################
+
+    __type__ = (
+        str,                                    # stinrg
+        bool,                                   # bool
+        dict,                                   # object
+        datetime.date,                          # date
+        int, float, complex,                    # number
+        type(None),                             # null
+        bytes, bytearray, memoryview,           # bytes
+        list, tuple, range, set, frozenset,     # array
+    )
 
     ##########################################################################
     # Attributes.
@@ -144,6 +183,7 @@ class JSON(Dumper):
 
             self._vctr[self._tctr] += 1
 
+            _item = self.object_hook(_item)
             _type = type(_item).__name__
             _MAGIC_TYPES[_type](self, _item, _file)
 
@@ -173,7 +213,8 @@ class JSON(Dumper):
 
             self._vctr[self._tctr] += 1
 
-            _type = _type_check(_text)
+            _text = self.object_hook(_text)
+            _type = type(_text).__name__
             _MAGIC_TYPES[_type](self, _text, _file)
 
         self._vctr[self._tctr] = 0

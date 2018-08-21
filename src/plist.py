@@ -11,6 +11,8 @@ as below.
     ............
 
 """
+import collections
+import datetime
 import os
 import textwrap
 
@@ -19,7 +21,6 @@ import textwrap
 # Write a macOS Property List file
 
 
-from dictdumper.dumper import _type_check
 from dictdumper.xml import XML
 
 
@@ -40,19 +41,38 @@ _HEADER_END = '''\
 
 
 # magic types
-_MAGIC_TYPES = dict(
-    list = lambda self, text, file: self._append_array(text, file),         # array
-    tuple = lambda self, text, file: self._append_array(text, file),        # array
-    dict = lambda self, text, file: self._append_dict(text, file),          # dict
-    Info = lambda self, text, file: self._append_dict(text, file),          # dict
-    str = lambda self, text, file: self._append_string(text, file),         # string
-    bytes = lambda self, text, file: self._append_data(text, file),         # data
-    datetime = lambda self, text, file: self._append_date(text, file),      # date
-    int = lambda self, text, file: self._append_integer(text, file),        # integer
-    float = lambda self, text, file: self._append_real(text, file),         # real
-    bool = lambda self, text, file: self._append_bool(text, file),          # true | false
-    NoneType = lambda self, text, file: self._append_string(text, file),    # string
-)
+_MAGIC_TYPES = collections.defaultdict(
+    lambda : (lambda self, text, file: self._append_string(text, file)), dict(
+    # array
+    list = lambda self, text, file: self._append_array(text, file),         
+    tuple = lambda self, text, file: self._append_array(text, file),        
+    range = lambda self, text, file: self._append_array(text, file),
+    set = lambda self, text, file: self._append_array(text, file),
+    frozenset = lambda self, text, file: self._append_array(text, file),
+
+    # dict
+    dict = lambda self, text, file: self._append_dict(text, file),          
+
+    # string
+    str = lambda self, text, file: self._append_string(text, file),         
+
+    # data
+    bytes = lambda self, text, file: self._append_data(text, file),         
+    bytearray = lambda self, text, file: self._append_data(text, file),
+    memoryview = lambda self, text, file: self._append_data(text, file),
+
+    # date
+    datetime = lambda self, text, file: self._append_date(text, file),      
+
+    # integer
+    int = lambda self, text, file: self._append_integer(text, file),        
+
+    # real
+    float = lambda self, text, file: self._append_real(text, file),         
+
+    # true | false
+    bool = lambda self, text, file: self._append_bool(text, file),          
+))
 
 
 class PLIST(XML):
@@ -68,8 +88,7 @@ class PLIST(XML):
         * kind - str, return 'plist'
 
     Methods:
-        * _dump_header - initially dump file heads and tails
-        * _append_value - call this function to write contents
+        * object_hook - default/customised object hooks
 
     Attributes:
         * _file - FileIO, output file
@@ -77,6 +96,10 @@ class PLIST(XML):
         * _tctr - int, tab level counter
         * _hrst - str, _HEADER_START
         * _hend - str, _HEADER_END
+
+    Utilities:
+        * _dump_header - initially dump file heads and tails
+        * _append_value - call this function to write contents
 
     Terminology:
         value    ::=  array | dict | string | data
@@ -99,6 +122,21 @@ class PLIST(XML):
     def kind(self):
         """File format of current dumper."""
         return 'plist'
+
+    ##########################################################################
+    # Type codes.
+    ##########################################################################
+
+    __type__ = (
+        str,                                    # stinrg
+        bool,                                   # bool
+        dict,                                   # dict
+        datetime.date,                          # date
+        int,                                    # integer
+        float,                                  # real
+        bytes, bytearray, memoryview,           # data
+        list, tuple, range, set, frozenset,     # array
+    )
 
     ##########################################################################
     # Attributes.
@@ -142,6 +180,7 @@ class PLIST(XML):
 
         for _item in value:
             if _item is None:   continue
+            _item = self.object_hook(_item)
             _type = type(_item).__name__
             _MAGIC_TYPES[_type](self, _item, _file)
 
@@ -170,7 +209,8 @@ class PLIST(XML):
             _keys = '{tabs}<key>{item}</key>\n'.format(tabs=_tabs, item=_item)
             _file.write(_keys)
 
-            _type = _type_check(_text)
+            _text = self.object_hook(_text)
+            _type = type(_text).__name__
             _MAGIC_TYPES[_type](self, _text, _file)
 
         self._tctr -= 1

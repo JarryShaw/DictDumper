@@ -12,6 +12,7 @@ as below.
 
 """
 import collections
+import datetime
 import os
 import textwrap
 
@@ -20,7 +21,7 @@ import textwrap
 # Dump a TEXT file for PCAP analyser
 
 
-from dictdumper.dumper import Dumper, _type_check
+from dictdumper.dumper import Dumper
 
 
 # headers
@@ -34,18 +35,40 @@ _TEMP_SPACES = '      '  # space
 
 
 # magic types
-_MAGIC_TYPES = dict(
-    dict = lambda self, text, file: self._append_branch(text, file),    # branch
-    list = lambda self, text, file: self._append_array(text, file),     # array
-    tuple = lambda self, text, file: self._append_array(text, file),    # array
-    str = lambda self, text, file: self._append_string(text, file),     # string
-    bytes = lambda self, text, file: self._append_bytes(text, file),    # string
-    datetime = lambda self, text, file: self._append_date(text, file),  # string
-    int = lambda self, text, file: self._append_number(text, file),     # number
-    float = lambda self, text, file: self._append_number(text, file),   # number
-    bool = lambda self, text, file: self._append_bool(text, file),      # True | False
-    NoneType = lambda self, text, file: self._append_none(text, file),  # N/A
-)
+_MAGIC_TYPES = collections.defaultdict(
+    lambda : (lambda self, text, file: self._append_string(text, file)), dict(
+    # branch
+    dict = lambda self, text, file: self._append_branch(text, file),            
+
+    # array
+    set = lambda self, text, file: self._append_array(text, file),
+    list = lambda self, text, file: self._append_array(text, file),             
+    tuple = lambda self, text, file: self._append_array(text, file),            
+    range = lambda self, text, file: self._append_array(text, file),            
+    frozenset = lambda self, text, file: self._append_array(text, file),
+
+    # string
+    str = lambda self, text, file: self._append_string(text, file),             
+
+    # date
+    datetime = lambda self, text, file: self._append_date(text, file),          
+
+    # bytes
+    bytes = lambda self, text, file: self._append_bytes(text, file),            
+    bytearray = lambda self, text, file: self._append_bytes(text, file),        
+    memoryview = lambda self, text, file: self._append_bytes(text, file),       
+
+    # number
+    int = lambda self, text, file: self._append_number(text, file),             
+    float = lambda self, text, file: self._append_number(text, file),           
+    complex = lambda self, text, file: self._append_number(text, file),         
+
+    # True | False
+    bool = lambda self, text, file: self._append_bool(text, file),              
+
+    # N/A
+    NoneType = lambda self, text, file: self._append_none(text, file),          
+))
 
 
 class Tree(Dumper):
@@ -61,8 +84,7 @@ class Tree(Dumper):
         * kind - str, return 'plist'
 
     Methods:
-        * _dump_header - initially dump file heads and tails
-        * _append_value - call this function to write contents
+        * object_hook - default/customised object hooks
 
     Attributes:
         * _file - FileIO, output file
@@ -71,6 +93,10 @@ class Tree(Dumper):
         * _hrst - str, _HEADER_START
         * _hend - str, _HEADER_END
         * _bctr - dict, blank branch counter dict
+
+    Utilities:
+        * _dump_header - initially dump file heads and tails
+        * _append_value - call this function to write contents
 
     Terminology:
         value   ::=  branch | array | string | number | bool | N/A
@@ -92,6 +118,21 @@ class Tree(Dumper):
           |-- string -> value
 
     """
+    ##########################################################################
+    # Type codes.
+    ##########################################################################
+
+    __type__ = (
+        str,                                    # string
+        bool,                                   # bool
+        dict,                                   # branch
+        type(None),                             # none
+        datetime.date,                          # date
+        int, float, complex,                    # number
+        bytes, bytearray, memoryview,           # bytes
+        list, tuple, range, set, frozenset,     # array
+    )
+
     ##########################################################################
     # Attributes.
     ##########################################################################
@@ -138,7 +179,7 @@ class Tree(Dumper):
 
         """
         if not value:
-            self._append_none(None, _file)
+            return self._append_none(None, _file)
 
         _bptr = ''
         _tabs = ''
@@ -152,7 +193,8 @@ class Tree(Dumper):
             _text = '{tabs}{bptr}'.format(tabs=_tabs, bptr=_bptr)
             _file.write(_text)
 
-            _type = _type_check(_text)
+            _item = self.object_hook(_item)
+            _type = type(_item).__name__
             _MAGIC_TYPES[_type](self, _item, _file)
 
             _suff = '\n' if _nctr < _tlen else ''
@@ -167,12 +209,13 @@ class Tree(Dumper):
 
         """
         if not value:
-            self._append_none(None, _file)
+            return self._append_none(None, _file)
 
         self._tctr += 1
         _vlen = len(value)
         for (_vctr, (_item, _text)) in enumerate(value.items()):
-            _type = _type_check(_text)
+            _text = self.object_hook(_text)
+            _type = type(_text).__name__
 
             flag_dict = (_type == 'dict')
             flag_tuple = (_type == 'tuple' and len(_text) > 1)
@@ -209,9 +252,9 @@ class Tree(Dumper):
 
         """
         if not value:
-            self._append_none(None, _file)
+            return self._append_none(None, _file)
 
-        _text = value or 'NULL'
+        _text = value
         _labs = ' {text}'.format(text=_text)
         _file.write(_labs)
 
@@ -226,7 +269,7 @@ class Tree(Dumper):
         # binascii.b2a_base64(value) -> plistlib.Data
         # binascii.a2b_base64(Data) -> value(bytes)
         if not value:
-            self._append_none(None, _file)
+            return self._append_none(None, _file)
 
         if len(value) > 16:
             _tabs = ''

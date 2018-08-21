@@ -101,8 +101,7 @@ class JavaScript(JSON):
         * kind - str, return 'js'
 
     Methods:
-        * _dump_header - initially dump file heads and tails
-        * _append_value - call this function to write contents
+        * object_hook - default/customised object hooks
 
     Attributes:
         * _file - FileIO, output file
@@ -111,6 +110,10 @@ class JavaScript(JSON):
         * _hrst - str, _HEADER_START
         * _hend - str, _HEADER_END
         * _vctr - dict, value counter dict
+
+    Utilities:
+        * _dump_header - initially dump file heads and tails
+        * _append_value - call this function to write contents
 
     """
     ##########################################################################

@@ -26,15 +26,6 @@ abstractmethod = abc.abstractmethod
 abstractproperty = abc.abstractproperty
 
 
-def _type_check(content):
-    """Check content type for function call."""
-    TYPE = (dict, list, tuple, str, bytes, bool, int, float, type(None), datetime.datetime)
-    for kind in TYPE:
-        if isinstance(content, kind):
-            return kind.__name__
-    return str.__name__
-
-
 def deprecation(func):
     @functools.wraps(func)
     def wrapper(cls, *args, **kargs):
@@ -97,6 +88,8 @@ class Dumper(object):
     @deprecation
     def __new__(cls, fname, **kwargs):
         self = super().__new__(cls)
+        self.object_hook = \
+            kwargs.get('object_hook', cls.object_hook)
         return self
 
     def __init__(self, fname, **kwargs):
@@ -114,6 +107,13 @@ class Dumper(object):
     ##########################################################################
     # Utilities.
     ##########################################################################
+
+    @classmethod
+    def object_hook(cls, obj):
+        """Check content type for function call."""
+        if isinstance(obj, cls.__type__):
+            return obj
+        return repr(obj)
 
     def _dump_header(self):
         """Initially dump file heads and tails."""

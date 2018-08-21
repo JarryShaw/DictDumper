@@ -58,8 +58,7 @@ class XML(Dumper):
         * kind - str, return 'plist'
 
     Methods:
-        * _dump_header - initially dump file heads and tails
-        * _append_value - call this function to write contents
+        * object_hook - default/customised object hooks
 
     Attributes:
         * _file - FileIO, output file
@@ -67,6 +66,10 @@ class XML(Dumper):
         * _tctr - int, tab level counter
         * _hrst - str, _HEADER_START
         * _hend - str, _HEADER_END
+
+    Methods:
+        * _dump_header - initially dump file heads and tails
+        * _append_value - call this function to write contents
 
     """
     ##########################################################################
