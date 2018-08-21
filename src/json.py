@@ -36,35 +36,35 @@ _HEADER_END = '\n}'
 _MAGIC_TYPES = collections.defaultdict(
     lambda : (lambda self, text, file: self._append_string(text, file)), dict(
     # string
-    str = lambda self, text, file: self._append_string(text, file),     
+    str = lambda self, text, file: self._append_string(text, file),
 
     # bytes
-    bytes = lambda self, text, file: self._append_bytes(text, file),    
+    bytes = lambda self, text, file: self._append_bytes(text, file),
     bytearray = lambda self, text, file: self._append_bytes(text, file),
     memoryview = lambda self, text, file: self._append_bytes(text, file),
 
     # date
-    datetime = lambda self, text, file: self._append_date(text, file),  
+    datetime = lambda self, text, file: self._append_date(text, file),
 
     # number
-    int = lambda self, text, file: self._append_number(text, file),     
-    float = lambda self, text, file: self._append_number(text, file),   
+    int = lambda self, text, file: self._append_number(text, file),
+    float = lambda self, text, file: self._append_number(text, file),
 
     # object
-    dict = lambda self, text, file: self._append_object(text, file),     
+    dict = lambda self, text, file: self._append_object(text, file),
 
     # array
-    list = lambda self, text, file: self._append_array(text, file),     
-    tuple = lambda self, text, file: self._append_array(text, file),    
+    list = lambda self, text, file: self._append_array(text, file),
+    tuple = lambda self, text, file: self._append_array(text, file),
     range = lambda self, text, file: self._append_array(text, file),
     set = lambda self, text, file: self._append_array(text, file),
     frozenset = lambda self, text, file: self._append_array(text, file),
 
     # bool
-    bool = lambda self, text, file: self._append_bool(text, file),      
+    bool = lambda self, text, file: self._append_bool(text, file),
 
     # null
-    NoneType = lambda self, text, file: self._append_null(text, file),  
+    NoneType = lambda self, text, file: self._append_null(text, file),
 ))
 
 

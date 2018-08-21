@@ -38,36 +38,36 @@ _TEMP_SPACES = '      '  # space
 _MAGIC_TYPES = collections.defaultdict(
     lambda : (lambda self, text, file: self._append_string(text, file)), dict(
     # branch
-    dict = lambda self, text, file: self._append_branch(text, file),            
+    dict = lambda self, text, file: self._append_branch(text, file),
 
     # array
     set = lambda self, text, file: self._append_array(text, file),
-    list = lambda self, text, file: self._append_array(text, file),             
-    tuple = lambda self, text, file: self._append_array(text, file),            
-    range = lambda self, text, file: self._append_array(text, file),            
+    list = lambda self, text, file: self._append_array(text, file),
+    tuple = lambda self, text, file: self._append_array(text, file),
+    range = lambda self, text, file: self._append_array(text, file),
     frozenset = lambda self, text, file: self._append_array(text, file),
 
     # string
-    str = lambda self, text, file: self._append_string(text, file),             
+    str = lambda self, text, file: self._append_string(text, file),
 
     # date
-    datetime = lambda self, text, file: self._append_date(text, file),          
+    datetime = lambda self, text, file: self._append_date(text, file),
 
     # bytes
-    bytes = lambda self, text, file: self._append_bytes(text, file),            
-    bytearray = lambda self, text, file: self._append_bytes(text, file),        
-    memoryview = lambda self, text, file: self._append_bytes(text, file),       
+    bytes = lambda self, text, file: self._append_bytes(text, file),
+    bytearray = lambda self, text, file: self._append_bytes(text, file),
+    memoryview = lambda self, text, file: self._append_bytes(text, file),
 
     # number
-    int = lambda self, text, file: self._append_number(text, file),             
-    float = lambda self, text, file: self._append_number(text, file),           
-    complex = lambda self, text, file: self._append_number(text, file),         
+    int = lambda self, text, file: self._append_number(text, file),
+    float = lambda self, text, file: self._append_number(text, file),
+    complex = lambda self, text, file: self._append_number(text, file),
 
     # True | False
-    bool = lambda self, text, file: self._append_bool(text, file),              
+    bool = lambda self, text, file: self._append_bool(text, file),
 
     # N/A
-    NoneType = lambda self, text, file: self._append_none(text, file),          
+    NoneType = lambda self, text, file: self._append_none(text, file),
 ))
 
 

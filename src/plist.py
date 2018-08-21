@@ -44,34 +44,34 @@ _HEADER_END = '''\
 _MAGIC_TYPES = collections.defaultdict(
     lambda : (lambda self, text, file: self._append_string(text, file)), dict(
     # array
-    list = lambda self, text, file: self._append_array(text, file),         
-    tuple = lambda self, text, file: self._append_array(text, file),        
+    list = lambda self, text, file: self._append_array(text, file),
+    tuple = lambda self, text, file: self._append_array(text, file),
     range = lambda self, text, file: self._append_array(text, file),
     set = lambda self, text, file: self._append_array(text, file),
     frozenset = lambda self, text, file: self._append_array(text, file),
 
     # dict
-    dict = lambda self, text, file: self._append_dict(text, file),          
+    dict = lambda self, text, file: self._append_dict(text, file),
 
     # string
-    str = lambda self, text, file: self._append_string(text, file),         
+    str = lambda self, text, file: self._append_string(text, file),
 
     # data
-    bytes = lambda self, text, file: self._append_data(text, file),         
+    bytes = lambda self, text, file: self._append_data(text, file),
     bytearray = lambda self, text, file: self._append_data(text, file),
     memoryview = lambda self, text, file: self._append_data(text, file),
 
     # date
-    datetime = lambda self, text, file: self._append_date(text, file),      
+    datetime = lambda self, text, file: self._append_date(text, file),
 
     # integer
-    int = lambda self, text, file: self._append_integer(text, file),        
+    int = lambda self, text, file: self._append_integer(text, file),
 
     # real
-    float = lambda self, text, file: self._append_real(text, file),         
+    float = lambda self, text, file: self._append_real(text, file),
 
     # true | false
-    bool = lambda self, text, file: self._append_bool(text, file),          
+    bool = lambda self, text, file: self._append_bool(text, file),
 ))
 
 
