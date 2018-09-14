@@ -30,7 +30,7 @@ def deprecation(func):
     @functools.wraps(func)
     def wrapper(cls, *args, **kargs):
         if cls.__name__ in ('Dumper', 'JavaScript', 'XML'):
-            warnings.warn(f'{cls.__name__} is deprecated', DeprecationWarning, stacklevel=2)
+            warnings.warn('%s is deprecated' % cls.__name__, DeprecationWarning, stacklevel=2)
         return func(cls, *args, **kargs)
     return wrapper
 

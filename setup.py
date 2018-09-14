@@ -11,7 +11,7 @@ with open('./README.md', 'r') as file:
 
 
 # version string
-__version__ = '0.6.1'
+__version__ = '0.6.2'
 
 
 # set-up script for pip distribution
@@ -27,7 +27,7 @@ setuptools.setup(
     long_description = long_desc,
     long_description_content_type='text/markdown',
     install_requires = ['setuptools'],
-    python_requires = '>=3.0',
+    python_requires = '>=2.7',
     py_modules = ['dictdumper'],
     packages = ['dictdumper'],
     package_data = {
@@ -48,6 +48,8 @@ setuptools.setup(
         'Operating System :: Microsoft :: Windows',
         'Operating System :: Unix',
         'Programming Language :: Python',
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.0',
         'Programming Language :: Python :: 3.1',
@@ -56,7 +58,7 @@ setuptools.setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3 :: Only',
+        'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: Implementation',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy',

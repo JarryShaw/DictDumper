@@ -31,7 +31,7 @@
 
 ### Installation:
 
-> Note that `dictdumper` only supports Python versions __since 3.0__
+> Note that `dictdumper` supports Python versions __2.7__ and all versions __since 3.0__
 
 ```
 pip install dictdumper
