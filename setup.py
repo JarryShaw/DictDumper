@@ -1,8 +1,10 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-
-import setuptools
+try:
+    from setuptools import setup
+except ImportError:
+    from distutils.core import setup
 
 
 # README
@@ -11,11 +13,11 @@ with open('./README.md', 'r') as file:
 
 
 # version string
-__version__ = '0.6.2'
+__version__ = '0.6.2.post1'
 
 
 # set-up script for pip distribution
-setuptools.setup(
+setup(
     name = 'dictdumper',
     version = __version__,
     author = 'Jarry Shaw',
@@ -26,7 +28,6 @@ setuptools.setup(
     description = 'Python dict formatted dumper.',
     long_description = long_desc,
     long_description_content_type='text/markdown',
-    install_requires = ['setuptools'],
     python_requires = '>=2.7',
     py_modules = ['dictdumper'],
     packages = ['dictdumper'],
