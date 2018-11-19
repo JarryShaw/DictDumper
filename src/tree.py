@@ -188,6 +188,8 @@ class Tree(Dumper):
             _bptr = '  |-->'
             for _ in range(self._tctr + 1):
                 _tabs += _TEMP_SPACES if self._bctr[_] else _TEMP_BRANCH
+        else:
+            _tabs = ''
 
         for (_nctr, _item) in enumerate(value):
             _text = '{tabs}{bptr}'.format(tabs=_tabs, bptr=_bptr)
@@ -218,11 +220,13 @@ class Tree(Dumper):
             _type = type(_text).__name__
 
             flag_dict = (_type == 'dict')
-            flag_tuple = (_type == 'tuple' and len(_text) > 1)
+            flag_list = (_type == 'list' and (len(_text) > 1 or type(_text[0]).__name__ == 'dict'))
+            flag_tuple = (_type == 'tuple' and (len(_text) > 1 or type(_text[0]).__name__ == 'dict'))
             flag_bytes = (_type == 'bytes' and len(_text) > 16)
-            if any((flag_dict, flag_tuple, flag_bytes)):
+            if any((flag_dict, flag_list, flag_tuple, flag_bytes)):
                 _pref = '\n'
             else:
+                print(_item, _text, (flag_dict, flag_list, flag_tuple, flag_bytes))
                 _pref = ' ->'
 
             _labs = ''
