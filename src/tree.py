@@ -155,9 +155,10 @@ class Tree(Dumper):
     ##########################################################################
 
     def __init__(self, fname, **kwargs):
-        if kwargs.pop('quiet', False):
+        self._flag = kwargs.pop('quiet', False)
+        if self._flag:
             self._hsrt = ''
-        super().__init__(frame, **kwargs)
+        super().__init__(fname, **kwargs)
         self._hsrt = _HEADER_START
 
     ##########################################################################
@@ -173,7 +174,10 @@ class Tree(Dumper):
             * _name - str, name of current content dict
 
         """
-        _keys = '\n' + _name + '\n'
+        if self._flag:
+            _keys = _name + '\n'
+        else:
+            _keys = '\n' + _name + '\n'
         _file.seek(self._sptr, os.SEEK_SET)
         _file.write(_keys)
 
