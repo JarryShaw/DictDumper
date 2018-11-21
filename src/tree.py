@@ -211,7 +211,8 @@ class Tree(Dumper):
 
         """
         if not value:
-            return self._append_none(None, _file)
+            return
+            # return self._append_none(None, _file)
 
         self._tctr += 1
         _vlen = len(value)
@@ -220,13 +221,12 @@ class Tree(Dumper):
             _type = type(_text).__name__
 
             flag_dict = (_type == 'dict')
-            flag_list = (_type == 'list' and (len(_text) > 1 or type(_text[0]).__name__ == 'dict'))
-            flag_tuple = (_type == 'tuple' and (len(_text) > 1 or type(_text[0]).__name__ == 'dict'))
+            flag_list = (_type == 'list' and (len(_text) > 1 or (len(_text) == 1 and type(_text[0]).__name__ == 'dict')))
+            flag_tuple = (_type == 'tuple' and (len(_text) > 1 or (len(_text) == 1 and type(_text[0]).__name__ == 'dict')))
             flag_bytes = (_type == 'bytes' and len(_text) > 16)
             if any((flag_dict, flag_list, flag_tuple, flag_bytes)):
                 _pref = '\n'
             else:
-                print(_item, _text, (flag_dict, flag_list, flag_tuple, flag_bytes))
                 _pref = ' ->'
 
             _labs = ''
