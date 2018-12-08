@@ -50,9 +50,9 @@ fi
 # file new release
 go run github.com/aktau/github-release release \
     --user JarryShaw \
-    --repo f2format \
+    --repo DictDumper \
     --tag "v${version}" \
-    --name "f2format v${version}" \
+    --name "DictDumper v${version}" \
     --description "$1"
 ret="$?"
 if [[ $ret -ne "0" ]] ; then
@@ -60,9 +60,9 @@ if [[ $ret -ne "0" ]] ; then
 fi
 
 # update maintenance information
-maintainer changelog --token='f64f074307ee1261f3626007d15b9af71ac07594' && \
-maintainer contributor --token='f64f074307ee1261f3626007d15b9af71ac07594' && \
-maintainer contributing --token='f64f074307ee1261f3626007d15b9af71ac07594'
+maintainer changelog && \
+maintainer contributor && \
+maintainer contributing
 ret="$?"
 if [[ $ret -ne "0" ]] ; then
     exit $ret
