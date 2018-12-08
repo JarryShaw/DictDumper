@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
 try:
@@ -6,44 +5,41 @@ try:
 except ImportError:
     from distutils.core import setup
 
-
 # README
-with open('./README.md', 'r') as file:
+with open('README.md', 'r') as file:
     long_desc = file.read()
 
-
 # version string
-__version__ = '0.6.5.post3'
-
+__version__ = '0.7.0'
 
 # set-up script for pip distribution
 setup(
-    name = 'dictdumper',
-    version = __version__,
-    author = 'Jarry Shaw',
-    author_email = 'jarryshaw@icloud.com',
-    url = 'https://github.com/JarryShaw/dictdumper#dictdumper',
-    license = 'GNU General Public License v3 (GPLv3)',
-    keywords = 'formatting dumper stream',
-    description = 'Python dict formatted dumper.',
-    long_description = long_desc,
+    name='dictdumper',
+    version=__version__,
+    author='Jarry Shaw',
+    author_email='jarryshaw@icloud.com',
+    url='https://github.com/JarryShaw/dictdumper#dictdumper',
+    license='Mozilla Public License 2.0 (MPL 2.0)',
+    keywords='formatting dumper stream',
+    description='Python dict formatted dumper.',
+    long_description=long_desc,
     long_description_content_type='text/markdown',
-    python_requires = '>=2.7',
-    py_modules = ['dictdumper'],
-    packages = ['dictdumper'],
-    package_data = {
+    python_requires='>=2.7',
+    py_modules=['dictdumper'],
+    packages=['dictdumper'],
+    package_data={
         '': [
             'LICENSE',
             'README.md',
         ],
     },
-    classifiers = [
+    classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Console',
         'Environment :: MacOS X',
         'Environment :: Win32 (MS Windows)',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
+        'License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)',
         'Natural Language :: English',
         'Operating System :: MacOS',
         'Operating System :: Microsoft :: Windows',
