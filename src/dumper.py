@@ -98,7 +98,7 @@ class Dumper(object):
         self._file = fname          # dump file name
         self._dump_header()         # initialise output file
 
-    def __call__(self, value, *, name=None):
+    def __call__(self, value, name=None):
         with open(self._file, 'r+') as _file:
             self._append_value(value, _file, name)
             self._sptr = _file.tell()

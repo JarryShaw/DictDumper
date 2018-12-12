@@ -6,11 +6,11 @@ except ImportError:
     from distutils.core import setup
 
 # README
-with open('README.md', 'r') as file:
-    long_desc = file.read()
+with open('README.md', 'rb') as file:
+    long_desc = file.read().decode('utf-8')
 
 # version string
-__version__ = '0.7.0'
+__version__ = '0.7.0.post1'
 
 # set-up script for pip distribution
 setup(
