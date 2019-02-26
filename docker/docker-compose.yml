@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  dictdumper:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    command: ["bash", "/dictdumper/docker/docker.sh"]
+    container_name: dictdumper
+    image: dictdumper
+    volumes:
+      - ../dist:/dictdumper/dist
