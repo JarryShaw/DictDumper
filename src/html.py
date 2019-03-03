@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""dumper a JavaScript file (DEPRECARED)
+"""dumper a JavaScript file (DEPRECATED)
 
     Note that this file is deprecated.
 
@@ -14,27 +14,20 @@ it is now deprecated. Usage sample is described as below.
     ............
 
 """
-import collections
-import os
-import textwrap
-
-
 # Writer for JavaScript files
 # Dump a JavaScript file for PCAP analyser
 
+import collections
 
 from dictdumper.json import JSON
 
-
 __all__ = ['JavaScript']
-
 
 # head
 _HEADER_START = '''\
 // demo data
 var data = {
 '''
-
 
 # tail
 _HEADER_END = """

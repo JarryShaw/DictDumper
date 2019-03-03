@@ -19,7 +19,7 @@ following formats --
         dump tree-view text (``TXT``) format file
 
 -  ``dictdumper.XML``
-        dump extensible Mmarkup language (``XML``) file;
+        dump extensible markup language (``XML``) file;
         this is a deprecated base class
 
 -  ``dictdumper.HTML``
@@ -27,8 +27,8 @@ following formats --
         this class is deprecated due to grammar error
 
 """
-# Base Class for jsFormat
-from dictdumper.dumper import Dumper
+# Base Class for DictDumper
+from dictdumper.dumper import Dumper  # pylint: disable=unused-import
 
 # Utility Classes
 from dictdumper.json import JSON
@@ -36,8 +36,7 @@ from dictdumper.plist import PLIST
 from dictdumper.tree import Tree
 
 # Deprecated / Base Classes
-from dictdumper.html import JavaScript
-from dictdumper.xml import XML
-
+from dictdumper.html import JavaScript  # pylint: disable=unused-import
+from dictdumper.xml import XML  # pylint: disable=unused-import
 
 __all__ = ['JSON', 'PLIST', 'Tree']

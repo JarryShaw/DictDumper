@@ -6,20 +6,15 @@ abstract base class for all dumpers, eg. HTML, JSON, PLIST,
 Tree, and XML.
 
 """
-import abc
-import datetime
-import functools
-import os
-import warnings
-import sys
-
-
 # Abstract Base Class of Dumpers
 # Pre-define useful arguments and methods of dumpers
 
+import abc
+import functools
+import os
+import warnings
 
 __all__ = ['Dumper']
-
 
 ABCMeta = abc.ABCMeta
 abstractmethod = abc.abstractmethod
@@ -28,14 +23,14 @@ abstractproperty = abc.abstractproperty
 
 def deprecation(func):
     @functools.wraps(func)
-    def wrapper(cls, *args, **kargs):
+    def wrapper(cls, *args, **kwargs):
         if cls.__name__ in ('Dumper', 'JavaScript', 'XML'):
             warnings.warn('%s is deprecated' % cls.__name__, DeprecationWarning, stacklevel=2)
-        return func(cls, *args, **kargs)
+        return func(cls, *args, **kwargs)
     return wrapper
 
 
-class Dumper(object):
+class Dumper(object):  # pylint:disable= metaclass-assignment,useless-object-inheritance
     """Abstract base class of all dumpers.
 
     Usage:
@@ -55,7 +50,7 @@ class Dumper(object):
         * _file - FileIO, output file
         * _sptr - int (file pointer), indicates start of appending point
         * _tctr - int, tab level counter
-        * _hrst - str, _HEADER_START
+        * _hsrt - str, _HEADER_START
         * _hend - str, _HEADER_END
 
     """
@@ -68,6 +63,9 @@ class Dumper(object):
     _sptr = os.SEEK_SET    # seek pointer
     _tctr = 1              # counter for tab level
 
+    _hsrt = ''
+    _hend = ''
+
     ##########################################################################
     # Properties.
     ##########################################################################
@@ -76,7 +74,7 @@ class Dumper(object):
     @abstractproperty
     def kind(self):
         """File format of current dumper."""
-        pass
+        pass  # pylint: disable=unnecessary-pass
 
     ##########################################################################
     # Data models.
@@ -86,13 +84,13 @@ class Dumper(object):
     __hash__ = None
 
     @deprecation
-    def __new__(cls, fname, **kwargs):
+    def __new__(cls, fname, **kwargs):  # pylint: disable=unused-argument
         self = super().__new__(cls)
         self.object_hook = \
             kwargs.get('object_hook', cls.object_hook)
         return self
 
-    def __init__(self, fname, **kwargs):
+    def __init__(self, fname, **kwargs):  # pylint: disable=unused-argument
         if not os.path.isfile(fname):
             open(fname, 'w+').close()
         self._file = fname          # dump file name
@@ -111,7 +109,7 @@ class Dumper(object):
     @classmethod
     def object_hook(cls, obj):
         """Check content type for function call."""
-        if isinstance(obj, cls.__type__):
+        if isinstance(obj, cls):
             return obj
         return repr(obj)
 
@@ -127,9 +125,9 @@ class Dumper(object):
         """Call this function to write contents.
 
         Keyword arguments:
-            * value - dict, content to be dunped
+            * value - dict, content to be dumped
             * _file - FileIO, output file
             * _name - str, name of current content dict
 
         """
-        pass
+        pass  # pylint: disable=unnecessary-pass

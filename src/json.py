@@ -11,61 +11,60 @@ described as below.
     ............
 
 """
+# Writer for JSON files
+# Dump a JSON file for PCAP analyser
+
 import collections
 import datetime
 import os
 import textwrap
 
-
-# Writer for JSON files
-# Dump a JSON file for PCAP analyser
-
-
 from dictdumper.dumper import Dumper
 
+__all__ = ['JSON']
 
 # head
 _HEADER_START = '{\n'
 
-
 # tail
 _HEADER_END = '\n}'
 
-
 # magic types
 _MAGIC_TYPES = collections.defaultdict(
-    lambda : (lambda self, text, file: self._append_string(text, file)), dict(
-    # string
-    str = lambda self, text, file: self._append_string(text, file),
+    lambda: (lambda self, text, file: self._append_string(text, file)),  # pylint: disable=protected-access
+    dict(
+        # string
+        str=lambda self, text, file: self._append_string(text, file),  # pylint: disable=protected-access
 
-    # bytes
-    bytes = lambda self, text, file: self._append_bytes(text, file),
-    bytearray = lambda self, text, file: self._append_bytes(text, file),
-    memoryview = lambda self, text, file: self._append_bytes(text, file),
+        # bytes
+        bytes=lambda self, text, file: self._append_bytes(text, file),  # pylint: disable=protected-access
+        bytearray=lambda self, text, file: self._append_bytes(text, file),  # pylint: disable=protected-access
+        memoryview=lambda self, text, file: self._append_bytes(text, file),  # pylint: disable=protected-access
 
-    # date
-    datetime = lambda self, text, file: self._append_date(text, file),
+        # date
+        datetime=lambda self, text, file: self._append_date(text, file),  # pylint: disable=protected-access
 
-    # number
-    int = lambda self, text, file: self._append_number(text, file),
-    float = lambda self, text, file: self._append_number(text, file),
+        # number
+        int=lambda self, text, file: self._append_number(text, file),  # pylint: disable=protected-access
+        float=lambda self, text, file: self._append_number(text, file),  # pylint: disable=protected-access
 
-    # object
-    dict = lambda self, text, file: self._append_object(text, file),
+        # object
+        dict=lambda self, text, file: self._append_object(text, file),  # pylint: disable=protected-access
 
-    # array
-    list = lambda self, text, file: self._append_array(text, file),
-    tuple = lambda self, text, file: self._append_array(text, file),
-    range = lambda self, text, file: self._append_array(text, file),
-    set = lambda self, text, file: self._append_array(text, file),
-    frozenset = lambda self, text, file: self._append_array(text, file),
+        # array
+        list=lambda self, text, file: self._append_array(text, file),  # pylint: disable=protected-access
+        tuple=lambda self, text, file: self._append_array(text, file),  # pylint: disable=protected-access
+        range=lambda self, text, file: self._append_array(text, file),  # pylint: disable=protected-access
+        set=lambda self, text, file: self._append_array(text, file),  # pylint: disable=protected-access
+        frozenset=lambda self, text, file: self._append_array(text, file),  # pylint: disable=protected-access
 
-    # bool
-    bool = lambda self, text, file: self._append_bool(text, file),
+        # bool
+        bool=lambda self, text, file: self._append_bool(text, file),  # pylint: disable=protected-access
 
-    # null
-    NoneType = lambda self, text, file: self._append_null(text, file),
-))
+        # null
+        NoneType=lambda self, text, file: self._append_null(text, file),  # pylint: disable=protected-access
+    )
+)
 
 
 class JSON(Dumper):
@@ -119,7 +118,7 @@ class JSON(Dumper):
     ##########################################################################
 
     __type__ = (
-        str,                                    # stinrg
+        str,                                    # string
         bool,                                   # bool
         dict,                                   # object
         datetime.date,                          # date
@@ -223,7 +222,7 @@ class JSON(Dumper):
         _labs = '\n{tabs}{}'.format('}', tabs=_tabs)
         _file.write(_labs)
 
-    def _append_string(self, value, _file):
+    def _append_string(self, value, _file):  # pylint: disable=no-self-use
         """Call this function to write string contents.
 
         Keyword arguments:
@@ -235,7 +234,7 @@ class JSON(Dumper):
         _labs = ' "{text}"'.format(text=_text)
         _file.write(_labs)
 
-    def _append_bytes(self, value, _file):
+    def _append_bytes(self, value, _file):  # pylint: disable=no-self-use
         """Call this function to write bytes contents.
 
         Keyword arguments:
@@ -253,7 +252,7 @@ class JSON(Dumper):
         _labs = ' "{text}"'.format(text=_text)
         _file.write(_labs)
 
-    def _append_date(self, value, _file):
+    def _append_date(self, value, _file):  # pylint: disable=no-self-use
         """Call this function to write date contents.
 
         Keyword arguments:
@@ -265,7 +264,7 @@ class JSON(Dumper):
         _labs = ' "{text}"'.format(text=_text)
         _file.write(_labs)
 
-    def _append_number(self, value, _file):
+    def _append_number(self, value, _file):  # pylint: disable=no-self-use
         """Call this function to write number contents.
 
         Keyword arguments:
@@ -277,7 +276,7 @@ class JSON(Dumper):
         _labs = ' {text}'.format(text=_text)
         _file.write(_labs)
 
-    def _append_bool(self, value, _file):
+    def _append_bool(self, value, _file):  # pylint: disable=no-self-use
         """Call this function to write bool contents.
 
         Keyword arguments:
@@ -289,7 +288,7 @@ class JSON(Dumper):
         _labs = ' {text}'.format(text=_text)
         _file.write(_labs)
 
-    def _append_null(self, value, _file):
+    def _append_null(self, value, _file):  # pylint: disable=unused-argument,no-self-use
         """Call this function to write null contents.
 
         Keyword arguments:

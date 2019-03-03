@@ -11,64 +11,63 @@ as below.
     ............
 
 """
+# Writer for treeview text files
+# Dump a TEXT file for PCAP analyser
+
 import collections
 import datetime
 import os
 import textwrap
 
-
-# Writer for treeview text files
-# Dump a TEXT file for PCAP analyser
-
-
 from dictdumper.dumper import Dumper
 
+__all__ = ['Tree']
 
 # headers
-_HEADER_START = 'PCAP File Tree-View Format\n'   # head
-_HEADER_END = ''                               # tail
-
+_HEADER_START = 'PCAP File Tree-View Format\n'  # head
+_HEADER_END = ''                                # tail
 
 # templates
 _TEMP_BRANCH = '  |   '  # branch
 _TEMP_SPACES = '      '  # space
 
-
 # magic types
 _MAGIC_TYPES = collections.defaultdict(
-    lambda : (lambda self, text, file: self._append_string(text, file)), dict(
-    # branch
-    dict = lambda self, text, file: self._append_branch(text, file),
+    lambda: (lambda self, text, file: self._append_string(text, file)),  # pylint: disable=protected-access
+    dict(
+        # branch
+        dict=lambda self, text, file: self._append_branch(text, file),  # pylint: disable=protected-access
 
-    # array
-    set = lambda self, text, file: self._append_array(text, file),
-    list = lambda self, text, file: self._append_array(text, file),
-    tuple = lambda self, text, file: self._append_array(text, file),
-    range = lambda self, text, file: self._append_array(text, file),
-    frozenset = lambda self, text, file: self._append_array(text, file),
+        # array
+        set=lambda self, text, file: self._append_array(text, file),  # pylint: disable=protected-access
+        list=lambda self, text, file: self._append_array(text, file),  # pylint: disable=protected-access
+        tuple=lambda self, text, file: self._append_array(text, file),  # pylint: disable=protected-access
+        range=lambda self, text, file: self._append_array(text, file),  # pylint: disable=protected-access
+        frozenset=lambda self, text, file: self._append_array(text, file),  # pylint: disable=protected-access
 
-    # string
-    str = lambda self, text, file: self._append_string(text, file),
+        # string
+        str=lambda self, text, file: self._append_string(text, file),  # pylint: disable=protected-access
 
-    # date
-    datetime = lambda self, text, file: self._append_date(text, file),
+        # date
+        datetime=lambda self, text, file: self._append_date(text, file),  # pylint: disable=protected-access
 
-    # bytes
-    bytes = lambda self, text, file: self._append_bytes(text, file),
-    bytearray = lambda self, text, file: self._append_bytes(text, file),
-    memoryview = lambda self, text, file: self._append_bytes(text, file),
+        # bytes
+        bytes=lambda self, text, file: self._append_bytes(text, file),  # pylint: disable=protected-access
+        bytearray=lambda self, text, file: self._append_bytes(text, file),  # pylint: disable=protected-access
+        memoryview=lambda self, text, file: self._append_bytes(text, file),  # pylint: disable=protected-access
 
-    # number
-    int = lambda self, text, file: self._append_number(text, file),
-    float = lambda self, text, file: self._append_number(text, file),
-    complex = lambda self, text, file: self._append_number(text, file),
+        # number
+        int=lambda self, text, file: self._append_number(text, file),  # pylint: disable=protected-access
+        float=lambda self, text, file: self._append_number(text, file),  # pylint: disable=protected-access
+        complex=lambda self, text, file: self._append_number(text, file),  # pylint: disable=protected-access
 
-    # True | False
-    bool = lambda self, text, file: self._append_bool(text, file),
+        # True | False
+        bool=lambda self, text, file: self._append_bool(text, file),  # pylint: disable=protected-access
 
-    # N/A
-    NoneType = lambda self, text, file: self._append_none(text, file),
-))
+        # N/A
+        NoneType=lambda self, text, file: self._append_none(text, file),  # pylint: disable=protected-access
+    )
+)
 
 
 class Tree(Dumper):
@@ -125,7 +124,7 @@ class Tree(Dumper):
     __type__ = (
         str,                                    # string
         bool,                                   # bool
-        dict,                                   # branch
+        dict,                                   # branch
         type(None),                             # none
         datetime.date,                          # date
         int, float, complex,                    # number
@@ -137,7 +136,9 @@ class Tree(Dumper):
     # Attributes.
     ##########################################################################
 
+    _bctr = None
     _tctr = -1
+
     _hsrt = _HEADER_START
     _hend = _HEADER_END
 
@@ -193,7 +194,8 @@ class Tree(Dumper):
 
         """
         if not value:
-            return self._append_none(None, _file)
+            self._append_none(None, _file)
+            return
 
         _bptr = ''
         _tabs = ''
@@ -235,8 +237,8 @@ class Tree(Dumper):
             _type = type(_text).__name__
 
             flag_dict = (_type == 'dict')
-            flag_list = (_type == 'list' and (len(_text) > 1 or (len(_text) == 1 and type(_text[0]).__name__ == 'dict')))
-            flag_tuple = (_type == 'tuple' and (len(_text) > 1 or (len(_text) == 1 and type(_text[0]).__name__ == 'dict')))
+            flag_list = (_type == 'list' and (len(_text) > 1 or (len(_text) == 1 and type(_text[0]).__name__ == 'dict')))  # noqa pylint: disable=line-too-long
+            flag_tuple = (_type == 'tuple' and (len(_text) > 1 or (len(_text) == 1 and type(_text[0]).__name__ == 'dict')))  # noqa pylint: disable=line-too-long
             flag_bytes = (_type == 'bytes' and len(_text) > 16)
             if any((flag_dict, flag_list, flag_tuple, flag_bytes)):
                 _pref = '\n'
@@ -270,7 +272,8 @@ class Tree(Dumper):
 
         """
         if not value:
-            return self._append_none(None, _file)
+            self._append_none(None, _file)
+            return
 
         _text = value
         _labs = ' {text}'.format(text=_text)
@@ -287,7 +290,8 @@ class Tree(Dumper):
         # binascii.b2a_base64(value) -> plistlib.Data
         # binascii.a2b_base64(Data) -> value(bytes)
         if not value:
-            return self._append_none(None, _file)
+            self._append_none(None, _file)
+            return
 
         if len(value) > 16:
             _tabs = ''
@@ -306,7 +310,7 @@ class Tree(Dumper):
             _labs = ' {text}'.format(text=_text)
         _file.write(_labs)
 
-    def _append_date(self, value, _file):
+    def _append_date(self, value, _file):  # pylint: disable=no-self-use
         """Call this function to write date contents.
 
         Keyword arguments:
@@ -318,7 +322,7 @@ class Tree(Dumper):
         _labs = ' {text}'.format(text=_text)
         _file.write(_labs)
 
-    def _append_number(self, value, _file):
+    def _append_number(self, value, _file):  # pylint: disable=no-self-use
         """Call this function to write number contents.
 
         Keyword arguments:
@@ -330,7 +334,7 @@ class Tree(Dumper):
         _labs = ' {text}'.format(text=_text)
         _file.write(_labs)
 
-    def _append_bool(self, value, _file):
+    def _append_bool(self, value, _file):  # pylint: disable=no-self-use
         """Call this function to write bool contents.
 
         Keyword arguments:
@@ -342,7 +346,7 @@ class Tree(Dumper):
         _labs = ' {text}'.format(text=_text)
         _file.write(_labs)
 
-    def _append_none(self, value, _file):
+    def _append_none(self, value, _file):  # pylint: disable=unused-argument,no-self-use
         """Call this function to write none contents.
 
         Keyword arguments:

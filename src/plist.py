@@ -11,19 +11,17 @@ as below.
     ............
 
 """
+# Dumper for PLIST files
+# Write a macOS Property List file
+
 import base64
 import collections
 import datetime
 import os
-import textwrap
-
-
-# Dumper for PLIST files
-# Write a macOS Property List file
-
 
 from dictdumper.xml import XML
 
+__all__ = ['PLIST']
 
 # head
 _HEADER_START = '''\
@@ -33,47 +31,47 @@ _HEADER_START = '''\
 <dict>
 '''
 
-
 # tail
 _HEADER_END = '''\
 </dict>
 </plist>
 '''
 
-
 # magic types
 _MAGIC_TYPES = collections.defaultdict(
-    lambda : (lambda self, text, file: self._append_string(text, file)), dict(
-    # array
-    list = lambda self, text, file: self._append_array(text, file),
-    tuple = lambda self, text, file: self._append_array(text, file),
-    range = lambda self, text, file: self._append_array(text, file),
-    set = lambda self, text, file: self._append_array(text, file),
-    frozenset = lambda self, text, file: self._append_array(text, file),
+    lambda: (lambda self, text, file: self._append_string(text, file)),  # pylint: disable=protected-access
+    dict(
+        # array
+        list=lambda self, text, file: self._append_array(text, file),  # pylint: disable=protected-access
+        tuple=lambda self, text, file: self._append_array(text, file),  # pylint: disable=protected-access
+        range=lambda self, text, file: self._append_array(text, file),  # pylint: disable=protected-access
+        set=lambda self, text, file: self._append_array(text, file),  # pylint: disable=protected-access
+        frozenset=lambda self, text, file: self._append_array(text, file),  # pylint: disable=protected-access
 
-    # dict
-    dict = lambda self, text, file: self._append_dict(text, file),
+        # dict
+        dict=lambda self, text, file: self._append_dict(text, file),  # pylint: disable=protected-access
 
-    # string
-    str = lambda self, text, file: self._append_string(text, file),
+        # string
+        str=lambda self, text, file: self._append_string(text, file),  # pylint: disable=protected-access
 
-    # data
-    bytes = lambda self, text, file: self._append_data(text, file),
-    bytearray = lambda self, text, file: self._append_data(text, file),
-    memoryview = lambda self, text, file: self._append_data(text, file),
+        # data
+        bytes=lambda self, text, file: self._append_data(text, file),  # pylint: disable=protected-access
+        bytearray=lambda self, text, file: self._append_data(text, file),  # pylint: disable=protected-access
+        memoryview=lambda self, text, file: self._append_data(text, file),  # pylint: disable=protected-access
 
-    # date
-    datetime = lambda self, text, file: self._append_date(text, file),
+        # date
+        datetime=lambda self, text, file: self._append_date(text, file),  # pylint: disable=protected-access
 
-    # integer
-    int = lambda self, text, file: self._append_integer(text, file),
+        # integer
+        int=lambda self, text, file: self._append_integer(text, file),  # pylint: disable=protected-access
 
-    # real
-    float = lambda self, text, file: self._append_real(text, file),
+        # real
+        float=lambda self, text, file: self._append_real(text, file),  # pylint: disable=protected-access
 
-    # true | false
-    bool = lambda self, text, file: self._append_bool(text, file),
-))
+        # true | false
+        bool=lambda self, text, file: self._append_bool(text, file),  # pylint: disable=protected-access
+    )
+)
 
 
 class PLIST(XML):
@@ -129,9 +127,9 @@ class PLIST(XML):
     ##########################################################################
 
     __type__ = (
-        str,                                    # stinrg
+        str,                                    # string
         bool,                                   # bool
-        dict,                                   # dict
+        dict,                                   # dict
         datetime.date,                          # date
         int,                                    # integer
         float,                                  # real
@@ -180,7 +178,8 @@ class PLIST(XML):
         self._tctr += 1
 
         for _item in value:
-            if _item is None:   continue
+            if _item is None:
+                continue
             _item = self.object_hook(_item)
             _type = type(_item).__name__
             _MAGIC_TYPES[_type](self, _item, _file)
@@ -204,7 +203,8 @@ class PLIST(XML):
         self._tctr += 1
 
         for (_item, _text) in value.items():
-            if _text is None:   continue
+            if _text is None:
+                continue
 
             _tabs = '\t' * self._tctr
             _keys = '{tabs}<key>{item}</key>\n'.format(tabs=_tabs, item=_item)
@@ -244,7 +244,7 @@ class PLIST(XML):
         # binascii.a2b_base64(Data) -> value(bytes)
 
         _tabs = '\t' * self._tctr
-        _text =  base64.b64encode(value).decode() # value.hex() # str(value)[2:-1]
+        _text = base64.b64encode(value).decode()  # value.hex() # str(value)[2:-1]
         _labs = '{tabs}<data>{text}</data>\n'.format(tabs=_tabs, text=_text)
         # _labs = '{tabs}<data>\n'.format(tabs=_tabs)
 

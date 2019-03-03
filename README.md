@@ -22,7 +22,7 @@
  - `dictdumper.JSON` -- dump JavaScript object notation (`JSON`) format file
  - `dictdumper.PLIST` -- dump Apple property list (`PLIST`) format file
  - `dictdumper.Tree` -- dump tree-view text (`TXT`) format file
- - `dictdumper.XML` -- dump extensible Mmarkup language (`XML`) file (__base class__)
+ - `dictdumper.XML` -- dump extensible markup language (`XML`) file (__base class__)
  - `dictdumper.HTML` -- dump JavaScript file under `Vue.js` framework (__DEPRECATED__)
 
 ![](https://github.com/JarryShaw/dictdumper/blob/master/doc/dictdumper.png)

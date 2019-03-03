@@ -1,0 +1,25 @@
+{
+    "cSpell.words": [
+        "Dict",
+        "b'bytes",
+        "bctr",
+        "bptr",
+        "cmma",
+        "emsp",
+        "fname",
+        "hend",
+        "hrst",
+        "hsrt",
+        "ictr",
+        "markup",
+        "nctr",
+        "sptr",
+        "suff",
+        "tctr",
+        "tlen",
+        "vctr",
+        "vlen"
+    ],
+    "python.pythonPath": "/Users/jarryshaw/.local/share/virtualenvs/DictDumper-spNaodoj/bin/python",
+    "python.linting.pylintEnabled": true
+}

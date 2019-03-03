@@ -15,26 +15,22 @@ described as below.
     ............
 
 """
-# TODO: Supports more `dtd`s of XML.
-
-
-import os
-import textwrap
-
+# TODO: Supports more `dtd`s of XML.  # pylint: disable=fixme
 
 # Dumper for XML files
 # Write a XML file for PCAP analyser
 
+import abc
 
 from dictdumper.dumper import Dumper
 
+__all__ = ['XML']
 
 # head
 _HEADER_START = '''\
 <?xml version="1.0" encoding="UTF-8"?>
 <content>
 '''
-
 
 # tail
 _HEADER_END = '''\
@@ -87,3 +83,11 @@ class XML(Dumper):
 
     _hsrt = _HEADER_START
     _hend = _HEADER_END
+
+    ##########################################################################
+    # Utilities.
+    ##########################################################################
+
+    @abc.abstractmethod
+    def _append_value(self, value, _file, _name):
+        pass
