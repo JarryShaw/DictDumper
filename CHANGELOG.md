@@ -1,5 +1,8 @@
 # Change Log
 
+## [v0.7.0.post2](https://github.com/JarryShaw/DictDumper/tree/v0.7.0.post2) (2019-03-03)
+[Full Changelog](https://github.com/JarryShaw/DictDumper/compare/v0.7.0.post1...v0.7.0.post2)
+
 ## [v0.7.0.post1](https://github.com/JarryShaw/DictDumper/tree/v0.7.0.post1) (2018-12-12)
 [Full Changelog](https://github.com/JarryShaw/DictDumper/compare/v0.7.0...v0.7.0.post1)
 
