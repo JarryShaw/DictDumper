@@ -20,6 +20,6 @@
         "vctr",
         "vlen"
     ],
-    "python.pythonPath": "/Users/jarryshaw/.local/share/virtualenvs/DictDumper-spNaodoj/bin/python",
+    "python.pythonPath": ".venv/bin/python",
     "python.linting.pylintEnabled": true
 }

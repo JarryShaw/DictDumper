@@ -10,7 +10,7 @@ with open('README.md', 'rb') as file:
     long_desc = file.read().decode('utf-8')
 
 # version string
-__version__ = '0.7.0.post2'
+__version__ = '0.7.1'
 
 # set-up script for pip distribution
 setup(
@@ -25,7 +25,6 @@ setup(
     long_description=long_desc,
     long_description_content_type='text/markdown',
     python_requires='>=2.7',
-    py_modules=['dictdumper'],
     packages=['dictdumper'],
     package_data={
         '': [
@@ -56,6 +55,7 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: Implementation',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy',

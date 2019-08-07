@@ -86,8 +86,7 @@ class Dumper(object):  # pylint:disable= metaclass-assignment,useless-object-inh
     @deprecation
     def __new__(cls, fname, **kwargs):  # pylint: disable=unused-argument
         self = super().__new__(cls)
-        self.object_hook = \
-            kwargs.get('object_hook', cls.object_hook)
+        self.object_hook = kwargs.get('object_hook', cls.object_hook)
         return self
 
     def __init__(self, fname, **kwargs):  # pylint: disable=unused-argument
@@ -109,9 +108,7 @@ class Dumper(object):  # pylint:disable= metaclass-assignment,useless-object-inh
     @classmethod
     def object_hook(cls, obj):
         """Check content type for function call."""
-        if isinstance(obj, cls):
-            return obj
-        return repr(obj)
+        return obj
 
     def _dump_header(self):
         """Initially dump file heads and tails."""
