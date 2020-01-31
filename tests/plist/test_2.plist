@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>test_1</key>
+	<dict>
+		<key>foo</key>
+		<integer>-1</integer>
+		<key>bar</key>
+		<string>Hello, world!</string>
+		<key>boo</key>
+		<dict>
+			<key>foo_again</key>
+			<true/>
+			<key>bar_again</key>
+			<dict>
+				<key>type</key>
+				<string>memoryview</string>
+				<key>value</key>
+				<data>Ynl0ZXM=</data>
+			</dict>
+		</dict>
+	</dict>
+	<key>test_2</key>
+	<dict>
+		<key>foo</key>
+		<array>
+			<integer>1</integer>
+			<real>2.0</real>
+			<integer>3</integer>
+		</array>
+		<key>bar</key>
+		<dict>
+			<key>type</key>
+			<string>tuple</string>
+			<key>value</key>
+			<array>
+				<real>1.0</real>
+				<dict>
+					<key>type</key>
+					<string>bytearray</string>
+					<key>value</key>
+					<data>YSBsb25nIGxvbmcgYnl0ZXM=</data>
+				</dict>
+				<real>3.0</real>
+			</array>
+		</dict>
+		<key>boo</key>
+		<dict>
+			<key>foo_again</key>
+			<data>Ynl0ZXN0cmluZw==</data>
+			<key>bar_again</key>
+			<date>2020-01-31T20:15:10.163010Z</date>
+			<key>boo_again</key>
+			<real>-inf</real>
+		</dict>
+	</dict>
+</dict>
+</plist>

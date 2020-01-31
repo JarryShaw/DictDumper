@@ -10,27 +10,23 @@ Tree, and XML.
 # Pre-define useful arguments and methods of dumpers
 
 import abc
-import functools
 import os
 import warnings
 
 __all__ = ['Dumper']
 
-ABCMeta = abc.ABCMeta
-abstractmethod = abc.abstractmethod
-abstractproperty = abc.abstractproperty
+
+def deprecated(cls):
+    """Deprecation warning."""
+    warnings.warn('%s is deprecated' % cls.__name__, DeprecationWarning, stacklevel=2)
+    return cls
 
 
-def deprecation(func):
-    @functools.wraps(func)
-    def wrapper(cls, *args, **kwargs):
-        if cls.__name__ in ('Dumper', 'JavaScript', 'XML'):
-            warnings.warn('%s is deprecated' % cls.__name__, DeprecationWarning, stacklevel=2)
-        return func(cls, *args, **kwargs)
-    return wrapper
+class DumperError(TypeError):
+    """Unsupported content type."""
 
 
-class Dumper(object):  # pylint:disable= metaclass-assignment,useless-object-inheritance
+class Dumper:  # pylint: disable=metaclass-assignment
     """Abstract base class of all dumpers.
 
     Usage:
@@ -41,20 +37,71 @@ class Dumper(object):  # pylint:disable= metaclass-assignment,useless-object-inh
 
     Properties:
         * kind - str, file format of current dumper
+        * filename - str, output file name
 
-    Utilities:
-        * _dump_header - initially dump file heads and tails
-        * _append_value - call this function to write contents
+    Methods:
+        * make_object - create an object with convertion information
+        * object_hook - convert content for function call
+        * default - check content type for function call
 
     Attributes:
-        * _file - FileIO, output file
+        * _file - str, output file name
         * _sptr - int (file pointer), indicates start of appending point
         * _tctr - int, tab level counter
         * _hsrt - str, _HEADER_START
         * _hend - str, _HEADER_END
 
+    Utilities:
+        * _dump_header - initially dump file heads and tails
+        * _encode_func - check content type for function call
+        * _encode_value - convert content for function call
+        * _append_value - call this function to write contents
+
     """
-    __metaclass__ = ABCMeta
+    __metaclass__ = abc.ABCMeta
+
+    ##########################################################################
+    # Properties.
+    ##########################################################################
+
+    # file format of current dumper
+    @property
+    @abc.abstractmethod
+    def kind(self):
+        """File format of current dumper."""
+
+    @property
+    def filename(self):
+        """Output file name."""
+        return self._file
+
+    ##########################################################################
+    # Type codes.
+    ##########################################################################
+
+    __type__ = dict()
+
+    ##########################################################################
+    # Methods.
+    ##########################################################################
+
+    @staticmethod
+    def make_object(o, value, **kwargs):
+        """Create an object with convertion information."""
+        obj = dict(
+            type=type(o).__name__,
+            value=value,
+        )
+        obj.update(kwargs)
+        return obj
+
+    def object_hook(self, o):  # pylint: disable=unused-argument,no-self-use
+        """Convert content for function call."""
+        return o
+
+    def default(self, o):  # pylint: disable=unused-argument,no-self-use
+        """Check content type for function call."""
+        raise DumperError('unsupported content type: %s' % type(o).__name__)
 
     ##########################################################################
     # Attributes.
@@ -67,64 +114,55 @@ class Dumper(object):  # pylint:disable= metaclass-assignment,useless-object-inh
     _hend = ''
 
     ##########################################################################
-    # Properties.
-    ##########################################################################
-
-    # file format of current dumper
-    @abstractproperty
-    def kind(self):
-        """File format of current dumper."""
-        pass  # pylint: disable=unnecessary-pass
-
-    ##########################################################################
     # Data models.
     ##########################################################################
 
-    # Not hashable
-    __hash__ = None
-
-    @deprecation
     def __new__(cls, fname, **kwargs):  # pylint: disable=unused-argument
         self = super().__new__(cls)
-        self.object_hook = kwargs.get('object_hook', cls.object_hook)
         return self
 
     def __init__(self, fname, **kwargs):  # pylint: disable=unused-argument
-        if not os.path.isfile(fname):
-            open(fname, 'w+').close()
         self._file = fname          # dump file name
         self._dump_header()         # initialise output file
 
     def __call__(self, value, name=None):
-        with open(self._file, 'r+') as _file:
-            self._append_value(value, _file, name)
-            self._sptr = _file.tell()
-            _file.write(self._hend)
+        with open(self._file, 'r+') as file:
+            self._append_value(value, file, name)
+            self._sptr = file.tell()
+            file.write(self._hend)
+        return self
 
     ##########################################################################
     # Utilities.
     ##########################################################################
 
-    @classmethod
-    def object_hook(cls, obj):
-        """Check content type for function call."""
-        return obj
-
     def _dump_header(self):
         """Initially dump file heads and tails."""
-        with open(self._file, 'w') as _file:
-            _file.write(self._hsrt)
-            self._sptr = _file.tell()
-            _file.write(self._hend)
+        with open(self._file, 'w') as file:
+            file.write(self._hsrt)
+            self._sptr = file.tell()
+            file.write(self._hend)
 
-    @abstractmethod
-    def _append_value(self, value, _file, _name):
+    def _encode_func(self, o):
+        """Check content type for function call."""
+        name = self.__type__.get(type(o))
+        if name is None:
+            name = self.default(o)  # pylint: disable=assignment-from-no-return
+
+        func = '_append_%s' % name
+        return getattr(self, func)
+
+    def _encode_value(self, o):
+        """Convert content for function call."""
+        return self.object_hook(o)
+
+    @abc.abstractmethod
+    def _append_value(self, value, file, name):
         """Call this function to write contents.
 
         Keyword arguments:
             * value - dict, content to be dumped
-            * _file - FileIO, output file
-            * _name - str, name of current content dict
+            * file - FileIO, output file
+            * name - str, name of current content dict
 
         """
-        pass  # pylint: disable=unnecessary-pass

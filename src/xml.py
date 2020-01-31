@@ -4,10 +4,8 @@
     Note that this file is deprecated.
 
 ``dictdumper.xml`` contains ``XML`` only, which dumpers an
-extensible markup language (XML) format file. However, due
-to lack of supported ``dtd``, the output file is currently
-meaningless, thus it is now deprecated. Usage sample is
-described as below.
+extensible markup language (XML) format file. Usage sample
+is described as below.
 
     >>> dumper = XML(file_name)
     >>> dumper(content_dict_1, name=content_name_1)
@@ -51,20 +49,25 @@ class XML(Dumper):
         ............
 
     Properties:
-        * kind - str, return 'plist'
+        * kind - str, file format of current dumper
+        * filename - str, output file name
 
     Methods:
-        * object_hook - default/customised object hooks
+        * make_object - create an object with convertion information
+        * object_hook - convert content for function call
+        * default - check content type for function call
 
     Attributes:
-        * _file - FileIO, output file
+        * _file - str, output file name
         * _sptr - int (file pointer), indicates start of appending point
         * _tctr - int, tab level counter
         * _hrst - str, _HEADER_START
         * _hend - str, _HEADER_END
 
-    Methods:
+    Utilities:
         * _dump_header - initially dump file heads and tails
+        * _encode_func - check content type for function call
+        * _encode_value - convert content for function call
         * _append_value - call this function to write contents
 
     """

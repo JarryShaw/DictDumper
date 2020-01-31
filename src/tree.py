@@ -5,96 +5,88 @@
 tree-view text (TXT) format file. Usage sample is described
 as below.
 
-    >>> dumper = Tree(file_name)
-    >>> dumper(content_dict_1, name=content_name_1)
-    >>> dumper(content_dict_2, name=content_name_2)
+    >>> dumper = Tree(filename)
+    >>> dumper(content_dict_1, name=contentname_1)
+    >>> dumper(content_dict_2, name=contentname_2)
     ............
 
 """
 # Writer for treeview text files
 # Dump a TEXT file for PCAP analyser
 
-import collections
+import contextlib
 import datetime
+import math
 import os
 import textwrap
 
+from dictdumper._dateutil import isoformat
 from dictdumper.dumper import Dumper
 
 __all__ = ['Tree']
 
 # headers
-_HEADER_START = 'PCAP File Tree-View Format\n'  # head
-_HEADER_END = ''                                # tail
+_HEADER_START = ''  # head
+_HEADER_END = ''    # tail
 
 # templates
 _TEMP_BRANCH = '  |   '  # branch
 _TEMP_SPACES = '      '  # space
 
-# magic types
-_MAGIC_TYPES = collections.defaultdict(
-    lambda: (lambda self, text, file: self._append_string(text, file)),  # pylint: disable=protected-access
-    dict(
-        # branch
-        dict=lambda self, text, file: self._append_branch(text, file),  # pylint: disable=protected-access
 
-        # array
-        set=lambda self, text, file: self._append_array(text, file),  # pylint: disable=protected-access
-        list=lambda self, text, file: self._append_array(text, file),  # pylint: disable=protected-access
-        tuple=lambda self, text, file: self._append_array(text, file),  # pylint: disable=protected-access
-        range=lambda self, text, file: self._append_array(text, file),  # pylint: disable=protected-access
-        frozenset=lambda self, text, file: self._append_array(text, file),  # pylint: disable=protected-access
+@contextlib.contextmanager
+def indent(ctx, branch=True):
+    """Indentation context."""
+    if branch:
+        ctx.append(_TEMP_BRANCH)
+    else:
+        ctx.append(_TEMP_SPACES)
+    yield
+    ctx.pop()
 
-        # string
-        str=lambda self, text, file: self._append_string(text, file),  # pylint: disable=protected-access
 
-        # date
-        datetime=lambda self, text, file: self._append_date(text, file),  # pylint: disable=protected-access
-
-        # bytes
-        bytes=lambda self, text, file: self._append_bytes(text, file),  # pylint: disable=protected-access
-        bytearray=lambda self, text, file: self._append_bytes(text, file),  # pylint: disable=protected-access
-        memoryview=lambda self, text, file: self._append_bytes(text, file),  # pylint: disable=protected-access
-
-        # number
-        int=lambda self, text, file: self._append_number(text, file),  # pylint: disable=protected-access
-        float=lambda self, text, file: self._append_number(text, file),  # pylint: disable=protected-access
-        complex=lambda self, text, file: self._append_number(text, file),  # pylint: disable=protected-access
-
-        # True | False
-        bool=lambda self, text, file: self._append_bool(text, file),  # pylint: disable=protected-access
-
-        # N/A
-        NoneType=lambda self, text, file: self._append_none(text, file),  # pylint: disable=protected-access
-    )
-)
+try:
+    from contextlib import nullcontext
+except ImportError:
+    class nullcontext:
+        """Context manager that does no additional processing."""
+        def __enter__(self):
+            return self
+        def __exit__(self, *excinfo):
+            pass
 
 
 class Tree(Dumper):
     """Dump a tree-view text (TXT) format file.
 
     Usage:
-        >>> dumper = Tree(file_name)
-        >>> dumper(content_dict_1, name=content_name_1)
-        >>> dumper(content_dict_2, name=content_name_2)
+        >>> dumper = Tree(filename)
+        >>> dumper(content_dict_1, name=contentname_1)
+        >>> dumper(content_dict_2, name=contentname_2)
         ............
 
     Properties:
-        * kind - str, return 'plist'
+        * kind - str, file format of current dumper
+        * filename - str, output file name
 
     Methods:
-        * object_hook - default/customised object hooks
+        * make_object - create an object with convertion information
+        * object_hook - convert content for function call
+        * default - check content type for function call
 
     Attributes:
-        * _file - FileIO, output file
+        * _file - str, output file name
         * _sptr - int (file pointer), indicates start of appending point
         * _tctr - int, tab level counter
         * _hrst - str, _HEADER_START
         * _hend - str, _HEADER_END
-        * _bctr - dict, blank branch counter dict
+        * _bctx - list, blank branch context record
+        * _nctr - int, branch number counter
 
     Utilities:
         * _dump_header - initially dump file heads and tails
+        * _encode_func - check content type for function call
+        * _encode_value - convert content for function call
         * _append_value - call this function to write contents
 
     Terminology:
@@ -118,31 +110,6 @@ class Tree(Dumper):
 
     """
     ##########################################################################
-    # Type codes.
-    ##########################################################################
-
-    __type__ = (
-        str,                                    # string
-        bool,                                   # bool
-        dict,                                   # branch
-        type(None),                             # none
-        datetime.date,                          # date
-        int, float, complex,                    # number
-        bytes, bytearray, memoryview,           # bytes
-        list, tuple, range, set, frozenset,     # array
-    )
-
-    ##########################################################################
-    # Attributes.
-    ##########################################################################
-
-    _bctr = None
-    _tctr = -1
-
-    _hsrt = _HEADER_START
-    _hend = _HEADER_END
-
-    ##########################################################################
     # Properties.
     ##########################################################################
 
@@ -152,208 +119,253 @@ class Tree(Dumper):
         return 'txt'
 
     ##########################################################################
-    # Data models.
+    # Type codes.
     ##########################################################################
 
-    def __init__(self, fname, **kwargs):
-        self._flag = kwargs.pop('quiet', False)
-        if self._flag:
-            self._hsrt = ''
-        super().__init__(fname, **kwargs)
-        self._hsrt = _HEADER_START
+    __type__ = {
+        # string
+        str: 'string',
+
+        # bool
+        bool: 'bool',
+
+        # branch
+        dict: 'branch',
+
+        # none
+        type(None): 'none',
+
+        # date
+        datetime.date: 'date',
+        datetime.datetime: 'date',
+        datetime.time: 'date',
+
+        # number
+        int: 'number',
+        float: 'number',
+        complex: 'number',
+
+        # bytes
+        bytes: 'bytes',
+
+        # array
+        list: 'array',
+    }
+
+    ##########################################################################
+    # Methods.
+    ##########################################################################
+
+    @staticmethod
+    def check_newline(value):
+        """Check if newline is needed."""
+        if isinstance(value, dict):
+            return True
+        if isinstance(value, str):
+            return len(value) > 2
+        if isinstance(value, bytes):
+            return len(value.hex()) > 32
+        return False
+
+    ##########################################################################
+    # Attributes.
+    ##########################################################################
+
+    _nctr = 0
+    _bctx = ''
+
+    _hsrt = _HEADER_START
+    _hend = _HEADER_END
 
     ##########################################################################
     # Utilities.
     ##########################################################################
 
-    def _append_value(self, value, _file, _name):
+    def _encode_value(self, o):  # pylint: disable=unused-argument
+        """Convert content for function call."""
+        if isinstance(o, bytearray):
+            return self.make_object(o, bytes(o), text=o.decode(errors='replace'))
+        if isinstance(o, memoryview):
+            tobytes = o.tobytes()
+            return self.make_object(o, tobytes, text=tobytes.decode(errors='replace'))
+        if isinstance(o, (tuple, set, frozenset)):
+            return self.make_object(o, list(o))
+        return o
+
+    def _append_value(self, value, file, name):
         """Call this function to write contents.
 
         Keyword arguments:
             * value - dict, content to be dumped
-            * _file - FileIO, output file
-            * _name - str, name of current content dict
+            * file - FileIO, output file
+            * name - str, name of current content dict
 
         """
-        if self._flag:
-            _keys = _name + '\n'
-        else:
-            _keys = '\n' + _name + '\n'
-        _file.seek(self._sptr, os.SEEK_SET)
-        _file.write(_keys)
+        file.seek(self._sptr, os.SEEK_SET)
+        if self._nctr > 0:
+            file.write('\n')
+        file.write(name)
 
-        self._bctr = collections.defaultdict(int)    # blank branch counter dict
-        self._append_branch(value, _file)
+        self._bctx = list()  # blank branch indent context
+        self._append_branch(value, file)
 
-    def _append_array(self, value, _file):
-        """Call this function to write array contents.
+        self._nctr += 1
+        file.write('\n')
 
-        Keyword arguments:
-            * value - dict, content to be dumped
-            * _file - FileIO, output file
+    ##########################################################################
+    # Functions.
+    ##########################################################################
 
-        """
-        if not value:
-            self._append_none(None, _file)
-            return
-
-        _bptr = ''
-        _tabs = ''
-        _tlen = len(value) - 1
-        if _tlen:
-            _bptr = '  |-->'
-            for _ in range(self._tctr + 1):
-                _tabs += _TEMP_SPACES if self._bctr[_] else _TEMP_BRANCH
-        else:
-            _tabs = ''
-
-        for (_nctr, _item) in enumerate(value):
-            _text = '{tabs}{bptr}'.format(tabs=_tabs, bptr=_bptr)
-            _file.write(_text)
-
-            _item = self.object_hook(_item)
-            _type = type(_item).__name__
-            _MAGIC_TYPES[_type](self, _item, _file)
-
-            _suff = '\n' if _nctr < _tlen else ''
-            _file.write(_suff)
-
-    def _append_branch(self, value, _file):
+    def _append_branch(self, value, file):  # pylint: disable=inconsistent-return-statements
         """Call this function to write branch contents.
 
         Keyword arguments:
             * value - dict, content to be dumped
-            * _file - FileIO, output file
+            * file - FileIO, output file
 
         """
         if not value:
-            return
-            # return self._append_none(None, _file)
+            file.write(' ')
+            return self._append_none(None, file)
 
-        self._tctr += 1
-        _vlen = len(value)
-        for (_vctr, (_item, _text)) in enumerate(value.items()):
-            _text = self.object_hook(_text)
-            _type = type(_text).__name__
+        vlen = len(value)
+        for (vctr, (item, text)) in enumerate(value.items(), start=1):
+            file.write('\n' + ''.join(self._bctx))
+            file.write('  |-- {item} '.format(item=item))
 
-            flag_dict = (_type == 'dict')
-            flag_list = (_type == 'list' and (len(_text) > 1 or (len(_text) == 1 and type(_text[0]).__name__ == 'dict')))  # noqa pylint: disable=line-too-long
-            flag_tuple = (_type == 'tuple' and (len(_text) > 1 or (len(_text) == 1 and type(_text[0]).__name__ == 'dict')))  # noqa pylint: disable=line-too-long
-            flag_bytes = (_type == 'bytes' and len(_text) > 16)
-            if any((flag_dict, flag_list, flag_tuple, flag_bytes)):
-                _pref = '\n'
+            with indent(self._bctx, branch=vctr != vlen):
+                enc_text = self._encode_value(text)
+                func = self._encode_func(enc_text)
+                func(enc_text, file)
+
+    def _append_array(self, value, file):  # pylint: disable=inconsistent-return-statements
+        """Call this function to write array contents.
+
+        Keyword arguments:
+            * value - list, content to be dumped
+            * file - FileIO, output file
+
+        """
+        if not value:
+            file.write(' ')
+            return self._append_none(None, file)
+
+        vlen = len(value)
+        for (vctr, item) in enumerate(value, start=1):
+            file.write('\n' + ''.join(self._bctx) + '  |-')
+
+            if vctr != vlen:
+                ctx = indent(self._bctx)
             else:
-                _pref = ' ->'
+                ctx = nullcontext()
 
-            _labs = ''
-            for _ in range(self._tctr):
-                _labs += _TEMP_SPACES if self._bctr[_] else _TEMP_BRANCH
+            with ctx:
+                enc_text = self._encode_value(item)
 
-            _keys = '{labs}  |-- {item}{pref}'.format(labs=_labs, item=_item, pref=_pref)
-            _file.write(_keys)
+                if self.check_newline(enc_text):
+                    file.write('-> --')
 
-            if _vctr == _vlen - 1:
-                self._bctr[self._tctr] = 1
+                func = self._encode_func(enc_text)
+                func(enc_text, file)
 
-            _MAGIC_TYPES[_type](self, _text, _file)
-
-            _suff = '' if _type == 'dict' else '\n'
-            _file.write(_suff)
-
-        self._bctr[self._tctr] = 0
-        self._tctr -= 1
-
-    def _append_string(self, value, _file):
+    def _append_string(self, value, file):  # pylint: disable=inconsistent-return-statements
         """Call this function to write string contents.
 
         Keyword arguments:
-            * value - dict, content to be dumped
-            * _file - FileIO, output file
+            * value - str, content to be dumped
+            * file - FileIO, output file
 
         """
         if not value:
-            self._append_none(None, _file)
-            return
+            file.write(' ')
+            return self._append_none(None, file)
 
-        _text = value
-        _labs = ' {text}'.format(text=_text)
-        _file.write(_labs)
+        if len(value) <= 40:
+            labs = '-> {text}'.format(text=value)
+        else:
+            labs = '\n' + ''.join(self._bctx) + '  |-'
 
-    def _append_bytes(self, value, _file):
+            text_list = textwrap.wrap(value, 40)
+            labs += '-> {text}'.format(text=text_list[0])
+            for text in text_list[1:]:
+                labs += '\n' + ''.join(self._bctx) + '       {text}'.format(text=text)
+        file.write(labs)
+
+    def _append_bytes(self, value, file):  # pylint: disable=inconsistent-return-statements
         """Call this function to write bytes contents.
 
         Keyword arguments:
-            * value - dict, content to be dumped
-            * _file - FileIO, output file
+            * value - bytes, content to be dumped
+            * file - FileIO, output file
 
         """
-        # binascii.b2a_base64(value) -> plistlib.Data
-        # binascii.a2b_base64(Data) -> value(bytes)
         if not value:
-            self._append_none(None, _file)
-            return
+            file.write(' ')
+            return self._append_none(None, file)
 
-        if len(value) > 16:
-            _tabs = ''
-            for _ in range(self._tctr + 1):
-                _tabs += _TEMP_SPACES if self._bctr[_] else _TEMP_BRANCH
-
-            _list = []
-            for (_ictr, _item) in enumerate(textwrap.wrap(value.hex(), 32)):
-                _bptr = '       ' if _ictr else '  |--> '
-                _text = ' '.join(textwrap.wrap(_item, 2))
-                _item = '{tabs}{bptr}{text}'.format(tabs=_tabs, bptr=_bptr, text=_text)
-                _list.append(_item)
-            _labs = '\n'.join(_list)
+        if len(value.hex()) <= 32:
+            text = ' '.join(textwrap.wrap(value.hex(), 2))
+            labs = '-> {text}'.format(text=text)
         else:
-            _text = ' '.join(textwrap.wrap(value.hex(), 2))
-            _labs = ' {text}'.format(text=_text)
-        _file.write(_labs)
+            labs = '\n' + ''.join(self._bctx) + '  |-'
 
-    def _append_date(self, value, _file):  # pylint: disable=no-self-use
+            text_list = textwrap.wrap(value.hex(), 32)
+            text = ' '.join(textwrap.wrap(text_list[0], 2))
+            labs += '-> {text}'.format(text=text)
+            for item in text_list[1:]:
+                text = ' '.join(textwrap.wrap(item, 2))
+                labs += '\n' + ''.join(self._bctx) + '       {text}'.format(text=text)
+        file.write(labs)
+
+    def _append_date(self, value, file):  # pylint: disable=no-self-use
         """Call this function to write date contents.
 
         Keyword arguments:
-            * value - dict, content to be dumped
-            * _file - FileIO, output file
+            * value - Union[datetime, date, time], content to be dumped
+            * file - FileIO, output file
 
         """
-        _text = value.strftime('%Y-%m-%d %H:%M:%S.%f')
-        _labs = ' {text}'.format(text=_text)
-        _file.write(_labs)
+        text = isoformat(value)
+        labs = '-> {text}'.format(text=text)
+        file.write(labs)
 
-    def _append_number(self, value, _file):  # pylint: disable=no-self-use
+    def _append_number(self, value, file):  # pylint: disable=no-self-use
         """Call this function to write number contents.
 
         Keyword arguments:
-            * value - dict, content to be dumped
-            * _file - FileIO, output file
+            * value - Union[int, float, complex], content to be dumped
+            * file - FileIO, output file
 
         """
-        _text = value
-        _labs = ' {text}'.format(text=_text)
-        _file.write(_labs)
+        if math.isnan(value):
+            text = str(value).replace('nan', 'NaN')
+        elif math.isinf(value):
+            text = str(value).replace('inf', 'Infinity')
+        else:
+            text = value
+        labs = '-> {text}'.format(text=text)
+        file.write(labs)
 
-    def _append_bool(self, value, _file):  # pylint: disable=no-self-use
+    def _append_bool(self, value, file):  # pylint: disable=no-self-use
         """Call this function to write bool contents.
 
         Keyword arguments:
-            * value - dict, content to be dumped
-            * _file - FileIO, output file
+            * value - bool, content to be dumped
+            * file - FileIO, output file
 
         """
-        _text = 'True' if value else 'False'
-        _labs = ' {text}'.format(text=_text)
-        _file.write(_labs)
+        text = 'True' if value else 'False'
+        labs = '-> {text}'.format(text=text)
+        file.write(labs)
 
-    def _append_none(self, value, _file):  # pylint: disable=unused-argument,no-self-use
+    def _append_none(self, value, file):  # pylint: disable=unused-argument,no-self-use
         """Call this function to write none contents.
 
         Keyword arguments:
-            * value - dict, content to be dumped
-            * _file - FileIO, output file
+            * value - NoneType, content to be dumped
+            * file - FileIO, output file
 
         """
-        _text = 'NIL'
-        _labs = ' {text}'.format(text=_text)
-        _file.write(_labs)
+        text = 'NIL'
+        labs = '-> {text}'.format(text=text)
+        file.write(labs)

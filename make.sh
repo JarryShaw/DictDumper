@@ -3,6 +3,9 @@
 # print a trace of simple commands
 set -ex
 
+# run tests
+pipenv run python tests/test.py
+
 # prepare for PyPI distribution
 rm -rf build
 mkdir -p eggs \
@@ -27,7 +30,6 @@ version=$( cat setup.py | grep "^__version__" | sed "s/__version__ = '\(.*\)'/\1
 # upload to GitHub
 git pull
 git tag "v${version}"
-m
 if [[ -z "$1" ]] ; then
     git commit -a -S
 else

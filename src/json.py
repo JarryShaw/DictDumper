@@ -16,9 +16,10 @@ described as below.
 
 import collections
 import datetime
+import math
 import os
-import textwrap
 
+from dictdumper._dateutil import isoformat
 from dictdumper.dumper import Dumper
 
 __all__ = ['JSON']
@@ -28,43 +29,6 @@ _HEADER_START = '{\n'
 
 # tail
 _HEADER_END = '\n}'
-
-# magic types
-_MAGIC_TYPES = collections.defaultdict(
-    lambda: (lambda self, text, file: self._append_string(text, file)),  # pylint: disable=protected-access
-    dict(
-        # string
-        str=lambda self, text, file: self._append_string(text, file),  # pylint: disable=protected-access
-
-        # bytes
-        bytes=lambda self, text, file: self._append_bytes(text, file),  # pylint: disable=protected-access
-        bytearray=lambda self, text, file: self._append_bytes(text, file),  # pylint: disable=protected-access
-        memoryview=lambda self, text, file: self._append_bytes(text, file),  # pylint: disable=protected-access
-
-        # date
-        datetime=lambda self, text, file: self._append_date(text, file),  # pylint: disable=protected-access
-
-        # number
-        int=lambda self, text, file: self._append_number(text, file),  # pylint: disable=protected-access
-        float=lambda self, text, file: self._append_number(text, file),  # pylint: disable=protected-access
-
-        # object
-        dict=lambda self, text, file: self._append_object(text, file),  # pylint: disable=protected-access
-
-        # array
-        list=lambda self, text, file: self._append_array(text, file),  # pylint: disable=protected-access
-        tuple=lambda self, text, file: self._append_array(text, file),  # pylint: disable=protected-access
-        range=lambda self, text, file: self._append_array(text, file),  # pylint: disable=protected-access
-        set=lambda self, text, file: self._append_array(text, file),  # pylint: disable=protected-access
-        frozenset=lambda self, text, file: self._append_array(text, file),  # pylint: disable=protected-access
-
-        # bool
-        bool=lambda self, text, file: self._append_bool(text, file),  # pylint: disable=protected-access
-
-        # null
-        NoneType=lambda self, text, file: self._append_null(text, file),  # pylint: disable=protected-access
-    )
-)
 
 
 class JSON(Dumper):
@@ -78,12 +42,15 @@ class JSON(Dumper):
 
     Properties:
         * kind - str, return 'json'
+        * filename - str, output file name
 
     Methods:
-        * object_hook - default/customised object hooks
+        * make_object - create an object with convertion information
+        * object_hook - convert content for function call
+        * default - check content type for function call
 
     Attributes:
-        * _file - FileIO, output file
+        * _file - str, output file name
         * _sptr - int (file pointer), indicates start of appending point
         * _tctr - int, tab level counter
         * _hrst - str, _HEADER_START
@@ -92,6 +59,8 @@ class JSON(Dumper):
 
     Utilities:
         * _dump_header - initially dump file heads and tails
+        * _encode_func - check content type for function call
+        * _encode_value - convert content for function call
         * _append_value - call this function to write contents
 
     Terminology:
@@ -117,16 +86,31 @@ class JSON(Dumper):
     # Type codes.
     ##########################################################################
 
-    __type__ = (
-        str,                                    # string
-        bool,                                   # bool
-        dict,                                   # object
-        datetime.date,                          # date
-        int, float, complex,                    # number
-        type(None),                             # null
-        bytes, bytearray, memoryview,           # bytes
-        list, tuple, range, set, frozenset,     # array
-    )
+    __type__ = {
+        # string
+        str: 'string',
+
+        # date
+        datetime.date: 'date',
+        datetime.datetime: 'date',
+        datetime.time: 'date',
+
+        # number
+        int: 'number',
+        float: 'number',
+
+        # object
+        dict: 'object',
+
+        # array
+        list: 'array',
+
+        # bool
+        bool: 'bool',
+
+        # null
+        type(None): 'null',
+    }
 
     ##########################################################################
     # Attributes.
@@ -134,168 +118,186 @@ class JSON(Dumper):
 
     _hsrt = _HEADER_START
     _hend = _HEADER_END
-    _vctr = collections.defaultdict(int)    # value counter dict
+
+    ##########################################################################
+    # Data models.
+    ##########################################################################
+
+    def __init__(self, fname, **kwargs):
+        super().__init__(fname, **kwargs)
+
+        self._vctr = collections.defaultdict(int)  # value counter dict
 
     ##########################################################################
     # Utilities.
     ##########################################################################
 
-    def _append_value(self, value, _file, _name):
+    def _encode_value(self, o):  # pylint: disable=unused-argument
+        """Convert content for function call."""
+        if isinstance(o, (bytes, bytearray)):
+            return self.make_object(o, o.decode(errors='replace'), hex=o.hex())
+        if isinstance(o, memoryview):
+            tobytes = o.tobytes()
+            return self.make_object(o, tobytes.decode(errors='replace'), hex=tobytes.hex())
+        if isinstance(o, (tuple, set, frozenset)):
+            return self.make_object(o, list(o))
+        return o
+
+    def _append_value(self, value, file, name):
         """Call this function to write contents.
 
         Keyword arguments:
             * value - dict, content to be dumped
-            * _file - FileIO, output file
-            * _name - str, name of current content dict
+            * file - FileIO, output file
+            * name - str, name of current content dict
 
         """
-        _tabs = '\t' * self._tctr
-        _cmma = ',\n' if self._vctr[self._tctr] else ''
-        _keys = '{cmma}{tabs}"{name}" :'.format(cmma=_cmma, tabs=_tabs, name=_name)
+        tabs = '\t' * self._tctr
+        cmma = ',\n' if self._vctr[self._tctr] else ''
+        keys = '{cmma}{tabs}"{name}": '.format(cmma=cmma, tabs=tabs, name=name)
 
-        _file.seek(self._sptr, os.SEEK_SET)
-        _file.write(_keys)
+        file.seek(self._sptr, os.SEEK_SET)
+        file.write(keys)
 
         self._vctr[self._tctr] += 1
-        self._append_object(value, _file)
+        self._append_object(value, file)
 
     ##########################################################################
     # Functions.
     ##########################################################################
 
-    def _append_array(self, value, _file):
-        """Call this function to write array contents.
-
-        Keyword arguments:
-            * value - dict, content to be dumped
-            * _file - FileIO, output file
-
-        """
-        _labs = ' ['
-        _file.write(_labs)
-
-        self._tctr += 1
-
-        for _item in value:
-            _cmma = ',' if self._vctr[self._tctr] else ''
-            _file.write(_cmma)
-
-            self._vctr[self._tctr] += 1
-
-            _item = self.object_hook(_item)
-            _type = type(_item).__name__
-            _MAGIC_TYPES[_type](self, _item, _file)
-
-        self._vctr[self._tctr] = 0
-        self._tctr -= 1
-
-        _labs = ' ]'
-        _file.write(_labs)
-
-    def _append_object(self, value, _file):
+    def _append_object(self, value, file):
         """Call this function to write object contents.
 
         Keyword arguments:
             * value - dict, content to be dumped
-            * _file - FileIO, output file
+            * file - FileIO, output file
 
         """
-        _labs = ' {'
-        _file.write(_labs)
+        labs = '{'
+        file.write(labs)
         self._tctr += 1
 
-        for (_item, _text) in value.items():
-            _tabs = '\t' * self._tctr
-            _cmma = ',' if self._vctr[self._tctr] else ''
-            _keys = '{cmma}\n{tabs}"{item}" :'.format(cmma=_cmma, tabs=_tabs, item=_item)
-            _file.write(_keys)
+        for (item, text) in value.items():
+            tabs = '\t' * self._tctr
+            cmma = ',' if self._vctr[self._tctr] else ''
+            keys = '{cmma}\n{tabs}"{item}": '.format(cmma=cmma, tabs=tabs, item=item)
+            file.write(keys)
 
             self._vctr[self._tctr] += 1
 
-            _text = self.object_hook(_text)
-            _type = type(_text).__name__
-            _MAGIC_TYPES[_type](self, _text, _file)
+            enc_text = self._encode_value(text)
+            func = self._encode_func(enc_text)
+            func(enc_text, file)
 
         self._vctr[self._tctr] = 0
         self._tctr -= 1
-        _tabs = '\t' * self._tctr
-        _labs = '\n{tabs}{}'.format('}', tabs=_tabs)
-        _file.write(_labs)
+        tabs = '\t' * self._tctr
+        labs = '\n{tabs}{}'.format('}', tabs=tabs)
+        file.write(labs)
 
-    def _append_string(self, value, _file):  # pylint: disable=no-self-use
+    def _append_array(self, value, file):
+        """Call this function to write array contents.
+
+        Keyword arguments:
+            * value - list, content to be dumped
+            * file - FileIO, output file
+
+        """
+        val_list = [self._encode_value(item) for item in value]
+        mul_line = False
+        for item in val_list:
+            if isinstance(item, dict):
+                mul_line = True
+                break
+
+        labs = '[\n' if mul_line else '[ '
+        file.write(labs)
+
+        self._tctr += 1
+
+        tabs = '\t' * self._tctr
+        for item in val_list:
+            if self._vctr[self._tctr]:
+                file.write(',\n' if mul_line else ', ')
+            if mul_line:
+                file.write(tabs)
+
+            self._vctr[self._tctr] += 1
+
+            func = self._encode_func(item)
+            func(item, file)
+
+        self._vctr[self._tctr] = 0
+        self._tctr -= 1
+
+        if mul_line:
+            tabs = '\t' * self._tctr
+            labs = '\n{tabs}]'.format(tabs=tabs)
+        else:
+            labs = ' ]'
+        file.write(labs)
+
+    def _append_string(self, value, file):  # pylint: disable=no-self-use
         """Call this function to write string contents.
 
         Keyword arguments:
-            * value - dict, content to be dumped
-            * _file - FileIO, output file
+            * value - str, content to be dumped
+            * file - FileIO, output file
 
         """
-        _text = str(value).replace('"', '\\"')
-        _labs = ' "{text}"'.format(text=_text)
-        _file.write(_labs)
+        text = str(value).replace('"', '\\"')
+        labs = '"{text}"'.format(text=text)
+        file.write(labs)
 
-    def _append_bytes(self, value, _file):  # pylint: disable=no-self-use
-        """Call this function to write bytes contents.
-
-        Keyword arguments:
-            * value - dict, content to be dumped
-            * _file - FileIO, output file
-
-        """
-        # binascii.b2a_base64(value) -> plistlib.Data
-        # binascii.a2b_base64(Data) -> value(bytes)
-
-        _text = ' '.join(textwrap.wrap(value.hex(), 2))
-        # _data = [H for H in iter(
-        #         functools.partial(io.StringIO(value.hex()).read, 2), '')
-        #         ]  # to split bytes string into length-2 hex string list
-        _labs = ' "{text}"'.format(text=_text)
-        _file.write(_labs)
-
-    def _append_date(self, value, _file):  # pylint: disable=no-self-use
+    def _append_date(self, value, file):  # pylint: disable=no-self-use
         """Call this function to write date contents.
 
         Keyword arguments:
-            * value - dict, content to be dumped
-            * _file - FileIO, output file
+            * value - Union[date, datetime, time], content to be dumped
+            * file - FileIO, output file
 
         """
-        _text = value.strftime('%Y-%m-%dT%H:%M:%S.%fZ')
-        _labs = ' "{text}"'.format(text=_text)
-        _file.write(_labs)
+        text = isoformat(value)
+        labs = '"{text}"'.format(text=text)
+        file.write(labs)
 
-    def _append_number(self, value, _file):  # pylint: disable=no-self-use
+    def _append_number(self, value, file):
         """Call this function to write number contents.
 
         Keyword arguments:
-            * value - dict, content to be dumped
-            * _file - FileIO, output file
+            * value - Union[int, float], content to be dumped
+            * file - FileIO, output file
 
         """
-        _text = value
-        _labs = ' {text}'.format(text=_text)
-        _file.write(_labs)
+        if math.isnan(value):
+            text = self.make_object(value, None, number=str(value).replace('nan', 'NaN'))
+            self._append_object(text, file)
+        elif math.isinf(value):
+            text = self.make_object(value, None, number=str(value).replace('inf', 'Infinity'))
+            self._append_object(text, file)
+        else:
+            labs = str(value)
+            file.write(labs)
 
-    def _append_bool(self, value, _file):  # pylint: disable=no-self-use
+    def _append_bool(self, value, file):  # pylint: disable=no-self-use
         """Call this function to write bool contents.
 
         Keyword arguments:
-            * value - dict, content to be dumped
-            * _file - FileIO, output file
+            * value - bool, content to be dumped
+            * file - FileIO, output file
 
         """
-        _text = 'true' if value else 'false'
-        _labs = ' {text}'.format(text=_text)
-        _file.write(_labs)
+        labs = 'true' if value else 'false'
+        file.write(labs)
 
-    def _append_null(self, value, _file):  # pylint: disable=unused-argument,no-self-use
+    def _append_null(self, value, file):  # pylint: disable=unused-argument,no-self-use
         """Call this function to write null contents.
 
         Keyword arguments:
-            * value - dict, content to be dumped
-            * _file - FileIO, output file
+            * value - NoneType, content to be dumped
+            * file - FileIO, output file
 
         """
-        _text = 'null'
-        _labs = ' {text}'.format(text=_text)
-        _file.write(_labs)
+        labs = 'null'
+        file.write(labs)

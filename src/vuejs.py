@@ -1,37 +1,36 @@
 # -*- coding: utf-8 -*-
-"""dumper a JavaScript file (DEPRECATED)
+"""dumper a Vue.js file (DEPRECATED)
 
     Note that this file is deprecated.
 
-``dictdumper.html`` contains ``HTML`` only, which dumpers a
-JavaScript file according to ``Vue.js`` framework. However,
+``dictdumper.js`` contains ``JavaScript`` only, which dumpers
+a JavaScript file using the ``Vue.js`` framework. However,
 due to errors in grammar, the output file won't work, thus
 it is now deprecated. Usage sample is described as below.
 
-    >>> dumper = JavaScript(file_name)
+    >>> dumper = VueJS(file_name)
     >>> dumper(content_dict_1, name=content_name_1)
     >>> dumper(content_dict_2, name=content_name_2)
     ............
 
 """
-# Writer for JavaScript files
-# Dump a JavaScript file for PCAP analyser
+# Writer for Vue.js files
+# Dump a Vue.js file for PCAP analyser
 
-import collections
-
+from dictdumper.dumper import deprecated
 from dictdumper.json import JSON
 
-__all__ = ['JavaScript']
+__all__ = ['VueJS']
 
 # head
 _HEADER_START = '''\
 // demo data
-var data = {
+var data = {\n
 '''
 
 # tail
 _HEADER_END = """
-}
+\n}
 
 // define the item component
 Vue.component('item', {
@@ -81,23 +80,27 @@ var demo = new Vue({
 """
 
 
-class JavaScript(JSON):
-    """Dump JavaScript file under `Vue.js` framework.
+@deprecated
+class VueJS(JSON):
+    """Dump JavaScript file using `Vue.js` framework.
 
     Usage:
-        >>> dumper = JavaScript(file_name)
+        >>> dumper = VueJS(file_name)
         >>> dumper(content_dict_1, name=content_name_1)
         >>> dumper(content_dict_2, name=content_name_2)
         ............
 
     Properties:
-        * kind - str, return 'js'
+        * kind - str, file format of current dumper
+        * filename - str, output file name
 
     Methods:
-        * object_hook - default/customised object hooks
+        * make_object - create an object with convertion information
+        * object_hook - convert content for function call
+        * default - check content type for function call
 
     Attributes:
-        * _file - FileIO, output file
+        * _file - str, output file name
         * _sptr - int (file pointer), indicates start of appending point
         * _tctr - int, tab level counter
         * _hrst - str, _HEADER_START
@@ -106,6 +109,8 @@ class JavaScript(JSON):
 
     Utilities:
         * _dump_header - initially dump file heads and tails
+        * _encode_func - check content type for function call
+        * _encode_value - convert content for function call
         * _append_value - call this function to write contents
 
     """
@@ -124,4 +129,3 @@ class JavaScript(JSON):
 
     _hsrt = _HEADER_START
     _hend = _HEADER_END
-    _vctr = collections.defaultdict(int)    # value counter dict

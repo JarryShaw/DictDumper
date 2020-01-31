@@ -49,54 +49,54 @@ pip install dictdumper
 import dictdumper
 dumper = dictdumper.Tree('out.txt')
 test_1 = dict(
-    foo = -1,                   # int
-    bar = 'Hello, world!',      # string
-    boo = dict(                 # dict
-        foo_again = True,       # bool
-        bar_again = b'bytes',   # bytes (b'\x62\x79\x74\x65\x73')
-        boo_again = None,       # NoneType
+    foo=-1,
+    bar='Hello, world!',
+    boo=dict(
+        foo_again=True,
+        bar_again=memoryview(b'bytes'),
+        boo_again=None,
     ),
 )
 dumper(test_1, name='test_1')
 ```
 ```
 $ cat out.txt
-PCAP File Tree-View Format
-
-test
+test_1
   |-- foo -> -1
-  |-- bar -> hello
+  |-- bar -> Hello, world!
   |-- boo
         |-- foo_again -> True
-        |-- bar_again -> 62 79 74 65 73
-        |-- boo_again -> N/A
+        |-- bar_again
+        |     |-- type -> memoryview
+        |     |-- value -> 62 79 74 65 73
+        |     |-- text -> bytes
+        |-- boo_again -> NIL
 ```
 ```python
 import datetime
 test_2 = dict(
-    foo = [1, 2.0, 3],          # list
-    bar = (1.0, 2, 3.0),        # tuple
-    boo = dict(                 # dict
-        foo_again = 'a long long bytes',
-                                # bytes
-        bar_again = datetime.datetime.today(),
-                                # datetime
-        boo_again = -1.0,       # float
+    foo=[1, 2.0, 3],
+    bar=(1.0, bytearray(b'a long long bytes'), 3.0),
+    boo=dict(
+        foo_again=b'bytestring',
+        bar_again=datetime.datetime(2020, 1, 31, 20, 15, 10, 163010),
+        boo_again=float('-inf'),
     ),
 )
 dumper(test_2, name='test_2')
 ```
 ```
 $ cat out.txt
-PCAP File Tree-View Format
-
 test_1
   |-- foo -> -1
   |-- bar -> Hello, world!
   |-- boo
         |-- foo_again -> True
-        |-- bar_again -> 62 79 74 65 73
-        |-- boo_again -> N/A
+        |-- bar_again
+        |     |-- type -> memoryview
+        |     |-- value -> 62 79 74 65 73
+        |     |-- text -> bytes
+        |-- boo_again -> NIL
 
 test_2
   |-- foo
@@ -104,11 +104,91 @@ test_2
   |     |--> 2.0
   |     |--> 3
   |-- bar
-  |     |--> 1.0
-  |     |--> 2
-  |     |--> 3.0
+  |     |-- type -> tuple
+  |     |-- value
+  |           |--> 1.0
+  |           |--> --
+  |           |     |-- type -> bytearray
+  |           |     |-- value
+  |           |     |     |--> 61 20 6c 6f 6e 67 20 6c 6f 6e 67 20 62 79 74 65
+  |           |     |          73
+  |           |     |-- text -> a long long bytes
+  |           |--> 3.0
   |-- boo
-        |-- foo_again -> a long long bytes
-        |-- bar_again -> 2018-03-08 17:47:35
-        |-- boo_again -> -1.0
+        |-- foo_again -> 62 79 74 65 73 74 72 69 6e 67
+        |-- bar_again -> 2020-01-31T20:15:10.163010
+        |-- boo_again -> -Infinity
+```
+```python
+test_3 = dict(
+    foo="stringstringstringstringstringstringstringstringstringstring",
+    bar=[
+        "s1", False, "s3",
+    ],
+    boo=[
+        "s4", dict(s="5", j="5"), "s6"
+    ],
+    far=dict(
+        far_foo=["s1", "s2", "s3"],
+        far_var="s4",
+    ),
+    biu=float('nan'),
+)
+dumper(test_3, name='test_3')
+```
+```
+$ cat out.txt
+test_1
+  |-- foo -> -1
+  |-- bar -> Hello, world!
+  |-- boo
+        |-- foo_again -> True
+        |-- bar_again
+        |     |-- type -> memoryview
+        |     |-- value -> 62 79 74 65 73
+        |     |-- text -> bytes
+        |-- boo_again -> NIL
+
+test_2
+  |-- foo
+  |     |--> 1
+  |     |--> 2.0
+  |     |--> 3
+  |-- bar
+  |     |-- type -> tuple
+  |     |-- value
+  |           |--> 1.0
+  |           |--> --
+  |           |     |-- type -> bytearray
+  |           |     |-- value
+  |           |     |     |--> 61 20 6c 6f 6e 67 20 6c 6f 6e 67 20 62 79 74 65
+  |           |     |          73
+  |           |     |-- text -> a long long bytes
+  |           |--> 3.0
+  |-- boo
+        |-- foo_again -> 62 79 74 65 73 74 72 69 6e 67
+        |-- bar_again -> 2020-01-31T20:15:10.163010
+        |-- boo_again -> -Infinity
+
+test_3
+  |-- foo
+  |     |--> stringstringstringstringstringstringstri
+  |          ngstringstringstring
+  |-- bar
+  |     |--> s1
+  |     |--> False
+  |     |--> s3
+  |-- boo
+  |     |--> s4
+  |     |--> --
+  |     |     |-- s -> 5
+  |     |     |-- j -> 5
+  |     |--> s6
+  |-- far
+  |     |-- far_foo
+  |     |     |--> s1
+  |     |     |--> s2
+  |     |     |--> s3
+  |     |-- far_var -> s4
+  |-- biu -> NaN
 ```

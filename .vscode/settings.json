@@ -1,24 +1,31 @@
 {
     "cSpell.words": [
         "Dict",
+        "aktau",
         "b'bytes",
         "bctr",
+        "bctx",
         "bptr",
         "cmma",
+        "dateutil",
         "emsp",
         "fname",
         "hend",
         "hrst",
         "hsrt",
         "ictr",
+        "isinf",
+        "isnan",
         "markup",
         "nctr",
         "sptr",
         "suff",
         "tctr",
         "tlen",
+        "tobytes",
         "vctr",
-        "vlen"
+        "vlen",
+        "vuejs"
     ],
     "python.pythonPath": ".venv/bin/python",
     "python.linting.pylintEnabled": true

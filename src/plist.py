@@ -15,7 +15,6 @@ as below.
 # Write a macOS Property List file
 
 import base64
-import collections
 import datetime
 import os
 
@@ -37,42 +36,6 @@ _HEADER_END = '''\
 </plist>
 '''
 
-# magic types
-_MAGIC_TYPES = collections.defaultdict(
-    lambda: (lambda self, text, file: self._append_string(text, file)),  # pylint: disable=protected-access
-    dict(
-        # array
-        list=lambda self, text, file: self._append_array(text, file),  # pylint: disable=protected-access
-        tuple=lambda self, text, file: self._append_array(text, file),  # pylint: disable=protected-access
-        range=lambda self, text, file: self._append_array(text, file),  # pylint: disable=protected-access
-        set=lambda self, text, file: self._append_array(text, file),  # pylint: disable=protected-access
-        frozenset=lambda self, text, file: self._append_array(text, file),  # pylint: disable=protected-access
-
-        # dict
-        dict=lambda self, text, file: self._append_dict(text, file),  # pylint: disable=protected-access
-
-        # string
-        str=lambda self, text, file: self._append_string(text, file),  # pylint: disable=protected-access
-
-        # data
-        bytes=lambda self, text, file: self._append_data(text, file),  # pylint: disable=protected-access
-        bytearray=lambda self, text, file: self._append_data(text, file),  # pylint: disable=protected-access
-        memoryview=lambda self, text, file: self._append_data(text, file),  # pylint: disable=protected-access
-
-        # date
-        datetime=lambda self, text, file: self._append_date(text, file),  # pylint: disable=protected-access
-
-        # integer
-        int=lambda self, text, file: self._append_integer(text, file),  # pylint: disable=protected-access
-
-        # real
-        float=lambda self, text, file: self._append_real(text, file),  # pylint: disable=protected-access
-
-        # true | false
-        bool=lambda self, text, file: self._append_bool(text, file),  # pylint: disable=protected-access
-    )
-)
-
 
 class PLIST(XML):
     """Dump Apple property list (PLIST) format file.
@@ -85,12 +48,15 @@ class PLIST(XML):
 
     Properties:
         * kind - str, return 'plist'
+        * filename - str, output file name
 
     Methods:
-        * object_hook - default/customised object hooks
+        * make_object - create an object with convertion information
+        * object_hook - convert content for function call
+        * default - check content type for function call
 
     Attributes:
-        * _file - FileIO, output file
+        * _file - str, output file name
         * _sptr - int (file pointer), indicates start of appending point
         * _tctr - int, tab level counter
         * _hrst - str, _HEADER_START
@@ -98,6 +64,8 @@ class PLIST(XML):
 
     Utilities:
         * _dump_header - initially dump file heads and tails
+        * _encode_func - check content type for function call
+        * _encode_value - convert content for function call
         * _append_value - call this function to write contents
 
     Terminology:
@@ -126,16 +94,32 @@ class PLIST(XML):
     # Type codes.
     ##########################################################################
 
-    __type__ = (
-        str,                                    # string
-        bool,                                   # bool
-        dict,                                   # dict
-        datetime.date,                          # date
-        int,                                    # integer
-        float,                                  # real
-        bytes, bytearray, memoryview,           # data
-        list, tuple, range, set, frozenset,     # array
-    )
+    __type__ = {
+        # string
+        str: 'string',
+
+        # bool
+        bool: 'bool',
+
+        # dict
+        dict: 'dict',
+
+        # date
+        datetime.date: 'date',
+        datetime.datetime: 'date',
+
+        # integer
+        int: 'integer',
+
+        # real
+        float: 'real',
+
+        # data
+        bytes: 'data',
+
+        # array
+        list: 'array',
+    }
 
     ##########################################################################
     # Attributes.
@@ -147,6 +131,18 @@ class PLIST(XML):
     ##########################################################################
     # Utilities.
     ##########################################################################
+
+    def _encode_value(self, o):  # pylint: disable=unused-argument
+        """Convert content for function call."""
+        if o is None:
+            return self.make_object(o, 'None')
+        if isinstance(o, bytearray):
+            return self.make_object(o, bytes(o))
+        if isinstance(o, memoryview):
+            return self.make_object(o, o.tobytes())
+        if isinstance(o, (tuple, set, frozenset)):
+            return self.make_object(o, list(o))
+        return o
 
     def _append_value(self, value, _file, _name):
         """Call this function to write contents.
@@ -164,151 +160,143 @@ class PLIST(XML):
 
         self._append_dict(value, _file)
 
-    def _append_array(self, value, _file):
-        """Call this function to write array contents.
+    ##########################################################################
+    # Functions.
+    ##########################################################################
 
-        Keyword arguments:
-            * value - dict, content to be dumped
-            * _file - FileIO, output file
-
-        """
-        _tabs = '\t' * self._tctr
-        _labs = '{tabs}<array>\n'.format(tabs=_tabs)
-        _file.write(_labs)
-        self._tctr += 1
-
-        for _item in value:
-            if _item is None:
-                continue
-            _item = self.object_hook(_item)
-            _type = type(_item).__name__
-            _MAGIC_TYPES[_type](self, _item, _file)
-
-        self._tctr -= 1
-        _tabs = '\t' * self._tctr
-        _labs = '{tabs}</array>\n'.format(tabs=_tabs)
-        _file.write(_labs)
-
-    def _append_dict(self, value, _file):
+    def _append_dict(self, value, file):
         """Call this function to write dict contents.
 
         Keyword arguments:
             * value - dict, content to be dumped
-            * _file - FileIO, output file
+            * file - FileIO, output file
 
         """
-        _tabs = '\t' * self._tctr
-        _labs = '{tabs}<dict>\n'.format(tabs=_tabs)
-        _file.write(_labs)
+        tabs = '\t' * self._tctr
+        labs = '{tabs}<dict>\n'.format(tabs=tabs)
+        file.write(labs)
         self._tctr += 1
 
-        for (_item, _text) in value.items():
-            if _text is None:
+        for (item, text) in value.items():
+            if text is None:
                 continue
 
-            _tabs = '\t' * self._tctr
-            _keys = '{tabs}<key>{item}</key>\n'.format(tabs=_tabs, item=_item)
-            _file.write(_keys)
+            tabs = '\t' * self._tctr
+            keys = '{tabs}<key>{item}</key>\n'.format(tabs=tabs, item=item)
+            file.write(keys)
 
-            _text = self.object_hook(_text)
-            _type = type(_text).__name__
-            _MAGIC_TYPES[_type](self, _text, _file)
+            enc_text = self._encode_value(text)
+            func = self._encode_func(enc_text)
+            func(enc_text, file)
 
         self._tctr -= 1
-        _tabs = '\t' * self._tctr
-        _labs = '{tabs}</dict>\n'.format(tabs=_tabs)
-        _file.write(_labs)
+        tabs = '\t' * self._tctr
+        labs = '{tabs}</dict>\n'.format(tabs=tabs)
+        file.write(labs)
 
-    def _append_string(self, value, _file):
+    def _append_array(self, value, file):
+        """Call this function to write array contents.
+
+        Keyword arguments:
+            * value - list, content to be dumped
+            * file - FileIO, output file
+
+        """
+        tabs = '\t' * self._tctr
+        labs = '{tabs}<array>\n'.format(tabs=tabs)
+        file.write(labs)
+        self._tctr += 1
+
+        for item in value:
+            if item is None:
+                continue
+
+            enc_text = self._encode_value(item)
+            func = self._encode_func(enc_text)
+            func(enc_text, file)
+
+        self._tctr -= 1
+        tabs = '\t' * self._tctr
+        labs = '{tabs}</array>\n'.format(tabs=tabs)
+        file.write(labs)
+
+    def _append_string(self, value, file):
         """Call this function to write string contents.
 
         Keyword arguments:
-            * value - dict, content to be dumped
-            * _file - FileIO, output file
+            * value - str, content to be dumped
+            * file - FileIO, output file
 
         """
-        _tabs = '\t' * self._tctr
-        _text = value
-        _labs = '{tabs}<string>{text}</string>\n'.format(tabs=_tabs, text=_text)
-        _file.write(_labs)
+        tabs = '\t' * self._tctr
+        text = value
+        labs = '{tabs}<string>{text}</string>\n'.format(tabs=tabs, text=text)
+        file.write(labs)
 
-    def _append_data(self, value, _file):
+    def _append_data(self, value, file):
         """Call this function to write data contents.
 
         Keyword arguments:
-            * value - dict, content to be dumped
-            * _file - FileIO, output file
+            * value - bytes, content to be dumped
+            * file - FileIO, output file
 
         """
         # binascii.b2a_base64(value) -> plistlib.Data
         # binascii.a2b_base64(Data) -> value(bytes)
 
-        _tabs = '\t' * self._tctr
-        _text = base64.b64encode(value).decode()  # value.hex() # str(value)[2:-1]
-        _labs = '{tabs}<data>{text}</data>\n'.format(tabs=_tabs, text=_text)
-        # _labs = '{tabs}<data>\n'.format(tabs=_tabs)
+        tabs = '\t' * self._tctr
+        text = base64.b64encode(value).decode()
+        labs = '{tabs}<data>{text}</data>\n'.format(tabs=tabs, text=text)
+        file.write(labs)
 
-        # _list = []
-        # for _item in textwrap.wrap(value.hex(), 32):
-        #     _text = ' '.join(textwrap.wrap(_item, 2))
-        #     _item = '{tabs}\t{text}'.format(tabs=_tabs, text=_text)
-        #     _list.append(_item)
-        # _labs += '\n'.join(_list)
-
-        # _data = [H for H in iter(
-        #         functools.partial(io.StringIO(value.hex()).read, 2), '')
-        #         ]  # to split bytes string into length-2 hex string list
-        # _labs += '\n{tabs}</data>\n'.format(tabs=_tabs)
-        _file.write(_labs)
-
-    def _append_date(self, value, _file):
+    def _append_date(self, value, file):
         """Call this function to write date contents.
 
         Keyword arguments:
-            * value - dict, content to be dumped
-            * _file - FileIO, output file
+            * value - Union[date, datetime], content to be dumped
+            * file - FileIO, output file
 
         """
-        _tabs = '\t' * self._tctr
-        _text = value.strftime('%Y-%m-%dT%H:%M:%S.%fZ')
-        _labs = '{tabs}<date>{text}</date>\n'.format(tabs=_tabs, text=_text)
-        _file.write(_labs)
+        tabs = '\t' * self._tctr
+        text = value.strftime(r'%Y-%m-%dT%H:%M:%S.%fZ')
+        labs = '{tabs}<date>{text}</date>\n'.format(tabs=tabs, text=text)
+        file.write(labs)
 
-    def _append_integer(self, value, _file):
+    def _append_integer(self, value, file):
         """Call this function to write integer contents.
 
         Keyword arguments:
-            * value - dict, content to be dumped
-            * _file - FileIO, output file
+            * value - int, content to be dumped
+            * file - FileIO, output file
 
         """
-        _tabs = '\t' * self._tctr
-        _text = value
-        _labs = '{tabs}<integer>{text}</integer>\n'.format(tabs=_tabs, text=_text)
-        _file.write(_labs)
+        tabs = '\t' * self._tctr
+        text = value
+        labs = '{tabs}<integer>{text}</integer>\n'.format(tabs=tabs, text=text)
+        file.write(labs)
 
-    def _append_real(self, value, _file):
+    def _append_real(self, value, file):
         """Call this function to write real contents.
 
         Keyword arguments:
-            * value - dict, content to be dumped
-            * _file - FileIO, output file
+            * value - float, content to be dumped
+            * file - FileIO, output file
 
         """
-        _tabs = '\t' * self._tctr
-        _text = value
-        _labs = '{tabs}<real>{text}</real>\n'.format(tabs=_tabs, text=_text)
-        _file.write(_labs)
+        tabs = '\t' * self._tctr
+        text = value
+        labs = '{tabs}<real>{text}</real>\n'.format(tabs=tabs, text=text)
+        file.write(labs)
 
-    def _append_bool(self, value, _file):
+    def _append_bool(self, value, file):
         """Call this function to write bool contents.
 
         Keyword arguments:
-            * value - dict, content to be dumped
-            * _file - FileIO, output file
+            * value - bool, content to be dumped
+            * file - FileIO, output file
 
         """
-        _tabs = '\t' * self._tctr
-        _text = '<true/>' if value else '<false/>'
-        _labs = '{tabs}{text}\n'.format(tabs=_tabs, text=_text)
-        _file.write(_labs)
+        tabs = '\t' * self._tctr
+        text = '<true/>' if value else '<false/>'
+        labs = '{tabs}{text}\n'.format(tabs=tabs, text=text)
+        file.write(labs)

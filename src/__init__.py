@@ -20,23 +20,23 @@ following formats --
 
 -  ``dictdumper.XML``
         dump extensible markup language (``XML``) file;
-        this is a deprecated base class
+        this is a abstract base class
 
--  ``dictdumper.HTML``
-        dump JavaScript file under ``Vue.js`` framework
+-  ``dictdumper.VueJS``
+        dump JavaScript file using ``Vue.js`` framework;
         this class is deprecated due to grammar error
 
 """
 # Base Class for DictDumper
 from dictdumper.dumper import Dumper  # pylint: disable=unused-import
+from dictdumper.xml import XML  # pylint: disable=unused-import
 
 # Utility Classes
 from dictdumper.json import JSON
 from dictdumper.plist import PLIST
 from dictdumper.tree import Tree
 
-# Deprecated / Base Classes
-from dictdumper.html import JavaScript  # pylint: disable=unused-import
-from dictdumper.xml import XML  # pylint: disable=unused-import
+# Deprecated Classes
+from dictdumper.vuejs import VueJS  # pylint: disable=unused-import
 
 __all__ = ['JSON', 'PLIST', 'Tree']

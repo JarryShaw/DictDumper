@@ -8,8 +8,10 @@ name = "pypi"
 [dev-packages]
 dictdumper = {editable = true, path = "."}
 ipython = "*"
-"autopep8" = "*"
+autopep8 = "*"
 pylint = "*"
+coverage = "*"
+codecov = "*"
 
 [requires]
 python_version = "3.7"
