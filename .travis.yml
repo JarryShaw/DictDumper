@@ -11,14 +11,9 @@ python:
   - pypy2.7-6.0
   - pypy3.5-6.0
 
-matrix:
-  include:
-    - python: 3.8
-      env: TOXENV=38-coverage
-
 # command to install dependencies
 install:
-  - pip install tox-travis
+  - pip install tox-travis coveralls
 
 # command to run tests
 script:
@@ -26,8 +21,4 @@ script:
 
 # coverage
 after_script:
-  - |
-    if [ "${TOXENV%-coverage}" == "$TOXENV" ]; then
-      pip install --quiet coveralls;
-      coveralls;
-    fi
+  - coveralls
