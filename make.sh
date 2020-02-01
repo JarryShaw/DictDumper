@@ -38,11 +38,10 @@ fi
 git push
 
 description=$( git log -1 --pretty=%B )
-git tag -S -m"${description}" "v${version}"
+git tag -sm"${description}" "v${version}"
 git push --tags
 
 # file new release
-description=$( git log -1 --pretty=%B )
 go run github.com/aktau/github-release release \
     --user JarryShaw \
     --repo DictDumper \

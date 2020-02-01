@@ -1,5 +1,14 @@
 # Change Log
 
+## [v0.8.1](https://github.com/JarryShaw/DictDumper/tree/v0.8.1) (2020-02-01)
+[Full Changelog](https://github.com/JarryShaw/DictDumper/compare/v0.8.0...v0.8.1)
+
+## [v0.8.0](https://github.com/JarryShaw/DictDumper/tree/v0.8.0) (2020-01-31)
+[Full Changelog](https://github.com/JarryShaw/DictDumper/compare/v0.7.1...v0.8.0)
+
+## [v0.7.1](https://github.com/JarryShaw/DictDumper/tree/v0.7.1) (2019-08-07)
+[Full Changelog](https://github.com/JarryShaw/DictDumper/compare/v0.7.0.post2...v0.7.1)
+
 ## [v0.7.0.post2](https://github.com/JarryShaw/DictDumper/tree/v0.7.0.post2) (2019-03-03)
 [Full Changelog](https://github.com/JarryShaw/DictDumper/compare/v0.7.0.post1...v0.7.0.post2)
 
