@@ -14,12 +14,16 @@ described as below.
 # Writer for JSON files
 # Dump a JSON file for PCAP analyser
 
+from __future__ import unicode_literals
+
 import collections
 import datetime
 import math
 import os
 
 from dictdumper._dateutil import isoformat
+from dictdumper._hexlify import hexlify
+from dictdumper._types import bytes_type, str_type
 from dictdumper.dumper import Dumper
 
 __all__ = ['JSON']
@@ -86,31 +90,31 @@ class JSON(Dumper):
     # Type codes.
     ##########################################################################
 
-    __type__ = {
+    __type__ = (
         # string
-        str: 'string',
+        (str_type, 'string'),
 
         # date
-        datetime.date: 'date',
-        datetime.datetime: 'date',
-        datetime.time: 'date',
-
-        # number
-        int: 'number',
-        float: 'number',
-
-        # object
-        dict: 'object',
-
-        # array
-        list: 'array',
+        (datetime.date, 'date'),
+        (datetime.datetime, 'date'),
+        (datetime.time, 'date'),
 
         # bool
-        bool: 'bool',
+        (bool, 'bool'),
+
+        # number
+        (int, 'number'),
+        (float, 'number'),
+
+        # object
+        (dict, 'object'),
+
+        # array
+        (list, 'array'),
 
         # null
-        type(None): 'null',
-    }
+        (type(None), 'null'),
+    )
 
     ##########################################################################
     # Attributes.
@@ -124,7 +128,7 @@ class JSON(Dumper):
     ##########################################################################
 
     def __init__(self, fname, **kwargs):
-        super().__init__(fname, **kwargs)
+        super(JSON, self).__init__(fname, **kwargs)
 
         self._vctr = collections.defaultdict(int)  # value counter dict
 
@@ -134,11 +138,11 @@ class JSON(Dumper):
 
     def _encode_value(self, o):  # pylint: disable=unused-argument
         """Convert content for function call."""
-        if isinstance(o, (bytes, bytearray)):
-            return self.make_object(o, o.decode(errors='replace'), hex=o.hex())
+        if isinstance(o, (bytes_type, bytearray)):
+            return self.make_object(o, o.decode(errors='replace'), hex=hexlify(o))
         if isinstance(o, memoryview):
             tobytes = o.tobytes()
-            return self.make_object(o, tobytes.decode(errors='replace'), hex=tobytes.hex())
+            return self.make_object(o, tobytes.decode(errors='replace'), hex=hexlify(tobytes))
         if isinstance(o, (tuple, set, frozenset)):
             return self.make_object(o, list(o))
         return o
@@ -246,7 +250,7 @@ class JSON(Dumper):
             * file - FileIO, output file
 
         """
-        text = str(value).replace('"', '\\"')
+        text = str_type(value).replace(u'"', u'\\"')
         labs = '"{text}"'.format(text=text)
         file.write(labs)
 
@@ -271,13 +275,13 @@ class JSON(Dumper):
 
         """
         if math.isnan(value):
-            text = self.make_object(value, None, number=str(value).replace('nan', 'NaN'))
+            text = self.make_object(value, None, number=str_type(value).replace(u'nan', u'NaN'))
             self._append_object(text, file)
         elif math.isinf(value):
-            text = self.make_object(value, None, number=str(value).replace('inf', 'Infinity'))
+            text = self.make_object(value, None, number=str_type(value).replace(u'inf', u'Infinity'))
             self._append_object(text, file)
         else:
-            labs = str(value)
+            labs = str_type(value)
             file.write(labs)
 
     def _append_bool(self, value, file):  # pylint: disable=no-self-use

@@ -12,6 +12,7 @@ autopep8 = "*"
 pylint = "*"
 coverage = "*"
 codecov = "*"
+tox = "*"
 
 [requires]
 python_version = "3.7"

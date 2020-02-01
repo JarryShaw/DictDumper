@@ -14,6 +14,8 @@ as below.
 # Writer for treeview text files
 # Dump a TEXT file for PCAP analyser
 
+from __future__ import unicode_literals
+
 import contextlib
 import datetime
 import math
@@ -21,6 +23,8 @@ import os
 import textwrap
 
 from dictdumper._dateutil import isoformat
+from dictdumper._hexlify import hexlify
+from dictdumper._types import bytes_type, str_type
 from dictdumper.dumper import Dumper
 
 __all__ = ['Tree']
@@ -122,35 +126,35 @@ class Tree(Dumper):
     # Type codes.
     ##########################################################################
 
-    __type__ = {
+    __type__ = (
         # string
-        str: 'string',
+        (str_type, 'string'),
 
         # bool
-        bool: 'bool',
+        (bool, 'bool'),
 
         # branch
-        dict: 'branch',
+        (dict, 'branch'),
 
         # none
-        type(None): 'none',
+        (type(None), 'none'),
 
         # date
-        datetime.date: 'date',
-        datetime.datetime: 'date',
-        datetime.time: 'date',
+        (datetime.date, 'date'),
+        (datetime.datetime, 'date'),
+        (datetime.time, 'date'),
 
         # number
-        int: 'number',
-        float: 'number',
-        complex: 'number',
+        (int, 'number'),
+        (float, 'number'),
+        (complex, 'number'),
 
         # bytes
-        bytes: 'bytes',
+        (bytes_type, 'bytes'),
 
         # array
-        list: 'array',
-    }
+        (list, 'array'),
+    )
 
     ##########################################################################
     # Methods.
@@ -161,10 +165,10 @@ class Tree(Dumper):
         """Check if newline is needed."""
         if isinstance(value, dict):
             return True
-        if isinstance(value, str):
+        if isinstance(value, str_type):
             return len(value) > 2
-        if isinstance(value, bytes):
-            return len(value.hex()) > 32
+        if isinstance(value, bytes_type):
+            return len(hexlify(value)) > 32
         return False
 
     ##########################################################################
@@ -184,7 +188,7 @@ class Tree(Dumper):
     def _encode_value(self, o):  # pylint: disable=unused-argument
         """Convert content for function call."""
         if isinstance(o, bytearray):
-            return self.make_object(o, bytes(o), text=o.decode(errors='replace'))
+            return self.make_object(o, bytes_type(o), text=o.decode(errors='replace'))
         if isinstance(o, memoryview):
             tobytes = o.tobytes()
             return self.make_object(o, tobytes, text=tobytes.decode(errors='replace'))
@@ -303,13 +307,14 @@ class Tree(Dumper):
             file.write(' ')
             return self._append_none(None, file)
 
-        if len(value.hex()) <= 32:
-            text = ' '.join(textwrap.wrap(value.hex(), 2))
+        value_hex = hexlify(value)
+        if len(value_hex) <= 32:
+            text = ' '.join(textwrap.wrap(value_hex, 2))
             labs = '-> {text}'.format(text=text)
         else:
             labs = '\n' + ''.join(self._bctx) + '  |-'
 
-            text_list = textwrap.wrap(value.hex(), 32)
+            text_list = textwrap.wrap(value_hex, 32)
             text = ' '.join(textwrap.wrap(text_list[0], 2))
             labs += '-> {text}'.format(text=text)
             for item in text_list[1:]:
@@ -338,9 +343,9 @@ class Tree(Dumper):
 
         """
         if math.isnan(value):
-            text = str(value).replace('nan', 'NaN')
+            text = str_type(value).replace(u'nan', u'NaN')
         elif math.isinf(value):
-            text = str(value).replace('inf', 'Infinity')
+            text = str_type(value).replace(u'inf', u'Infinity')
         else:
             text = value
         labs = '-> {text}'.format(text=text)

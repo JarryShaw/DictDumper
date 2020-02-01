@@ -10,7 +10,7 @@ with open('README.md', 'rb') as file:
     long_desc = file.read().decode('utf-8')
 
 # version string
-__version__ = '0.8.0'
+__version__ = '0.8.1'
 
 # set-up script for pip distribution
 setup(

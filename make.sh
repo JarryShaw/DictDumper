@@ -4,7 +4,7 @@
 set -ex
 
 # run tests
-pipenv run python tests/test.py
+pipenv run tox
 
 # prepare for PyPI distribution
 rm -rf build

@@ -10,8 +10,11 @@ Tree, and XML.
 # Pre-define useful arguments and methods of dumpers
 
 import abc
+import collections
 import os
 import warnings
+
+from dictdumper._types import str_type
 
 __all__ = ['Dumper']
 
@@ -26,7 +29,7 @@ class DumperError(TypeError):
     """Unsupported content type."""
 
 
-class Dumper:  # pylint: disable=metaclass-assignment
+class Dumper(object):  # pylint: disable=metaclass-assignment,useless-object-inheritance
     """Abstract base class of all dumpers.
 
     Usage:
@@ -79,7 +82,7 @@ class Dumper:  # pylint: disable=metaclass-assignment
     # Type codes.
     ##########################################################################
 
-    __type__ = dict()
+    __type__ = tuple()
 
     ##########################################################################
     # Methods.
@@ -88,11 +91,11 @@ class Dumper:  # pylint: disable=metaclass-assignment
     @staticmethod
     def make_object(o, value, **kwargs):
         """Create an object with convertion information."""
-        obj = dict(
-            type=type(o).__name__,
-            value=value,
-        )
-        obj.update(kwargs)
+        obj = collections.OrderedDict()
+        obj['type'] = str_type(type(o).__name__)
+        obj['value'] = value
+        for key, val in kwargs.items():
+            obj[key] = val
         return obj
 
     def object_hook(self, o):  # pylint: disable=unused-argument,no-self-use
@@ -118,7 +121,7 @@ class Dumper:  # pylint: disable=metaclass-assignment
     ##########################################################################
 
     def __new__(cls, fname, **kwargs):  # pylint: disable=unused-argument
-        self = super().__new__(cls)
+        self = super(Dumper, cls).__new__(cls)
         return self
 
     def __init__(self, fname, **kwargs):  # pylint: disable=unused-argument
@@ -145,7 +148,11 @@ class Dumper:  # pylint: disable=metaclass-assignment
 
     def _encode_func(self, o):
         """Check content type for function call."""
-        name = self.__type__.get(type(o))
+        name = None
+        for (kind, code) in self.__type__:
+            if isinstance(o, kind):
+                name = code
+                break
         if name is None:
             name = self.default(o)  # pylint: disable=assignment-from-no-return
 

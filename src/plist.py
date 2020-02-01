@@ -18,6 +18,7 @@ import base64
 import datetime
 import os
 
+from dictdumper._types import bytes_type, str_type
 from dictdumper.xml import XML
 
 __all__ = ['PLIST']
@@ -94,32 +95,32 @@ class PLIST(XML):
     # Type codes.
     ##########################################################################
 
-    __type__ = {
+    __type__ = (
         # string
-        str: 'string',
+        (str_type, 'string'),
 
         # bool
-        bool: 'bool',
+        (bool, 'bool'),
 
         # dict
-        dict: 'dict',
+        (dict, 'dict'),
 
         # date
-        datetime.date: 'date',
-        datetime.datetime: 'date',
+        (datetime.date, 'date'),
+        (datetime.datetime, 'date'),
 
         # integer
-        int: 'integer',
+        (int, 'integer'),
 
         # real
-        float: 'real',
+        (float, 'real'),
 
         # data
-        bytes: 'data',
+        (bytes_type, 'data'),
 
         # array
-        list: 'array',
-    }
+        (list, 'array'),
+    )
 
     ##########################################################################
     # Attributes.
@@ -137,7 +138,7 @@ class PLIST(XML):
         if o is None:
             return self.make_object(o, 'None')
         if isinstance(o, bytearray):
-            return self.make_object(o, bytes(o))
+            return self.make_object(o, bytes_type(o))
         if isinstance(o, memoryview):
             return self.make_object(o, o.tobytes())
         if isinstance(o, (tuple, set, frozenset)):
