@@ -1,0 +1,64 @@
+{
+	"test_1": {
+		"foo": -1,
+		"bar": "Hello, world!",
+		"boo": {
+			"foo_again": true,
+			"bar_again": {
+				"type": "memoryview",
+				"value": "bytes",
+				"hex": "6279746573"
+			},
+			"boo_again": null
+		}
+	},
+	"test_2": {
+		"foo": [ 1, 2.0, 3 ],
+		"bar": {
+			"type": "tuple",
+			"value": [
+				1.0,
+				{
+					"type": "bytearray",
+					"value": "a long long bytes",
+					"hex": "61206c6f6e67206c6f6e67206279746573"
+				},
+				3.0
+			]
+		},
+		"boo": {
+			"foo_again": {
+				"type": "str",
+				"value": "bytestring",
+				"hex": "62797465737472696e67"
+			},
+			"bar_again": "2020-01-31T20:15:10.163010",
+			"boo_again": {
+				"type": "float",
+				"value": null,
+				"number": "-Infinity"
+			}
+		}
+	},
+	"test_3": {
+		"foo": "stringstringstringstringstringstringstringstringstringstring",
+		"bar": [ "s1", false, "s3" ],
+		"boo": [
+			"s4",
+			{
+				"s": "5",
+				"j": "5"
+			},
+			"s6"
+		],
+		"far": {
+			"far_foo": [ "s1", "s2", "s3" ],
+			"far_var": "s4"
+		},
+		"biu": {
+			"type": "float",
+			"value": null,
+			"number": "NaN"
+		}
+	}
+}

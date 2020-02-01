@@ -9,3 +9,5 @@ prune .venv
 prune .tox
 
 prune src
+prune temp
+prune tests

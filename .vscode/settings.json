@@ -3,6 +3,7 @@
         "Dict",
         "PYTHONDONTWRITEBYTECODE",
         "TESTENV",
+        "TOXENV",
         "aktau",
         "b'bytes",
         "bctr",

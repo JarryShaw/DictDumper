@@ -1,0 +1,31 @@
+test_1
+  |-- foo -> -1
+  |-- bar -> Hello, world!
+  |-- boo 
+        |-- foo_again -> True
+        |-- bar_again 
+        |     |-- type -> memoryview
+        |     |-- value -> 62 79 74 65 73
+        |     |-- text -> bytes
+        |-- boo_again -> NIL
+
+test_2
+  |-- foo 
+  |     |--> 1
+  |     |--> 2.0
+  |     |--> 3
+  |-- bar 
+  |     |-- type -> tuple
+  |     |-- value 
+  |           |--> 1.0
+  |           |--> --
+  |           |     |-- type -> bytearray
+  |           |     |-- value 
+  |           |     |     |--> 61 20 6c 6f 6e 67 20 6c 6f 6e 67 20 62 79 74 65
+  |           |     |          73
+  |           |     |-- text -> a long long bytes
+  |           |--> 3.0
+  |-- boo 
+        |-- foo_again -> 62 79 74 65 73 74 72 69 6e 67
+        |-- bar_again -> 2020-01-31T20:15:10.163010
+        |-- boo_again -> -Infinity

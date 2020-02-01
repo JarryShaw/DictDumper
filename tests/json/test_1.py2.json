@@ -1,0 +1,15 @@
+{
+	"test_1": {
+		"foo": -1,
+		"bar": "Hello, world!",
+		"boo": {
+			"foo_again": true,
+			"bar_again": {
+				"type": "memoryview",
+				"value": "bytes",
+				"hex": "6279746573"
+			},
+			"boo_again": null
+		}
+	}
+}

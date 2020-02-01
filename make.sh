@@ -29,13 +29,17 @@ version=$( cat setup.py | grep "^__version__" | sed "s/__version__ = '\(.*\)'/\1
 
 # upload to GitHub
 git pull
-git tag "v${version}"
+git add .
 if [[ -z "$1" ]] ; then
     git commit -a -S
 else
     git commit -a -S -m "$1"
 fi
 git push
+
+description=$( git log -1 --pretty=%B )
+git tag -S -m"${description}" "v${version}"
+git push --tags
 
 # file new release
 description=$( git log -1 --pretty=%B )

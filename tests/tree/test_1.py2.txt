@@ -1,0 +1,10 @@
+test_1
+  |-- foo -> -1
+  |-- bar -> Hello, world!
+  |-- boo 
+        |-- foo_again -> True
+        |-- bar_again 
+        |     |-- type -> memoryview
+        |     |-- value -> 62 79 74 65 73
+        |     |-- text -> bytes
+        |-- boo_again -> NIL

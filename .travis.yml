@@ -8,20 +8,26 @@ python:
   - "3.6"
   - "3.7"
   - "3.8"
+  - pypy2.7-6.0
+  - pypy3.5-6.0
 
-# environment variables
-env:
-  - PIPENV_SKIP_LOCK=1
+matrix:
+  include:
+    - python: 3.8
+      env: TOXENV=38-coverage
 
 # command to install dependencies
 install:
-  - pip install pipenv
-  - pipenv install --dev
+  - pip install tox-travis
 
 # command to run tests
 script:
-  - coverage run tests/test.py
+  - tox
 
 # coverage
-after_success:
-  - codecov
+after_script:
+  - |
+    if [ "${TOXENV%-coverage}" == "$TOXENV" ]; then
+      pip install --quiet coveralls;
+      coveralls;
+    fi
