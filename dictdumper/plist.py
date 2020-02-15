@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 """dumper a PLIST file
 
-``dictdumper.plist`` contains ``PLIST`` only, which dumpers an
-Apple property list (PLIST) file. Usage sample is described
-as below.
+:mod:`dictdumper.plist` contains :class:`~dictdumper.plist.PLIST`
+only, which dumpers an Apple property list (PLIST) file. Usage
+sample is described as below.
+
+.. code:: python
 
     >>> dumper = PLIST(file_name)
     >>> dumper(content_dict_1, name=content_name_1)
@@ -23,7 +25,7 @@ from dictdumper.xml import XML
 
 __all__ = ['PLIST']
 
-# head
+#: PLIST head string.
 _HEADER_START = '''\
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -31,7 +33,7 @@ _HEADER_START = '''\
 <dict>
 '''
 
-# tail
+#: PLIST tail string.
 _HEADER_END = '''\
 </dict>
 </plist>
@@ -41,45 +43,36 @@ _HEADER_END = '''\
 class PLIST(XML):
     """Dump Apple property list (PLIST) format file.
 
-    Usage:
+    .. code:: python
+
         >>> dumper = PLIST(file_name)
         >>> dumper(content_dict_1, name=content_name_1)
         >>> dumper(content_dict_2, name=content_name_2)
         ............
 
-    Properties:
-        * kind - str, return 'plist'
-        * filename - str, output file name
-
-    Methods:
-        * make_object - create an object with convertion information
-        * object_hook - convert content for function call
-        * default - check content type for function call
-
     Attributes:
-        * _file - str, output file name
-        * _sptr - int (file pointer), indicates start of appending point
-        * _tctr - int, tab level counter
-        * _hrst - str, _HEADER_START
-        * _hend - str, _HEADER_END
+        _file (str): output file name
+        _sptr (:obj:`int`, file pointer): indicates start of appending point
+        _tctr (int): tab level counter
+        _hsrt (str): start string (:data:`~dictdumper.plist._HEADER_START`)
+        _hend (str): end string (:data:`~dictdumper.plist._HEADER_END`)
 
-    Utilities:
-        * _dump_header - initially dump file heads and tails
-        * _encode_func - check content type for function call
-        * _encode_value - convert content for function call
-        * _append_value - call this function to write contents
+    .. note::
 
-    Terminology:
-        value    ::=  array | dict | string | data
-                        | date | integer | real | bool
-        array    ::=  "<array>" value* "</array>"
-        dict     ::=  "<dict>" ("<key>" str "</key>" value)* "</dict>"
-        string   ::=  "<string>" str "</string>"
-        data     ::=  "<data>" bytes "</data>"
-        date     ::=  "<date>" datetime "</date>"
-        integer  ::=  "<integer>" int "</integer>"
-        real     ::=  "<real>" float "</real>"
-        bool     ::=  "<true/>" | "<false/>"
+        Terminology:
+
+        .. code::
+
+            value    ::=  array | dict | string | data
+                            | date | integer | real | bool
+            array    ::=  "<array>" value* "</array>"
+            dict     ::=  "<dict>" ("<key>" str "</key>" value)* "</dict>"
+            string   ::=  "<string>" str "</string>"
+            data     ::=  "<data>" bytes "</data>"
+            date     ::=  "<date>" datetime "</date>"
+            integer  ::=  "<integer>" int "</integer>"
+            real     ::=  "<real>" float "</real>"
+            bool     ::=  "<true/>" | "<false/>"
 
     """
     ##########################################################################
@@ -88,13 +81,14 @@ class PLIST(XML):
 
     @property
     def kind(self):
-        """File format of current dumper."""
+        """:obj:`str`: File format of current dumper."""
         return 'plist'
 
     ##########################################################################
     # Type codes.
     ##########################################################################
 
+    #: :obj:`Tuple[Tuple[type, str]]`: Type codes.
     __type__ = (
         # string
         (str_type, 'string'),
@@ -126,7 +120,9 @@ class PLIST(XML):
     # Attributes.
     ##########################################################################
 
+    #: PLIST head string.
     _hsrt = _HEADER_START
+    #: PLIST tail string.
     _hend = _HEADER_END
 
     ##########################################################################
@@ -134,7 +130,23 @@ class PLIST(XML):
     ##########################################################################
 
     def _encode_value(self, o):  # pylint: disable=unused-argument
-        """Convert content for function call."""
+        """Check content type for function call.
+
+        Args:
+            o (:obj:`Any`): object to convert
+
+        Returns:
+            :obj:`Any`: the converted object
+
+        See Also:
+            The function is a direct wrapper for :meth:`~dictdumper.dumper.Dumper.object_hook`.
+
+        Notes:
+            The function will by default converts :obj:`bytearray`, ``None``,
+            :obj:`memoryview`, :obj:`tuple`, :obj:`set`, :obj:`frozenset` to
+            PLIST serialisable data.
+
+        """
         if o is None:
             return self.make_object(o, 'None')
         if isinstance(o, bytearray):
@@ -143,23 +155,24 @@ class PLIST(XML):
             return self.make_object(o, o.tobytes())
         if isinstance(o, (tuple, set, frozenset)):
             return self.make_object(o, list(o))
-        return o
+        return self.object_hook(o)
 
-    def _append_value(self, value, _file, _name):
+    def _append_value(self, value, file, name):
         """Call this function to write contents.
 
-        Keyword arguments:
-            * value - dict, content to be dumped
-            * _file - FileIO, output file
-            * _name - str, name of current content dict
+        Args:
+            value (:obj:`Dict[str, Any]`): content to be dumped
+            file (:obj:`file` object): output file
+            name (str): name of current content block
 
         """
-        _tabs = '\t' * self._tctr
-        _keys = '{tabs}<key>{name}</key>\n'.format(tabs=_tabs, name=_name)
-        _file.seek(self._sptr, os.SEEK_SET)
-        _file.write(_keys)
+        tabs = '\t' * self._tctr
+        keys = '{tabs}<key>{name}</key>\n'.format(tabs=tabs, name=name)
 
-        self._append_dict(value, _file)
+        file.seek(self._sptr, os.SEEK_SET)
+        file.write(keys)
+
+        self._append_dict(value, file)
 
     ##########################################################################
     # Functions.
@@ -168,9 +181,9 @@ class PLIST(XML):
     def _append_dict(self, value, file):
         """Call this function to write dict contents.
 
-        Keyword arguments:
-            * value - dict, content to be dumped
-            * file - FileIO, output file
+        Args:
+            value (:obj:`Dict[str, Any]`): content to be dumped
+            file (:obj:`file` object): output file
 
         """
         tabs = '\t' * self._tctr
@@ -198,9 +211,9 @@ class PLIST(XML):
     def _append_array(self, value, file):
         """Call this function to write array contents.
 
-        Keyword arguments:
-            * value - list, content to be dumped
-            * file - FileIO, output file
+        Args:
+            value (:obj:`List[Any]`): content to be dumped
+            file (:obj:`file` object): output file
 
         """
         tabs = '\t' * self._tctr
@@ -224,9 +237,9 @@ class PLIST(XML):
     def _append_string(self, value, file):
         """Call this function to write string contents.
 
-        Keyword arguments:
-            * value - str, content to be dumped
-            * file - FileIO, output file
+        Args:
+            value (str): content to be dumped
+            file (:obj:`file` object): output file
 
         """
         tabs = '\t' * self._tctr
@@ -237,9 +250,9 @@ class PLIST(XML):
     def _append_data(self, value, file):
         """Call this function to write data contents.
 
-        Keyword arguments:
-            * value - bytes, content to be dumped
-            * file - FileIO, output file
+        Args:
+            value (bytes): content to be dumped
+            file (:obj:`file` object): output file
 
         """
         # binascii.b2a_base64(value) -> plistlib.Data
@@ -253,9 +266,9 @@ class PLIST(XML):
     def _append_date(self, value, file):
         """Call this function to write date contents.
 
-        Keyword arguments:
-            * value - Union[date, datetime], content to be dumped
-            * file - FileIO, output file
+        Args:
+            value (:obj:`Union[datetime.date, datetime.datetime]`): content to be dumped
+            file (:obj:`file` object): output file
 
         """
         tabs = '\t' * self._tctr
@@ -266,9 +279,9 @@ class PLIST(XML):
     def _append_integer(self, value, file):
         """Call this function to write integer contents.
 
-        Keyword arguments:
-            * value - int, content to be dumped
-            * file - FileIO, output file
+        Args:
+            value (int): content to be dumped
+            file (:obj:`file` object): output file
 
         """
         tabs = '\t' * self._tctr
@@ -279,9 +292,9 @@ class PLIST(XML):
     def _append_real(self, value, file):
         """Call this function to write real contents.
 
-        Keyword arguments:
-            * value - float, content to be dumped
-            * file - FileIO, output file
+        Args:
+            value (float): content to be dumped
+            file (:obj:`file` object): output file
 
         """
         tabs = '\t' * self._tctr
@@ -292,9 +305,9 @@ class PLIST(XML):
     def _append_bool(self, value, file):
         """Call this function to write bool contents.
 
-        Keyword arguments:
-            * value - bool, content to be dumped
-            * file - FileIO, output file
+        Args:
+            value (bool): content to be dumped
+            file (:obj:`file` object): output file
 
         """
         tabs = '\t' * self._tctr

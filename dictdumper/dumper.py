@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 """base dumper
 
-``dictdumper.dumper`` contains ``Dumper`` only, which is an
-abstract base class for all dumpers, eg. HTML, JSON, PLIST,
-Tree, and XML.
+:mod:`~dictdumper.dumper` contains :class:`~dictdumper.dumper.Dumper` only,
+which is an abstract base class for all dumpers, eg. :class:`~dictdumper.vuejs.VueJS`,
+:class:`~dictdumper.json.JSON`, :class:`~dictdumper.plist.PLIST`,
+:class:`~dictdumper.tree.Tree`, and :class:`~dictdumper.xml.XML`.
 
 """
 # Abstract Base Class of Dumpers
@@ -20,7 +21,15 @@ __all__ = ['Dumper']
 
 
 def deprecated(cls):
-    """Deprecation warning."""
+    """Deprecation warning.
+
+    Args:
+        cls (object): the class to mark as deprecated
+
+    Returns:
+        object: The original ``cls`` itself.
+
+    """
     warnings.warn('%s is deprecated' % cls.__name__, DeprecationWarning, stacklevel=2)
     return cls
 
@@ -32,33 +41,19 @@ class DumperError(TypeError):
 class Dumper(object):  # pylint: disable=metaclass-assignment,useless-object-inheritance
     """Abstract base class of all dumpers.
 
-    Usage:
+    .. code:: python
+
         >>> dumper = Dumper(file_name)
         >>> dumper(content_dict_1, name=content_name_1)
         >>> dumper(content_dict_2, name=content_name_2)
         ............
 
-    Properties:
-        * kind - str, file format of current dumper
-        * filename - str, output file name
-
-    Methods:
-        * make_object - create an object with convertion information
-        * object_hook - convert content for function call
-        * default - check content type for function call
-
     Attributes:
-        * _file - str, output file name
-        * _sptr - int (file pointer), indicates start of appending point
-        * _tctr - int, tab level counter
-        * _hsrt - str, _HEADER_START
-        * _hend - str, _HEADER_END
-
-    Utilities:
-        * _dump_header - initially dump file heads and tails
-        * _encode_func - check content type for function call
-        * _encode_value - convert content for function call
-        * _append_value - call this function to write contents
+        _file (str): output file name
+        _sptr (:obj:`int`, file pointer): indicates start of appending point
+        _tctr (int): tab level counter
+        _hsrt (str): start string (``_HEADER_START``)
+        _hend (str): end string (``_HEADER_END``)
 
     """
     __metaclass__ = abc.ABCMeta
@@ -71,17 +66,18 @@ class Dumper(object):  # pylint: disable=metaclass-assignment,useless-object-inh
     @property
     @abc.abstractmethod
     def kind(self):
-        """File format of current dumper."""
+        """:obj:`str`: File format of current dumper."""
 
     @property
     def filename(self):
-        """Output file name."""
+        """:obj:`str`: Output file name."""
         return self._file
 
     ##########################################################################
     # Type codes.
     ##########################################################################
 
+    #: :obj:`Tuple[Tuple[type, str]]`: Type codes.
     __type__ = tuple()
 
     ##########################################################################
@@ -90,7 +86,17 @@ class Dumper(object):  # pylint: disable=metaclass-assignment,useless-object-inh
 
     @staticmethod
     def make_object(o, value, **kwargs):
-        """Create an object with convertion information."""
+        """Create an object with convertion information.
+
+        Args:
+            o (Any): object to convert
+            value (Any): converted value of ``o``
+            **kwargs: additional information for the convertion
+
+        Returns:
+            :obj:`Dict[str, Any]`: Information context of the convertion.
+
+        """
         obj = collections.OrderedDict()
         obj['type'] = str_type(type(o).__name__)
         obj['value'] = value
@@ -99,21 +105,41 @@ class Dumper(object):  # pylint: disable=metaclass-assignment,useless-object-inh
         return obj
 
     def object_hook(self, o):  # pylint: disable=unused-argument,no-self-use
-        """Convert content for function call."""
+        """Convert content for function call.
+
+        Args:
+            o (:obj:`Any`): object to convert
+
+        Returns:
+            :obj:`Any`: the converted object
+
+        """
         return o
 
     def default(self, o):  # pylint: disable=unused-argument,no-self-use
-        """Check content type for function call."""
+        """Check content type for function call.
+
+        Args:
+            o (:obj:`Any`): object to check
+
+        Raises:
+            :exc:`DumperError`: ``o`` is an unsupported content type
+
+        """
         raise DumperError('unsupported content type: %s' % type(o).__name__)
 
     ##########################################################################
     # Attributes.
     ##########################################################################
 
+    #: :obj:`int`, file pointer: Indicates start of appending point.
     _sptr = os.SEEK_SET    # seek pointer
+    #: :obj:`int`: Tab level counter.
     _tctr = 1              # counter for tab level
 
+    #: Dumper head string.
     _hsrt = ''
+    #: Dumper tail string.
     _hend = ''
 
     ##########################################################################
@@ -125,10 +151,27 @@ class Dumper(object):  # pylint: disable=metaclass-assignment,useless-object-inh
         return self
 
     def __init__(self, fname, **kwargs):  # pylint: disable=unused-argument
+        """Initialise dumper.
+
+        Args:
+            fname (str): output file name
+            **kwargs: addition keyword arguments for initialisation
+
+        """
         self._file = fname          # dump file name
         self._dump_header()         # initialise output file
 
     def __call__(self, value, name=None):
+        """Dumper a new block.
+
+        Args:
+            value (:obj:`Dict[str, Any]`): content to be dumped
+            name (:obj:`Optional[str]`): name of current content block
+
+        Returns:
+            :class:`Dumper`: the dumper class itself (to support chain calling)
+
+        """
         with open(self._file, 'r+') as file:
             self._append_value(value, file, name)
             self._sptr = file.tell()
@@ -147,7 +190,16 @@ class Dumper(object):  # pylint: disable=metaclass-assignment,useless-object-inh
             file.write(self._hend)
 
     def _encode_func(self, o):
-        """Check content type for function call."""
+        """Check content type for function call.
+
+        Args:
+            o (:obj:`Any`): object to check
+
+        See Also:
+            If the type of ``o`` is not defined in :attr:`~Dumper.__type__`,
+            the function refers to :meth:`~Dumper.default` for custom hooks.
+
+        """
         name = None
         for (kind, code) in self.__type__:
             if isinstance(o, kind):
@@ -160,16 +212,27 @@ class Dumper(object):  # pylint: disable=metaclass-assignment,useless-object-inh
         return getattr(self, func)
 
     def _encode_value(self, o):
-        """Convert content for function call."""
+        """Convert content for function call.
+
+        Args:
+            o (:obj:`Any`): object to convert
+
+        Returns:
+            :obj:`Any`: the converted object
+
+        See Also:
+            The function is a direct wrapper for :meth:`~Dumper.object_hook`.
+
+        """
         return self.object_hook(o)
 
     @abc.abstractmethod
     def _append_value(self, value, file, name):
         """Call this function to write contents.
 
-        Keyword arguments:
-            * value - dict, content to be dumped
-            * file - FileIO, output file
-            * name - str, name of current content dict
+        Args:
+            value (:obj:`Dict[str, Any]`): content to be dumped
+            file (:obj:`file` object): output file
+            name (str): name of current content block
 
         """

@@ -7,12 +7,15 @@ name = "pypi"
 
 [dev-packages]
 dictdumper = {editable = true, path = "."}
-ipython = "*"
 autopep8 = "*"
+ipython = "*"
 pylint = "*"
 coverage = "*"
 codecov = "*"
 tox = "*"
+sphinx = "*"
+sphinxcontrib-napoleon = "*"
+doc8 = "*"
 
 [requires]
 python_version = "3.7"

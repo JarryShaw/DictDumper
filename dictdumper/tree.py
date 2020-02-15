@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 """dumper a tree-view file
 
-``dictdumper.tree`` contains ``Tree`` only, which dumpers a
-tree-view text (TXT) format file. Usage sample is described
-as below.
+:mod:`dictdumper.plist` contains :class:`~dictdumper.tree.Tree`
+only, which dumpers a tree-view text (TXT) format file. Usage
+sample is described as below.
+
+.. code:: python
 
     >>> dumper = Tree(filename)
     >>> dumper(content_dict_1, name=contentname_1)
@@ -29,18 +31,45 @@ from dictdumper.dumper import Dumper
 
 __all__ = ['Tree']
 
+try:
+    from contextlib import nullcontext
+except ImportError:
+    class nullcontext:
+        """Context manager that does no additional processing."""
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *excinfo):
+            pass
+
 # headers
+#: Tree-view head string.
 _HEADER_START = ''  # head
+#: Tree-view tail string.
 _HEADER_END = ''    # tail
 
 # templates
+#: Branch template
 _TEMP_BRANCH = '  |   '  # branch
-_TEMP_SPACES = '      '  # space
+#: Spaces template
+_TEMP_SPACES = '      '  # spaces
 
 
 @contextlib.contextmanager
 def indent(ctx, branch=True):
-    """Indentation context."""
+    """Indentation context.
+
+    Args:
+        ctx (:obj:`List[str]`): indentation context
+        branch (bool): if ``True`` push the branch template
+            (:data:`~dictdumper.tree._TEMP_BRANCH`) to the context, else push
+            the spaces template (:data:`~dictdumper.tree._TEMP_SPACES`)
+
+    Yields:
+        ``None``: temporarily push a template to the context
+
+    """
     if branch:
         ctx.append(_TEMP_BRANCH)
     else:
@@ -49,68 +78,49 @@ def indent(ctx, branch=True):
     ctx.pop()
 
 
-try:
-    from contextlib import nullcontext
-except ImportError:
-    class nullcontext:
-        """Context manager that does no additional processing."""
-        def __enter__(self):
-            return self
-        def __exit__(self, *excinfo):
-            pass
-
-
 class Tree(Dumper):
     """Dump a tree-view text (TXT) format file.
 
-    Usage:
+    .. code:: python
+
         >>> dumper = Tree(filename)
         >>> dumper(content_dict_1, name=contentname_1)
         >>> dumper(content_dict_2, name=contentname_2)
         ............
 
-    Properties:
-        * kind - str, file format of current dumper
-        * filename - str, output file name
-
-    Methods:
-        * make_object - create an object with convertion information
-        * object_hook - convert content for function call
-        * default - check content type for function call
 
     Attributes:
-        * _file - str, output file name
-        * _sptr - int (file pointer), indicates start of appending point
-        * _tctr - int, tab level counter
-        * _hrst - str, _HEADER_START
-        * _hend - str, _HEADER_END
-        * _bctx - list, blank branch context record
-        * _nctr - int, branch number counter
+        _file (str): output file name
+        _sptr (:obj:`int`, file pointer): indicates start of appending point
+        _tctr (int): tab level counter
+        _hsrt (str): start string (:data:`~dictdumper.tree._HEADER_START`)
+        _hend (str): end string (:data:`~dictdumper.tree._HEADER_END`)
+        _bctx (:obj:`List[str]`): blank branch (indentation) context record
+        _nctr (int): branch number counter
 
-    Utilities:
-        * _dump_header - initially dump file heads and tails
-        * _encode_func - check content type for function call
-        * _encode_value - convert content for function call
-        * _append_value - call this function to write contents
+    .. note::
 
-    Terminology:
-        value   ::=  branch | array | string | number | bool | N/A
-        string
-          |-- string
-          |     |-- string -> value
-          |     |-- string
-          |     |     |-- string -> value
-          |     |     |-- string -> value
-          |     |-- string -> value
-          |     |-- string -> value
-          |           |-- string -> value
-          |           |-- string -> value
-          |-- string -> value, value, value
-          |-- string -> True
-          |-- string -> False
-          |-- string -> N/A
-          |-- string -> value
-          |-- string -> value
+        Terminology:
+
+        .. code::
+
+            value   ::=  branch | array | string | number | bool | N/A
+            string
+            |-- string
+            |     |-- string -> value
+            |     |-- string
+            |     |     |-- string -> value
+            |     |     |-- string -> value
+            |     |-- string -> value
+            |     |-- string -> value
+            |           |-- string -> value
+            |           |-- string -> value
+            |-- string -> value, value, value
+            |-- string -> True
+            |-- string -> False
+            |-- string -> N/A
+            |-- string -> value
+            |-- string -> value
 
     """
     ##########################################################################
@@ -119,13 +129,14 @@ class Tree(Dumper):
 
     @property
     def kind(self):
-        """File format of current dumper."""
+        """:obj:`str`: File format of current dumper."""
         return 'txt'
 
     ##########################################################################
     # Type codes.
     ##########################################################################
 
+    #: :obj:`Tuple[Tuple[type, str]]`: Type codes.
     __type__ = (
         # string
         (str_type, 'string'),
@@ -162,11 +173,29 @@ class Tree(Dumper):
 
     @staticmethod
     def check_newline(value):
-        """Check if newline is needed."""
+        """Check if newline is needed.
+
+        Args:
+            value (:obj:`Union[Dict[str, Any], AnyStr]`): value to check if
+                new line is needed
+
+        Returns:
+            bool: if newline is needed
+
+        Notes:
+            Newline is needed if
+
+            1. ``value`` is a :obj:`dict`
+            2. ``value`` is string (:obj:`str`) and its length is greater than
+               32 distinct characters
+            3. ``value`` is bytestring (:obj:`bytes`) and the length of its hex
+               representation is greater than 40 distinct characters
+
+        """
         if isinstance(value, dict):
             return True
         if isinstance(value, str_type):
-            return len(value) > 2
+            return len(value) > 40
         if isinstance(value, bytes_type):
             return len(hexlify(value)) > 32
         return False
@@ -175,10 +204,14 @@ class Tree(Dumper):
     # Attributes.
     ##########################################################################
 
+    #: int: Branch number counter.
     _nctr = 0
-    _bctx = ''
+    #: :obj:`List[str]`: Blank branch (indentation) context record.
+    _bctx = list()
 
+    #: Tree-view head string.
     _hsrt = _HEADER_START
+    #: Tree-view tail string.
     _hend = _HEADER_END
 
     ##########################################################################
@@ -186,7 +219,23 @@ class Tree(Dumper):
     ##########################################################################
 
     def _encode_value(self, o):  # pylint: disable=unused-argument
-        """Convert content for function call."""
+        """Convert content for function call.
+
+        Args:
+            o (:obj:`Any`): object to convert
+
+        Returns:
+            :obj:`Any`: the converted object
+
+        See Also:
+            The function is a direct wrapper for :meth:`~dictdumper.dumper.Dumper.object_hook`.
+
+        Notes:
+            The function will by default converts :obj:`bytearray`,
+            :obj:`memoryview`, :obj:`tuple`, :obj:`set`, :obj:`frozenset` to
+            tree-view represetable data.
+
+        """
         if isinstance(o, bytearray):
             return self.make_object(o, bytes_type(o), text=o.decode(errors='replace'))
         if isinstance(o, memoryview):
@@ -194,15 +243,15 @@ class Tree(Dumper):
             return self.make_object(o, tobytes, text=tobytes.decode(errors='replace'))
         if isinstance(o, (tuple, set, frozenset)):
             return self.make_object(o, list(o))
-        return o
+        return self.object_hook(o)
 
     def _append_value(self, value, file, name):
         """Call this function to write contents.
 
-        Keyword arguments:
-            * value - dict, content to be dumped
-            * file - FileIO, output file
-            * name - str, name of current content dict
+        Args:
+            value (:obj:`Dict[str, Any]`): content to be dumped
+            file (:obj:`file` object): output file
+            name (str): name of current content block
 
         """
         file.seek(self._sptr, os.SEEK_SET)
@@ -223,9 +272,9 @@ class Tree(Dumper):
     def _append_branch(self, value, file):  # pylint: disable=inconsistent-return-statements
         """Call this function to write branch contents.
 
-        Keyword arguments:
-            * value - dict, content to be dumped
-            * file - FileIO, output file
+        Args:
+            value (:obj:`Dict[str, Any]`): content to be dumped
+            file (:obj:`file` object): output file
 
         """
         if not value:
@@ -245,9 +294,9 @@ class Tree(Dumper):
     def _append_array(self, value, file):  # pylint: disable=inconsistent-return-statements
         """Call this function to write array contents.
 
-        Keyword arguments:
-            * value - list, content to be dumped
-            * file - FileIO, output file
+        Args:
+            value (:obj:`List[Any]`): content to be dumped
+            file (:obj:`file` object): output file
 
         """
         if not value:
@@ -275,9 +324,9 @@ class Tree(Dumper):
     def _append_string(self, value, file):  # pylint: disable=inconsistent-return-statements
         """Call this function to write string contents.
 
-        Keyword arguments:
-            * value - str, content to be dumped
-            * file - FileIO, output file
+        Args:
+            value (str): content to be dumped
+            file (:obj:`file` object): output file
 
         """
         if not value:
@@ -298,9 +347,9 @@ class Tree(Dumper):
     def _append_bytes(self, value, file):  # pylint: disable=inconsistent-return-statements
         """Call this function to write bytes contents.
 
-        Keyword arguments:
-            * value - bytes, content to be dumped
-            * file - FileIO, output file
+        Args:
+            value (bytes): content to be dumped
+            file (:obj:`file` object): output file
 
         """
         if not value:
@@ -325,9 +374,9 @@ class Tree(Dumper):
     def _append_date(self, value, file):  # pylint: disable=no-self-use
         """Call this function to write date contents.
 
-        Keyword arguments:
-            * value - Union[datetime, date, time], content to be dumped
-            * file - FileIO, output file
+        Args:
+            value (:obj:`Union[datetime.date, datetime.datetime, datetime.time]`): content to be dumped
+            file (:obj:`file` object): output file
 
         """
         text = isoformat(value)
@@ -337,9 +386,9 @@ class Tree(Dumper):
     def _append_number(self, value, file):  # pylint: disable=no-self-use
         """Call this function to write number contents.
 
-        Keyword arguments:
-            * value - Union[int, float, complex], content to be dumped
-            * file - FileIO, output file
+        Args:
+            value (:obj:`Union[int, float, complex]`): content to be dumped
+            file (:obj:`file` object): output file
 
         """
         if math.isnan(value):
@@ -354,9 +403,9 @@ class Tree(Dumper):
     def _append_bool(self, value, file):  # pylint: disable=no-self-use
         """Call this function to write bool contents.
 
-        Keyword arguments:
-            * value - bool, content to be dumped
-            * file - FileIO, output file
+        Args:
+            value (bool): content to be dumped
+            file (:obj:`file` object): output file
 
         """
         text = 'True' if value else 'False'
@@ -366,9 +415,9 @@ class Tree(Dumper):
     def _append_none(self, value, file):  # pylint: disable=unused-argument,no-self-use
         """Call this function to write none contents.
 
-        Keyword arguments:
-            * value - NoneType, content to be dumped
-            * file - FileIO, output file
+        Args:
+            value (``None``): content to be dumped
+            file (:obj:`file` object): output file
 
         """
         text = 'NIL'

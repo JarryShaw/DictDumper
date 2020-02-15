@@ -1,17 +1,23 @@
 # -*- coding: utf-8 -*-
 """dumper a Vue.js file (DEPRECATED)
 
+.. note::
+
     Note that this file is deprecated.
 
-``dictdumper.js`` contains ``JavaScript`` only, which dumpers
-a JavaScript file using the ``Vue.js`` framework. However,
-due to errors in grammar, the output file won't work, thus
-it is now deprecated. Usage sample is described as below.
+:mod:`dictdumper.vuejs` contains :class:`~dictdumper.vuejs.VueJS`
+only, which dumpers a JavaScript file using the ``Vue.js`` framework.
+However, due to errors in grammar, the output file won't work,
+thus it is now deprecated. Usage sample is described as below.
+
+.. code:: python
 
     >>> dumper = VueJS(file_name)
     >>> dumper(content_dict_1, name=content_name_1)
     >>> dumper(content_dict_2, name=content_name_2)
     ............
+
+.. deprecated:: 0.8.0
 
 """
 # Writer for Vue.js files
@@ -22,13 +28,13 @@ from dictdumper.json import JSON
 
 __all__ = ['VueJS']
 
-# head
+#: Vue.js head string.
 _HEADER_START = '''\
 // demo data
 var data = {\n
 '''
 
-# tail
+#: Vue.js tail string.
 _HEADER_END = """
 \n}
 
@@ -84,34 +90,20 @@ var demo = new Vue({
 class VueJS(JSON):
     """Dump JavaScript file using `Vue.js` framework.
 
-    Usage:
+    .. code:: python
+
         >>> dumper = VueJS(file_name)
         >>> dumper(content_dict_1, name=content_name_1)
         >>> dumper(content_dict_2, name=content_name_2)
         ............
 
-    Properties:
-        * kind - str, file format of current dumper
-        * filename - str, output file name
-
-    Methods:
-        * make_object - create an object with convertion information
-        * object_hook - convert content for function call
-        * default - check content type for function call
-
     Attributes:
-        * _file - str, output file name
-        * _sptr - int (file pointer), indicates start of appending point
-        * _tctr - int, tab level counter
-        * _hrst - str, _HEADER_START
-        * _hend - str, _HEADER_END
-        * _vctr - dict, value counter dict
-
-    Utilities:
-        * _dump_header - initially dump file heads and tails
-        * _encode_func - check content type for function call
-        * _encode_value - convert content for function call
-        * _append_value - call this function to write contents
+        _file (str): output file name
+        _sptr (:obj:`int`, file pointer): indicates start of appending point
+        _tctr (int): tab level counter
+        _hsrt (str): :data:`~dictdumper.json._HEADER_START`
+        _hend (str): :data:`~dictdumper.json._HEADER_END`
+        _vctr (:obj:`DefaultDict[int, int]`): value counter dict
 
     """
     ##########################################################################
@@ -120,12 +112,14 @@ class VueJS(JSON):
 
     @property
     def kind(self):
-        """File format of current dumper."""
+        """:obj:`str`: File format of current dumper."""
         return 'js'
 
     ##########################################################################
     # Attributes.
     ##########################################################################
 
+    #: Vue.js head string.
     _hsrt = _HEADER_START
+    #: Vue.js tail string.
     _hend = _HEADER_END

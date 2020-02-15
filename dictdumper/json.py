@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 """dumper a JSON file
 
-``dictdumper.json`` contains ``JSON`` only, which dumpers a
-JavaScript object notation (JSON) file. Usage sample is
-described as below.
+:mod:`dictdumper.json` contains :class:`~dictdumper.json.JSON`
+only, which dumpers a JavaScript object notation (JSON) file.
+Usage sample is described as below.
+
+.. code:: python
 
     >>> dumper = JSON(file_name)
     >>> dumper(content_dict_1, name=content_name_1)
@@ -28,53 +30,44 @@ from dictdumper.dumper import Dumper
 
 __all__ = ['JSON']
 
-# head
+#: JSON head string.
 _HEADER_START = '{\n'
 
-# tail
+#: JSON tail string.
 _HEADER_END = '\n}'
 
 
 class JSON(Dumper):
     """Dump JavaScript object notation (JSON) format file.
 
-    Usage:
+    .. code:: python
+
         >>> dumper = JSON(file_name)
         >>> dumper(content_dict_1, name=content_name_1)
         >>> dumper(content_dict_2, name=content_name_2)
         ............
 
-    Properties:
-        * kind - str, return 'json'
-        * filename - str, output file name
-
-    Methods:
-        * make_object - create an object with convertion information
-        * object_hook - convert content for function call
-        * default - check content type for function call
-
     Attributes:
-        * _file - str, output file name
-        * _sptr - int (file pointer), indicates start of appending point
-        * _tctr - int, tab level counter
-        * _hrst - str, _HEADER_START
-        * _hend - str, _HEADER_END
-        * _vctr - dict, value counter dict
+        _file (str): output file name
+        _sptr (:obj:`int`, file pointer): indicates start of appending point
+        _tctr (int): tab level counter
+        _hsrt (str): :data:`~dictdumper.json._HEADER_START`
+        _hend (str): :data:`~dictdumper.json._HEADER_END`
+        _vctr (:obj:`DefaultDict[int, int]`): value counter dict
 
-    Utilities:
-        * _dump_header - initially dump file heads and tails
-        * _encode_func - check content type for function call
-        * _encode_value - convert content for function call
-        * _append_value - call this function to write contents
+    .. note::
 
-    Terminology:
-        object    ::=  "{}" | ("{" members "}")
-        members   ::=  pair | (pair "," members)
-        pair      ::=  string ":" value
-        array     ::=  "[]" | ("[" elements "]")
-        elements  ::=  value | (value "," elements)
-        value     ::=  string | number | object
-                         | array | true | false | null
+        Terminology:
+
+        .. code::
+
+            object    ::=  "{}" | ("{" members "}")
+            members   ::=  pair | (pair "," members)
+            pair      ::=  string ":" value
+            array     ::=  "[]" | ("[" elements "]")
+            elements  ::=  value | (value "," elements)
+            value     ::=  string | number | object
+                            | array | true | false | null
 
     """
     ##########################################################################
@@ -83,13 +76,14 @@ class JSON(Dumper):
 
     @property
     def kind(self):
-        """File format of current dumper."""
+        """:obj:`str`: File format of current dumper."""
         return 'json'
 
     ##########################################################################
     # Type codes.
     ##########################################################################
 
+    #: :obj:`Tuple[Tuple[type, str]]`: Type codes.
     __type__ = (
         # string
         (str_type, 'string'),
@@ -120,7 +114,9 @@ class JSON(Dumper):
     # Attributes.
     ##########################################################################
 
+    #: JSON head string.
     _hsrt = _HEADER_START
+    #: JSON tail string.
     _hend = _HEADER_END
 
     ##########################################################################
@@ -128,8 +124,16 @@ class JSON(Dumper):
     ##########################################################################
 
     def __init__(self, fname, **kwargs):
+        """Initialise dumper.
+
+        Args:
+            fname (str): output file name
+            **kwargs: addition keyword arguments for initialisation
+
+        """
         super(JSON, self).__init__(fname, **kwargs)
 
+        #: :obj:`DefaultDict[int, int]`: Value counter dict.
         self._vctr = collections.defaultdict(int)  # value counter dict
 
     ##########################################################################
@@ -137,7 +141,23 @@ class JSON(Dumper):
     ##########################################################################
 
     def _encode_value(self, o):  # pylint: disable=unused-argument
-        """Convert content for function call."""
+        """Check content type for function call.
+
+        Args:
+            o (:obj:`Any`): object to convert
+
+        Returns:
+            :obj:`Any`: the converted object
+
+        See Also:
+            The function is a direct wrapper for :meth:`~dictdumper.dumper.Dumper.object_hook`.
+
+        Notes:
+            The function will by default converts :obj:`bytearray`,
+            :obj:`memoryview`, :obj:`tuple`, :obj:`set`, :obj:`frozenset` to
+            JSON serialisable data.
+
+        """
         if isinstance(o, (bytes_type, bytearray)):
             return self.make_object(o, o.decode(errors='replace'), hex=hexlify(o))
         if isinstance(o, memoryview):
@@ -145,15 +165,15 @@ class JSON(Dumper):
             return self.make_object(o, tobytes.decode(errors='replace'), hex=hexlify(tobytes))
         if isinstance(o, (tuple, set, frozenset)):
             return self.make_object(o, list(o))
-        return o
+        return self.object_hook(o)
 
     def _append_value(self, value, file, name):
         """Call this function to write contents.
 
-        Keyword arguments:
-            * value - dict, content to be dumped
-            * file - FileIO, output file
-            * name - str, name of current content dict
+        Args:
+            value (:obj:`Dict[str, Any]`): content to be dumped
+            file (:obj:`file` object): output file
+            name (str): name of current content block
 
         """
         tabs = '\t' * self._tctr
@@ -173,9 +193,9 @@ class JSON(Dumper):
     def _append_object(self, value, file):
         """Call this function to write object contents.
 
-        Keyword arguments:
-            * value - dict, content to be dumped
-            * file - FileIO, output file
+        Args:
+            value (:obj:`Dict[str, Any]`): content to be dumped
+            file (:obj:`file` object): output file
 
         """
         labs = '{'
@@ -203,9 +223,9 @@ class JSON(Dumper):
     def _append_array(self, value, file):
         """Call this function to write array contents.
 
-        Keyword arguments:
-            * value - list, content to be dumped
-            * file - FileIO, output file
+        Args:
+            value (:obj:`List[Any]`): content to be dumped
+            file (:obj:`file` object): output file
 
         """
         val_list = [self._encode_value(item) for item in value]
@@ -245,9 +265,9 @@ class JSON(Dumper):
     def _append_string(self, value, file):  # pylint: disable=no-self-use
         """Call this function to write string contents.
 
-        Keyword arguments:
-            * value - str, content to be dumped
-            * file - FileIO, output file
+        Args:
+            value (str): content to be dumped
+            file (:obj:`file` object): output file
 
         """
         text = str_type(value).replace(u'"', u'\\"')
@@ -257,9 +277,9 @@ class JSON(Dumper):
     def _append_date(self, value, file):  # pylint: disable=no-self-use
         """Call this function to write date contents.
 
-        Keyword arguments:
-            * value - Union[date, datetime, time], content to be dumped
-            * file - FileIO, output file
+        Args:
+            value (:obj:`Union[datetime.date, datetime.datetime, datetime.time]`): content to be dumped
+            file (:obj:`file` object): output file
 
         """
         text = isoformat(value)
@@ -269,9 +289,9 @@ class JSON(Dumper):
     def _append_number(self, value, file):
         """Call this function to write number contents.
 
-        Keyword arguments:
-            * value - Union[int, float], content to be dumped
-            * file - FileIO, output file
+        Args:
+            value (:obj:`Union[int, float]`): content to be dumped
+            file (:obj:`file` object): output file
 
         """
         if math.isnan(value):
@@ -287,9 +307,9 @@ class JSON(Dumper):
     def _append_bool(self, value, file):  # pylint: disable=no-self-use
         """Call this function to write bool contents.
 
-        Keyword arguments:
-            * value - bool, content to be dumped
-            * file - FileIO, output file
+        Args:
+            value (bool): content to be dumped
+            file (:obj:`file` object): output file
 
         """
         labs = 'true' if value else 'false'
@@ -298,9 +318,9 @@ class JSON(Dumper):
     def _append_null(self, value, file):  # pylint: disable=unused-argument,no-self-use
         """Call this function to write null contents.
 
-        Keyword arguments:
-            * value - NoneType, content to be dumped
-            * file - FileIO, output file
+        Args:
+            value (``None``): content to be dumped
+            file (:obj:`file` object): output file
 
         """
         labs = 'null'
