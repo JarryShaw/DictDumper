@@ -16,9 +16,7 @@ file. Usage sample is described as below.
     >>> dumper(content_dict_2, name=content_name_2)
     ............
 
-.. note::
-
-    Todo:
+.. toto::
 
     * Supports more ``dtd`` of XML.
 

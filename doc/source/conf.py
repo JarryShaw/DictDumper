@@ -31,9 +31,12 @@ release = '0.8.2'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'sphinx.ext.todo',
     'sphinx.ext.autodoc', 'sphinx.ext.autodoc.typehints',
     'sphinxcontrib.napoleon'
 ]
+
+todo_include_todos = True
 
 autodoc_typehints = 'description'
 autodoc_member_order = 'bysource'
