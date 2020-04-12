@@ -31,10 +31,15 @@ release = '0.8.2'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'sphinx.ext.intersphinx',
     'sphinx.ext.todo',
     'sphinx.ext.autodoc', 'sphinx.ext.autodoc.typehints',
     'sphinxcontrib.napoleon'
 ]
+
+intersphinx_mapping = {
+    'python': ('https://docs.python.org/3', None),
+}
 
 todo_include_todos = True
 
