@@ -86,55 +86,58 @@ class TestDictDumper(unittest.TestCase):
         """Test JSON dumper."""
         rootdir = os.path.join(ROOT, 'json')
         with TemporaryDirectory() as tempdir:
-            dst = os.path.join(tempdir, 'test.json')
+            for index in range(2):
+                dst = os.path.join(tempdir, 'test_%s.json' % index)
 
-            dumper = dictdumper.JSON(dst)
-            self.assertFile(dst, os.path.join(rootdir, 'test_0%s.json' % PY2))
+                dumper = dictdumper.JSON(dst)
+                self.assertFile(dst, os.path.join(rootdir, 'test_0%s.json' % PY2))
 
-            dumper(test_1, name='test_1')
-            self.assertFile(dst, os.path.join(rootdir, 'test_1%s.json' % PY2))
+                dumper(test_1, name='test_1')
+                self.assertFile(dst, os.path.join(rootdir, 'test_1%s.json' % PY2))
 
-            dumper(test_2, name='test_2')
-            self.assertFile(dst, os.path.join(rootdir, 'test_2%s.json' % PY2))
+                dumper(test_2, name='test_2')
+                self.assertFile(dst, os.path.join(rootdir, 'test_2%s.json' % PY2))
 
-            dumper(test_3, name='test_3')
-            self.assertFile(dst, os.path.join(rootdir, 'test_3%s.json' % PY2))
+                dumper(test_3, name='test_3')
+                self.assertFile(dst, os.path.join(rootdir, 'test_3%s.json' % PY2))
 
     def test_plist(self):
         """Test PLIST dumper."""
         rootdir = os.path.join(ROOT, 'plist')
         with TemporaryDirectory() as tempdir:
-            dst = os.path.join(tempdir, 'test.plist')
+            for index in range(2):
+                dst = os.path.join(tempdir, 'test_%s.plist' % index)
 
-            dumper = dictdumper.PLIST(dst)
-            self.assertFile(dst, os.path.join(rootdir, 'test_0%s.plist' % PY2))
+                dumper = dictdumper.PLIST(dst)
+                self.assertFile(dst, os.path.join(rootdir, 'test_0%s.plist' % PY2))
 
-            dumper(test_1, name='test_1')
-            self.assertFile(dst, os.path.join(rootdir, 'test_1%s.plist' % PY2))
+                dumper(test_1, name='test_1')
+                self.assertFile(dst, os.path.join(rootdir, 'test_1%s.plist' % PY2))
 
-            dumper(test_2, name='test_2')
-            self.assertFile(dst, os.path.join(rootdir, 'test_2%s.plist' % PY2))
+                dumper(test_2, name='test_2')
+                self.assertFile(dst, os.path.join(rootdir, 'test_2%s.plist' % PY2))
 
-            dumper(test_3, name='test_3')
-            self.assertFile(dst, os.path.join(rootdir, 'test_3%s.plist' % PY2))
+                dumper(test_3, name='test_3')
+                self.assertFile(dst, os.path.join(rootdir, 'test_3%s.plist' % PY2))
 
     def test_tree(self):
         """Test text tree dumper."""
         rootdir = os.path.join(ROOT, 'tree')
         with TemporaryDirectory() as tempdir:
-            dst = os.path.join(tempdir, 'test.txt')
+            for index in range(2):
+                dst = os.path.join(tempdir, 'test_%s.txt' % index)
 
-            dumper = dictdumper.Tree(dst)
-            self.assertFile(dst, os.path.join(rootdir, 'test_0%s.txt' % PY2))
+                dumper = dictdumper.Tree(dst)
+                self.assertFile(dst, os.path.join(rootdir, 'test_0%s.txt' % PY2))
 
-            dumper(test_1, name='test_1')
-            self.assertFile(dst, os.path.join(rootdir, 'test_1%s.txt' % PY2))
+                dumper(test_1, name='test_1')
+                self.assertFile(dst, os.path.join(rootdir, 'test_1%s.txt' % PY2))
 
-            dumper(test_2, name='test_2')
-            self.assertFile(dst, os.path.join(rootdir, 'test_2%s.txt' % PY2))
+                dumper(test_2, name='test_2')
+                self.assertFile(dst, os.path.join(rootdir, 'test_2%s.txt' % PY2))
 
-            dumper(test_3, name='test_3')
-            self.assertFile(dst, os.path.join(rootdir, 'test_3%s.txt' % PY2))
+                dumper(test_3, name='test_3')
+                self.assertFile(dst, os.path.join(rootdir, 'test_3%s.txt' % PY2))
 
 
 if __name__ == "__main__":
