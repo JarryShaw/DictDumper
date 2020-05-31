@@ -10,7 +10,7 @@ with open('README.md', 'rb') as file:
     long_desc = file.read().decode('utf-8')
 
 # version string
-__version__ = '0.8.2'
+__version__ = '0.8.2.post1'
 
 # set-up script for pip distribution
 setup(
@@ -19,7 +19,7 @@ setup(
     author='Jarry Shaw',
     author_email='jarryshaw@icloud.com',
     url='https://github.com/JarryShaw/dictdumper#dictdumper',
-    license='Mozilla Public License 2.0 (MPL 2.0)',
+    license='BSD 3-Clause License',
     keywords='formatting dumper stream',
     description='Python dict formatted dumper.',
     long_description=long_desc,
@@ -38,7 +38,7 @@ setup(
         'Environment :: MacOS X',
         'Environment :: Win32 (MS Windows)',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)',
+        'License :: OSI Approved :: BSD License',
         'Natural Language :: English',
         'Operating System :: MacOS',
         'Operating System :: Microsoft :: Windows',
