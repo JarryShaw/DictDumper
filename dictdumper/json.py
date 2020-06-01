@@ -49,11 +49,11 @@ class JSON(Dumper):
 
     Attributes:
         _file (str): output file name
-        _sptr (:obj:`int`, file pointer): indicates start of appending point
+        _sptr (int): indicates start of appending point (file pointer)
         _tctr (int): tab level counter
         _hsrt (str): :data:`~dictdumper.json._HEADER_START`
         _hend (str): :data:`~dictdumper.json._HEADER_END`
-        _vctr (:obj:`DefaultDict[int, int]`): value counter dict
+        _vctr (DefaultDict[int, int]): value counter dict
 
     .. note::
 
@@ -76,14 +76,17 @@ class JSON(Dumper):
 
     @property
     def kind(self):
-        """:obj:`str`: File format of current dumper."""
+        """File format of current dumper.
+
+        :rtype: Literal['json']
+        """
         return 'json'
 
     ##########################################################################
     # Type codes.
     ##########################################################################
 
-    #: :obj:`Tuple[Tuple[type, str]]`: Type codes.
+    #: Tuple[Tuple[type, str]]: Type codes.
     __type__ = (
         # string
         (str_type, 'string'),
@@ -133,7 +136,7 @@ class JSON(Dumper):
         """
         super(JSON, self).__init__(fname, **kwargs)
 
-        #: :obj:`DefaultDict[int, int]`: Value counter dict.
+        #: DefaultDict[int, int]: Value counter dict.
         self._vctr = collections.defaultdict(int)  # value counter dict
 
     ##########################################################################
@@ -144,10 +147,10 @@ class JSON(Dumper):
         """Check content type for function call.
 
         Args:
-            o (:obj:`Any`): object to convert
+            o (Any): object to convert
 
         Returns:
-            :obj:`Any`: the converted object
+            Any: the converted object
 
         See Also:
             The function is a direct wrapper for :meth:`~dictdumper.dumper.Dumper.object_hook`.
@@ -171,8 +174,8 @@ class JSON(Dumper):
         """Call this function to write contents.
 
         Args:
-            value (:obj:`Dict[str, Any]`): content to be dumped
-            file (:obj:`file` object): output file
+            value (Dict[str, Any]): content to be dumped
+            file (io.TextIOWrapper): output file
             name (str): name of current content block
 
         """
@@ -194,8 +197,8 @@ class JSON(Dumper):
         """Call this function to write object contents.
 
         Args:
-            value (:obj:`Dict[str, Any]`): content to be dumped
-            file (:obj:`file` object): output file
+            value (Dict[str, Any]): content to be dumped
+            file (io.TextIOWrapper): output file
 
         """
         labs = '{'
@@ -224,8 +227,8 @@ class JSON(Dumper):
         """Call this function to write array contents.
 
         Args:
-            value (:obj:`List[Any]`): content to be dumped
-            file (:obj:`file` object): output file
+            value (List[Any]): content to be dumped
+            file (io.TextIOWrapper): output file
 
         """
         val_list = [self._encode_value(item) for item in value]
@@ -267,7 +270,7 @@ class JSON(Dumper):
 
         Args:
             value (str): content to be dumped
-            file (:obj:`file` object): output file
+            file (io.TextIOWrapper): output file
 
         """
         text = str_type(value).replace(u'"', u'\\"')
@@ -278,8 +281,8 @@ class JSON(Dumper):
         """Call this function to write date contents.
 
         Args:
-            value (:obj:`Union[datetime.date, datetime.datetime, datetime.time]`): content to be dumped
-            file (:obj:`file` object): output file
+            value (Union[datetime.date, datetime.datetime, datetime.time]): content to be dumped
+            file (io.TextIOWrapper): output file
 
         """
         text = isoformat(value)
@@ -290,8 +293,8 @@ class JSON(Dumper):
         """Call this function to write number contents.
 
         Args:
-            value (:obj:`Union[int, float]`): content to be dumped
-            file (:obj:`file` object): output file
+            value (Union[int, float]): content to be dumped
+            file (io.TextIOWrapper): output file
 
         """
         if math.isnan(value):
@@ -309,7 +312,7 @@ class JSON(Dumper):
 
         Args:
             value (bool): content to be dumped
-            file (:obj:`file` object): output file
+            file (io.TextIOWrapper): output file
 
         """
         labs = 'true' if value else 'false'
@@ -319,8 +322,8 @@ class JSON(Dumper):
         """Call this function to write null contents.
 
         Args:
-            value (``None``): content to be dumped
-            file (:obj:`file` object): output file
+            value (None): content to be dumped
+            file (io.TextIOWrapper): output file
 
         """
         labs = 'null'

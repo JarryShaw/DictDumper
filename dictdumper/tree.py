@@ -91,11 +91,11 @@ class Tree(Dumper):
 
     Attributes:
         _file (str): output file name
-        _sptr (:obj:`int`, file pointer): indicates start of appending point
+        _sptr (int): indicates start of appending point (file pointer)
         _tctr (int): tab level counter
         _hsrt (str): start string (:data:`~dictdumper.tree._HEADER_START`)
         _hend (str): end string (:data:`~dictdumper.tree._HEADER_END`)
-        _bctx (:obj:`List[str]`): blank branch (indentation) context record
+        _bctx (List[str]): blank branch (indentation) context record
         _nctr (int): branch number counter
 
     .. note::
@@ -129,14 +129,17 @@ class Tree(Dumper):
 
     @property
     def kind(self):
-        """:obj:`str`: File format of current dumper."""
+        """File format of current dumper.
+
+        :rtype: Literal['txt']
+        """
         return 'txt'
 
     ##########################################################################
     # Type codes.
     ##########################################################################
 
-    #: :obj:`Tuple[Tuple[type, str]]`: Type codes.
+    #: Tuple[Tuple[type, str]]: Type codes.
     __type__ = (
         # string
         (str_type, 'string'),
@@ -176,7 +179,7 @@ class Tree(Dumper):
         """Check if newline is needed.
 
         Args:
-            value (:obj:`Union[Dict[str, Any], AnyStr]`): value to check if
+            value (Union[Dict[str, Any], AnyStr]): value to check if
                 new line is needed
 
         Returns:
@@ -206,7 +209,7 @@ class Tree(Dumper):
 
     #: int: Branch number counter.
     _nctr = 0
-    #: :obj:`List[str]`: Blank branch (indentation) context record.
+    #: List[str]: Blank branch (indentation) context record.
     _bctx = list()
 
     #: Tree-view head string.
@@ -222,10 +225,10 @@ class Tree(Dumper):
         """Convert content for function call.
 
         Args:
-            o (:obj:`Any`): object to convert
+            o (Any): object to convert
 
         Returns:
-            :obj:`Any`: the converted object
+            Any: the converted object
 
         See Also:
             The function is a direct wrapper for :meth:`~dictdumper.dumper.Dumper.object_hook`.
@@ -249,8 +252,8 @@ class Tree(Dumper):
         """Call this function to write contents.
 
         Args:
-            value (:obj:`Dict[str, Any]`): content to be dumped
-            file (:obj:`file` object): output file
+            value (Dict[str, Any]): content to be dumped
+            file (io.TextIOWrapper): output file
             name (str): name of current content block
 
         """
@@ -273,8 +276,8 @@ class Tree(Dumper):
         """Call this function to write branch contents.
 
         Args:
-            value (:obj:`Dict[str, Any]`): content to be dumped
-            file (:obj:`file` object): output file
+            value (Dict[str, Any]): content to be dumped
+            file (io.TextIOWrapper): output file
 
         """
         if not value:
@@ -295,8 +298,8 @@ class Tree(Dumper):
         """Call this function to write array contents.
 
         Args:
-            value (:obj:`List[Any]`): content to be dumped
-            file (:obj:`file` object): output file
+            value (List[Any]): content to be dumped
+            file (io.TextIOWrapper): output file
 
         """
         if not value:
@@ -326,7 +329,7 @@ class Tree(Dumper):
 
         Args:
             value (str): content to be dumped
-            file (:obj:`file` object): output file
+            file (io.TextIOWrapper): output file
 
         """
         if not value:
@@ -349,7 +352,7 @@ class Tree(Dumper):
 
         Args:
             value (bytes): content to be dumped
-            file (:obj:`file` object): output file
+            file (io.TextIOWrapper): output file
 
         """
         if not value:
@@ -375,8 +378,8 @@ class Tree(Dumper):
         """Call this function to write date contents.
 
         Args:
-            value (:obj:`Union[datetime.date, datetime.datetime, datetime.time]`): content to be dumped
-            file (:obj:`file` object): output file
+            value (Union[datetime.date, datetime.datetime, datetime.time]): content to be dumped
+            file (io.TextIOWrapper): output file
 
         """
         text = isoformat(value)
@@ -387,8 +390,8 @@ class Tree(Dumper):
         """Call this function to write number contents.
 
         Args:
-            value (:obj:`Union[int, float, complex]`): content to be dumped
-            file (:obj:`file` object): output file
+            value (Union[int, float, complex]): content to be dumped
+            file (io.TextIOWrapper): output file
 
         """
         if math.isnan(value):
@@ -405,7 +408,7 @@ class Tree(Dumper):
 
         Args:
             value (bool): content to be dumped
-            file (:obj:`file` object): output file
+            file (io.TextIOWrapper): output file
 
         """
         text = 'True' if value else 'False'
@@ -416,8 +419,8 @@ class Tree(Dumper):
         """Call this function to write none contents.
 
         Args:
-            value (``None``): content to be dumped
-            file (:obj:`file` object): output file
+            value (None): content to be dumped
+            file (io.TextIOWrapper): output file
 
         """
         text = 'NIL'

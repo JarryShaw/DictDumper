@@ -5,3 +5,6 @@ coverage:
 	read
 	rm -rf htmlcov
 	rm .coverage
+
+html:
+	pipenv run make -C doc html

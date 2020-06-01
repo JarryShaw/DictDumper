@@ -99,11 +99,11 @@ class VueJS(JSON):
 
     Attributes:
         _file (str): output file name
-        _sptr (:obj:`int`, file pointer): indicates start of appending point
+        _sptr (int): indicates start of appending point (file pointer)
         _tctr (int): tab level counter
         _hsrt (str): :data:`~dictdumper.json._HEADER_START`
         _hend (str): :data:`~dictdumper.json._HEADER_END`
-        _vctr (:obj:`DefaultDict[int, int]`): value counter dict
+        _vctr (DefaultDict[int, int]): value counter dict
 
     """
     ##########################################################################
@@ -112,7 +112,10 @@ class VueJS(JSON):
 
     @property
     def kind(self):
-        """:obj:`str`: File format of current dumper."""
+        """File format of current dumper.
+
+        :rtype: Literal['js']
+        """
         return 'js'
 
     ##########################################################################

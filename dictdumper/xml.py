@@ -16,7 +16,7 @@ file. Usage sample is described as below.
     >>> dumper(content_dict_2, name=content_name_2)
     ............
 
-.. toto::
+.. todo::
 
     * Supports more ``dtd`` of XML.
 
@@ -59,7 +59,7 @@ class XML(Dumper):
 
     Attributes:
         _file (str): output file name
-        _sptr (:obj:`int`, file pointer): indicates start of appending point
+        _sptr (int): indicates start of appending point (file pointer)
         _tctr (int): tab level counter
         _hsrt (str): start string (:data:`~dictdumper.plist._HEADER_START`)
         _hend (str): end string (:data:`~dictdumper.plist._HEADER_END`)
@@ -71,7 +71,10 @@ class XML(Dumper):
 
     @property
     def kind(self):
-        """:obj:`str`: File format of current dumper."""
+        """File format of current dumper.
+
+        :rtype: Literal['xml']
+        """
         return 'xml'
 
     ##########################################################################
@@ -92,8 +95,8 @@ class XML(Dumper):
         """Call this function to write contents.
 
         Args:
-            value (:obj:`Dict[str, Any]`): content to be dumped
-            file (:obj:`file` object): output file
+            value (Dict[str, Any]): content to be dumped
+            file (io.TextIOWrapper): output file
             name (str): name of current content block
 
         """

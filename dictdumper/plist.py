@@ -52,7 +52,7 @@ class PLIST(XML):
 
     Attributes:
         _file (str): output file name
-        _sptr (:obj:`int`, file pointer): indicates start of appending point
+        _sptr (int): indicates start of appending point (file pointer)
         _tctr (int): tab level counter
         _hsrt (str): start string (:data:`~dictdumper.plist._HEADER_START`)
         _hend (str): end string (:data:`~dictdumper.plist._HEADER_END`)
@@ -81,14 +81,17 @@ class PLIST(XML):
 
     @property
     def kind(self):
-        """:obj:`str`: File format of current dumper."""
+        """File format of current dumper.
+
+        :rtype: Literal['plist']
+        """
         return 'plist'
 
     ##########################################################################
     # Type codes.
     ##########################################################################
 
-    #: :obj:`Tuple[Tuple[type, str]]`: Type codes.
+    #: Tuple[Tuple[type, str]]: Type codes.
     __type__ = (
         # string
         (str_type, 'string'),
@@ -133,10 +136,10 @@ class PLIST(XML):
         """Check content type for function call.
 
         Args:
-            o (:obj:`Any`): object to convert
+            o (Any): object to convert
 
         Returns:
-            :obj:`Any`: the converted object
+            Any: the converted object
 
         See Also:
             The function is a direct wrapper for :meth:`~dictdumper.dumper.Dumper.object_hook`.
@@ -161,8 +164,8 @@ class PLIST(XML):
         """Call this function to write contents.
 
         Args:
-            value (:obj:`Dict[str, Any]`): content to be dumped
-            file (:obj:`file` object): output file
+            value (Dict[str, Any]): content to be dumped
+            file (io.TextIOWrapper): output file
             name (str): name of current content block
 
         """
@@ -182,8 +185,8 @@ class PLIST(XML):
         """Call this function to write dict contents.
 
         Args:
-            value (:obj:`Dict[str, Any]`): content to be dumped
-            file (:obj:`file` object): output file
+            value (Dict[str, Any]): content to be dumped
+            file (io.TextIOWrapper): output file
 
         """
         tabs = '\t' * self._tctr
@@ -212,8 +215,8 @@ class PLIST(XML):
         """Call this function to write array contents.
 
         Args:
-            value (:obj:`List[Any]`): content to be dumped
-            file (:obj:`file` object): output file
+            value (List[Any]): content to be dumped
+            file (io.TextIOWrapper): output file
 
         """
         tabs = '\t' * self._tctr
@@ -239,7 +242,7 @@ class PLIST(XML):
 
         Args:
             value (str): content to be dumped
-            file (:obj:`file` object): output file
+            file (io.TextIOWrapper): output file
 
         """
         tabs = '\t' * self._tctr
@@ -252,7 +255,7 @@ class PLIST(XML):
 
         Args:
             value (bytes): content to be dumped
-            file (:obj:`file` object): output file
+            file (io.TextIOWrapper): output file
 
         """
         # binascii.b2a_base64(value) -> plistlib.Data
@@ -267,8 +270,8 @@ class PLIST(XML):
         """Call this function to write date contents.
 
         Args:
-            value (:obj:`Union[datetime.date, datetime.datetime]`): content to be dumped
-            file (:obj:`file` object): output file
+            value (Union[datetime.date, datetime.datetime]): content to be dumped
+            file (io.TextIOWrapper): output file
 
         """
         tabs = '\t' * self._tctr
@@ -281,7 +284,7 @@ class PLIST(XML):
 
         Args:
             value (int): content to be dumped
-            file (:obj:`file` object): output file
+            file (io.TextIOWrapper): output file
 
         """
         tabs = '\t' * self._tctr
@@ -294,7 +297,7 @@ class PLIST(XML):
 
         Args:
             value (float): content to be dumped
-            file (:obj:`file` object): output file
+            file (io.TextIOWrapper): output file
 
         """
         tabs = '\t' * self._tctr
@@ -307,7 +310,7 @@ class PLIST(XML):
 
         Args:
             value (bool): content to be dumped
-            file (:obj:`file` object): output file
+            file (io.TextIOWrapper): output file
 
         """
         tabs = '\t' * self._tctr

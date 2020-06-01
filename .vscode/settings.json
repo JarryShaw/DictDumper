@@ -27,6 +27,8 @@
         "nctr",
         "noindex",
         "posargs",
+        "rstcheck",
+        "rtype",
         "setenv",
         "sptr",
         "suff",

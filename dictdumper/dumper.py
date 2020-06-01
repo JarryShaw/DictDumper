@@ -50,7 +50,7 @@ class Dumper(object):  # pylint: disable=metaclass-assignment,useless-object-inh
 
     Attributes:
         _file (str): output file name
-        _sptr (:obj:`int`, file pointer): indicates start of appending point
+        _sptr (int): indicates start of appending point (file pointer)
         _tctr (int): tab level counter
         _hsrt (str): start string (``_HEADER_START``)
         _hend (str): end string (``_HEADER_END``)
@@ -66,18 +66,24 @@ class Dumper(object):  # pylint: disable=metaclass-assignment,useless-object-inh
     @property
     @abc.abstractmethod
     def kind(self):
-        """:obj:`str`: File format of current dumper."""
+        """File format of current dumper.
+
+        :rtype: str
+        """
 
     @property
     def filename(self):
-        """:obj:`str`: Output file name."""
+        """Output file name.
+
+        :rtype: str
+        """
         return self._file
 
     ##########################################################################
     # Type codes.
     ##########################################################################
 
-    #: :obj:`Tuple[Tuple[type, str]]`: Type codes.
+    #: Tuple[Tuple[type, str]]: Type codes.
     __type__ = tuple()
 
     ##########################################################################
@@ -94,7 +100,7 @@ class Dumper(object):  # pylint: disable=metaclass-assignment,useless-object-inh
             **kwargs: additional information for the convertion
 
         Returns:
-            :obj:`Dict[str, Any]`: Information context of the convertion.
+            Dict[str, Any]: Information context of the convertion.
 
         """
         obj = collections.OrderedDict()
@@ -108,10 +114,10 @@ class Dumper(object):  # pylint: disable=metaclass-assignment,useless-object-inh
         """Convert content for function call.
 
         Args:
-            o (:obj:`Any`): object to convert
+            o (Any): object to convert
 
         Returns:
-            :obj:`Any`: the converted object
+            Any: the converted object
 
         """
         return o
@@ -120,10 +126,10 @@ class Dumper(object):  # pylint: disable=metaclass-assignment,useless-object-inh
         """Check content type for function call.
 
         Args:
-            o (:obj:`Any`): object to check
+            o (Any): object to check
 
         Raises:
-            :exc:`DumperError`: ``o`` is an unsupported content type
+            DumperError: ``o`` is an unsupported content type
 
         """
         raise DumperError('unsupported content type: %s' % type(o).__name__)
@@ -158,18 +164,18 @@ class Dumper(object):  # pylint: disable=metaclass-assignment,useless-object-inh
             **kwargs: addition keyword arguments for initialisation
 
         """
-        self._file = fname          # dump file name
-        self._dump_header()         # initialise output file
+        self._file = fname           # dump file name
+        self._dump_header(**kwargs)  # initialise output file
 
     def __call__(self, value, name=None):
         """Dumper a new block.
 
         Args:
-            value (:obj:`Dict[str, Any]`): content to be dumped
-            name (:obj:`Optional[str]`): name of current content block
+            value (Dict[str, Any]): content to be dumped
+            name (v): name of current content block
 
         Returns:
-            :class:`Dumper`: the dumper class itself (to support chain calling)
+            Dumper: the dumper class itself (to support chain calling)
 
         """
         with open(self._file, 'r+') as file:
@@ -182,8 +188,13 @@ class Dumper(object):  # pylint: disable=metaclass-assignment,useless-object-inh
     # Utilities.
     ##########################################################################
 
-    def _dump_header(self):
-        """Initially dump file heads and tails."""
+    def _dump_header(self, **kwargs):  # pylint: disable=unused-argument
+        """Initially dump file heads and tails.
+
+        Keyword Args:
+            **kwargs: Arbitrary keyword arguments.
+
+        """
         with open(self._file, 'w') as file:
             file.write(self._hsrt)
             self._sptr = file.tell()
@@ -193,7 +204,7 @@ class Dumper(object):  # pylint: disable=metaclass-assignment,useless-object-inh
         """Check content type for function call.
 
         Args:
-            o (:obj:`Any`): object to check
+            o (Any): object to check
 
         See Also:
             If the type of ``o`` is not defined in :attr:`~Dumper.__type__`,
@@ -215,10 +226,10 @@ class Dumper(object):  # pylint: disable=metaclass-assignment,useless-object-inh
         """Convert content for function call.
 
         Args:
-            o (:obj:`Any`): object to convert
+            o (Any): object to convert
 
         Returns:
-            :obj:`Any`: the converted object
+            Any: the converted object
 
         See Also:
             The function is a direct wrapper for :meth:`~Dumper.object_hook`.
@@ -231,8 +242,8 @@ class Dumper(object):  # pylint: disable=metaclass-assignment,useless-object-inh
         """Call this function to write contents.
 
         Args:
-            value (:obj:`Dict[str, Any]`): content to be dumped
-            file (:obj:`file` object): output file
+            value (Dict[str, Any]): content to be dumped
+            file (io.TextIOWrapper): output file
             name (str): name of current content block
 
         """

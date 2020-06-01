@@ -26,6 +26,7 @@ tox = "*"
 sphinx = "*"
 sphinxcontrib-napoleon = "*"
 doc8 = "*"
+rstcheck = "*"
 
 [requires]
 python_version = "3.7"
