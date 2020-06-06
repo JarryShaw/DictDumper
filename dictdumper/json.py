@@ -22,6 +22,7 @@ import collections
 import datetime
 import math
 import os
+import string
 
 from dictdumper._dateutil import isoformat
 from dictdumper._hexlify import hexlify
@@ -35,6 +36,17 @@ _HEADER_START = '{\n'
 
 #: JSON tail string.
 _HEADER_END = '\n}'
+
+#: Mapping for escaping special characters (c.f. :data:`json.encoder.ESCAPE_DCT`).
+ESCAPE_DCT = {
+    '\\': '\\\\',
+    '"': '\\"',
+    '\b': '\\b',
+    '\f': '\\f',
+    '\n': '\\n',
+    '\r': '\\r',
+    '\t': '\\t',
+}
 
 
 class JSON(Dumper):
@@ -273,7 +285,13 @@ class JSON(Dumper):
             file (io.TextIOWrapper): output file
 
         """
-        text = str_type(value).replace(u'"', u'\\"')
+        text = ''
+        for char in str_type(value):
+            if char in string.printable:
+                temp = ESCAPE_DCT.get(char, char)
+            else:
+                temp = '\\u{0:04x}'.format(ord(char))
+            text += temp
         labs = '"{text}"'.format(text=text)
         file.write(labs)
 

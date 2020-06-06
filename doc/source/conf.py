@@ -22,7 +22,7 @@ copyright = '2020, Jarry Shaw'
 author = 'Jarry Shaw'
 
 # The full version, including alpha/beta/rc tags
-release = '0.8.2'
+release = '0.8.4'
 
 
 # -- General configuration ---------------------------------------------------
