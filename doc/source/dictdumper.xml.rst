@@ -1,6 +1,8 @@
 Base XML Dumper
 ===============
 
+.. module:: dictdumper.xml
+
 .. note::
 
     Do not use the :class:`~dictdumper.xml.XML` directly.

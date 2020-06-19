@@ -1,6 +1,8 @@
 PLIST Dumper
 ============
 
+.. module:: dictdumper.plist
+
 :mod:`dictdumper.plist` contains :class:`~dictdumper.plist.PLIST`
 only, which dumpers an Apple property list (PLIST) file. Usage
 sample is described as below.

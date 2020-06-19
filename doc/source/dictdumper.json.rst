@@ -1,6 +1,8 @@
 JSON Dumper
 ===========
 
+.. module:: dictdumper.json
+
 :mod:`dictdumper.json` contains :class:`~dictdumper.json.JSON`
 only, which dumpers a JavaScript object notation (JSON) file.
 Usage sample is described as below.

@@ -1,6 +1,8 @@
 Base Dumper
 ===========
 
+.. module:: dictdumper.dumpers
+
 :mod:`~dictdumper.dumper` contains :class:`~dictdumper.dumper.Dumper` only,
 which is an abstract base class for all dumpers, eg. :class:`~dictdumper.vuejs.VueJS`,
 :class:`~dictdumper.json.JSON`, :class:`~dictdumper.plist.PLIST`,

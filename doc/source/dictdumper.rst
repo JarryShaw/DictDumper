@@ -1,6 +1,8 @@
 DictDumper package
 ==================
 
+.. module:: dictdumper
+
 Table of Contents
 -----------------
 

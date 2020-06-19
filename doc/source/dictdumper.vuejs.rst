@@ -1,6 +1,8 @@
 Vue.js Dumper (DEPRECATED)
 ==========================
 
+.. module:: dictdumper.vuejs
+
 .. note::
 
     Note that this file is deprecated.

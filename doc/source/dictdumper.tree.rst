@@ -1,6 +1,8 @@
 Tree-View Dumper
 ================
 
+.. module:: dictdumper.tree
+
 :mod:`dictdumper.tree` contains :class:`~dictdumper.tree.Tree`
 only, which dumpers a tree-view text (TXT) format file. Usage
 sample is described as below.
