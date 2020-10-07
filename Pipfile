@@ -18,17 +18,18 @@ verify_ssl = true
 [dev-packages]
 dictdumper = {editable = true, path = "."}
 autopep8 = "*"
-ipython = "*"
+bandit = "*"
+mypy = "*"
 pylint = "*"
+ipython = "*"
 coverage = "*"
 codecov = "*"
-tox = "*"
 sphinx = "*"
-doc8 = "*"
 rstcheck = "*"
+tox = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.8"
 
 [pipenv]
 allow_prereleases = true
