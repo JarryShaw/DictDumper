@@ -24,7 +24,6 @@ coverage = "*"
 codecov = "*"
 tox = "*"
 sphinx = "*"
-sphinxcontrib-napoleon = "*"
 doc8 = "*"
 rstcheck = "*"
 
