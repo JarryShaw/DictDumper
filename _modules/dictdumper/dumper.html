@@ -1,0 +1,356 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>dictdumper.dumper &#8212; DictDumper 0.8.4.post2 documentation</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for dictdumper.dumper</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;base dumper</span>
+
+<span class="sd">:mod:`~dictdumper.dumper` contains :class:`~dictdumper.dumper.Dumper` only,</span>
+<span class="sd">which is an abstract base class for all dumpers, eg. :class:`~dictdumper.vuejs.VueJS`,</span>
+<span class="sd">:class:`~dictdumper.json.JSON`, :class:`~dictdumper.plist.PLIST`,</span>
+<span class="sd">:class:`~dictdumper.tree.Tree`, and :class:`~dictdumper.xml.XML`.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1"># Abstract Base Class of Dumpers</span>
+<span class="c1"># Pre-define useful arguments and methods of dumpers</span>
+
+<span class="kn">import</span> <span class="nn">abc</span>
+<span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">from</span> <span class="nn">dictdumper._types</span> <span class="kn">import</span> <span class="n">str_type</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Dumper&#39;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="deprecated"><a class="viewcode-back" href="../../dictdumper.dumper.html#dictdumper.dumper.deprecated">[docs]</a><span class="k">def</span> <span class="nf">deprecated</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Deprecation warning.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        cls (object): the class to mark as deprecated</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        object: The original ``cls`` itself.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> is deprecated&#39;</span> <span class="o">%</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">cls</span></div>
+
+
+<div class="viewcode-block" id="DumperError"><a class="viewcode-back" href="../../dictdumper.dumper.html#dictdumper.dumper.DumperError">[docs]</a><span class="k">class</span> <span class="nc">DumperError</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Unsupported content type.&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="Dumper"><a class="viewcode-back" href="../../dictdumper.dumper.html#dictdumper.dumper.Dumper">[docs]</a><span class="k">class</span> <span class="nc">Dumper</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>  <span class="c1"># pylint: disable=metaclass-assignment,useless-object-inheritance</span>
+    <span class="sd">&quot;&quot;&quot;Abstract base class of all dumpers.</span>
+
+<span class="sd">    .. code:: python</span>
+
+<span class="sd">        &gt;&gt;&gt; dumper = Dumper(file_name)</span>
+<span class="sd">        &gt;&gt;&gt; dumper(content_dict_1, name=content_name_1)</span>
+<span class="sd">        &gt;&gt;&gt; dumper(content_dict_2, name=content_name_2)</span>
+<span class="sd">        ............</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        _file (str): output file name</span>
+<span class="sd">        _sptr (int): indicates start of appending point (file pointer)</span>
+<span class="sd">        _tctr (int): tab level counter</span>
+<span class="sd">        _hsrt (str): start string (``_HEADER_START``)</span>
+<span class="sd">        _hend (str): end string (``_HEADER_END``)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">__metaclass__</span> <span class="o">=</span> <span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Properties.</span>
+    <span class="c1">##########################################################################</span>
+
+    <span class="c1"># file format of current dumper</span>
+    <span class="nd">@property</span>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="k">def</span> <span class="nf">kind</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;File format of current dumper.</span>
+
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">filename</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Output file name.</span>
+
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Type codes.</span>
+    <span class="c1">##########################################################################</span>
+
+    <span class="c1">#: Tuple[Tuple[type, str]]: Type codes.</span>
+    <span class="n">__type__</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">()</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Methods.</span>
+    <span class="c1">##########################################################################</span>
+
+<div class="viewcode-block" id="Dumper.make_object"><a class="viewcode-back" href="../../dictdumper.dumper.html#dictdumper.dumper.Dumper.make_object">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">make_object</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create an object with convertion information.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            o (Any): object to convert</span>
+<span class="sd">            value (Any): converted value of ``o``</span>
+<span class="sd">            **kwargs: additional information for the convertion</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict[str, Any]: Information context of the convertion.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="n">obj</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">str_type</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">o</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="n">obj</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">obj</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+        <span class="k">return</span> <span class="n">obj</span></div>
+
+<div class="viewcode-block" id="Dumper.object_hook"><a class="viewcode-back" href="../../dictdumper.dumper.html#dictdumper.dumper.Dumper.object_hook">[docs]</a>    <span class="k">def</span> <span class="nf">object_hook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">):</span>  <span class="c1"># pylint: disable=unused-argument,no-self-use</span>
+        <span class="sd">&quot;&quot;&quot;Convert content for function call.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            o (Any): object to convert</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Any: the converted object</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">o</span></div>
+
+<div class="viewcode-block" id="Dumper.default"><a class="viewcode-back" href="../../dictdumper.dumper.html#dictdumper.dumper.Dumper.default">[docs]</a>    <span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">):</span>  <span class="c1"># pylint: disable=unused-argument,no-self-use</span>
+        <span class="sd">&quot;&quot;&quot;Check content type for function call.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            o (Any): object to check</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            DumperError: ``o`` is an unsupported content type</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="n">DumperError</span><span class="p">(</span><span class="s1">&#39;unsupported content type: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">o</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span></div>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Attributes.</span>
+    <span class="c1">##########################################################################</span>
+
+    <span class="c1">#: :obj:`int`, file pointer: Indicates start of appending point.</span>
+    <span class="n">_sptr</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">SEEK_SET</span>    <span class="c1"># seek pointer</span>
+    <span class="c1">#: :obj:`int`: Tab level counter.</span>
+    <span class="n">_tctr</span> <span class="o">=</span> <span class="mi">1</span>              <span class="c1"># counter for tab level</span>
+
+    <span class="c1">#: Dumper head string.</span>
+    <span class="n">_hsrt</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="c1">#: Dumper tail string.</span>
+    <span class="n">_hend</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Data models.</span>
+    <span class="c1">##########################################################################</span>
+
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>  <span class="c1"># pylint: disable=unused-argument</span>
+        <span class="bp">self</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">Dumper</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+<div class="viewcode-block" id="Dumper.__init__"><a class="viewcode-back" href="../../dictdumper.dumper.html#dictdumper.dumper.Dumper.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>  <span class="c1"># pylint: disable=unused-argument</span>
+        <span class="sd">&quot;&quot;&quot;Initialise dumper.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            fname (str): output file name</span>
+<span class="sd">            **kwargs: addition keyword arguments for initialisation</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_file</span> <span class="o">=</span> <span class="n">fname</span>           <span class="c1"># dump file name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dump_header</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c1"># initialise output file</span></div>
+
+<div class="viewcode-block" id="Dumper.__call__"><a class="viewcode-back" href="../../dictdumper.dumper.html#dictdumper.dumper.Dumper.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Dumper a new block.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value (Dict[str, Any]): content to be dumped</span>
+<span class="sd">            name (v): name of current content block</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dumper: the dumper class itself (to support chain calling)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_file</span><span class="p">,</span> <span class="s1">&#39;r+&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_append_value</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_sptr</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span>
+            <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_hend</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Utilities.</span>
+    <span class="c1">##########################################################################</span>
+
+<div class="viewcode-block" id="Dumper._dump_header"><a class="viewcode-back" href="../../dictdumper.dumper.html#dictdumper.dumper.Dumper._dump_header">[docs]</a>    <span class="k">def</span> <span class="nf">_dump_header</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>  <span class="c1"># pylint: disable=unused-argument</span>
+        <span class="sd">&quot;&quot;&quot;Initially dump file heads and tails.</span>
+
+<span class="sd">        Keyword Args:</span>
+<span class="sd">            **kwargs: Arbitrary keyword arguments.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_hsrt</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_sptr</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span>
+            <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_hend</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Dumper._encode_func"><a class="viewcode-back" href="../../dictdumper.dumper.html#dictdumper.dumper.Dumper._encode_func">[docs]</a>    <span class="k">def</span> <span class="nf">_encode_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Check content type for function call.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            o (Any): object to check</span>
+
+<span class="sd">        See Also:</span>
+<span class="sd">            If the type of ``o`` is not defined in :attr:`~Dumper.__type__`,</span>
+<span class="sd">            the function refers to :meth:`~Dumper.default` for custom hooks.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="n">code</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__type__</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">kind</span><span class="p">):</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">code</span>
+                <span class="k">break</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>  <span class="c1"># pylint: disable=assignment-from-no-return</span>
+
+        <span class="n">func</span> <span class="o">=</span> <span class="s1">&#39;_append_</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">name</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Dumper._encode_value"><a class="viewcode-back" href="../../dictdumper.dumper.html#dictdumper.dumper.Dumper._encode_value">[docs]</a>    <span class="k">def</span> <span class="nf">_encode_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Convert content for function call.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            o (Any): object to convert</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Any: the converted object</span>
+
+<span class="sd">        See Also:</span>
+<span class="sd">            The function is a direct wrapper for :meth:`~Dumper.object_hook`.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">object_hook</span><span class="p">(</span><span class="n">o</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Dumper._append_value"><a class="viewcode-back" href="../../dictdumper.dumper.html#dictdumper.dumper.Dumper._append_value">[docs]</a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="k">def</span> <span class="nf">_append_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Call this function to write contents.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value (Dict[str, Any]): content to be dumped</span>
+<span class="sd">            file (io.TextIOWrapper): output file</span>
+<span class="sd">            name (str): name of current content block</span>
+
+<span class="sd">        &quot;&quot;&quot;</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">DictDumper</a></h1>
+
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=JarryShaw&repo=dictdumper&type=star&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../dictdumper.html">DictDumper package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Jarry Shaw.
+      
+    </div>
+
+    
+    <a href="https://github.com/JarryShaw/dictdumper" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>

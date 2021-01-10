@@ -1,0 +1,456 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>dictdumper.json &#8212; DictDumper 0.8.4.post2 documentation</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for dictdumper.json</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;dumper a JSON file</span>
+
+<span class="sd">:mod:`dictdumper.json` contains :class:`~dictdumper.json.JSON`</span>
+<span class="sd">only, which dumpers a JavaScript object notation (JSON) file.</span>
+<span class="sd">Usage sample is described as below.</span>
+
+<span class="sd">.. code:: python</span>
+
+<span class="sd">    &gt;&gt;&gt; dumper = JSON(file_name)</span>
+<span class="sd">    &gt;&gt;&gt; dumper(content_dict_1, name=content_name_1)</span>
+<span class="sd">    &gt;&gt;&gt; dumper(content_dict_2, name=content_name_2)</span>
+<span class="sd">    ............</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1"># Writer for JSON files</span>
+<span class="c1"># Dump a JSON file for PCAP analyser</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">unicode_literals</span>
+
+<span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">string</span>
+
+<span class="kn">from</span> <span class="nn">dictdumper._dateutil</span> <span class="kn">import</span> <span class="n">isoformat</span>
+<span class="kn">from</span> <span class="nn">dictdumper._hexlify</span> <span class="kn">import</span> <span class="n">hexlify</span>
+<span class="kn">from</span> <span class="nn">dictdumper._types</span> <span class="kn">import</span> <span class="n">bytes_type</span><span class="p">,</span> <span class="n">str_type</span>
+<span class="kn">from</span> <span class="nn">dictdumper.dumper</span> <span class="kn">import</span> <span class="n">Dumper</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;JSON&#39;</span><span class="p">]</span>
+
+<span class="c1">#: JSON head string.</span>
+<span class="n">_HEADER_START</span> <span class="o">=</span> <span class="s1">&#39;{</span><span class="se">\n</span><span class="s1">&#39;</span>
+
+<span class="c1">#: JSON tail string.</span>
+<span class="n">_HEADER_END</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">}&#39;</span>
+
+<span class="c1">#: Mapping for escaping special characters (c.f. :data:`json.encoder.ESCAPE_DCT`).</span>
+<span class="n">ESCAPE_DCT</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="se">\\\\</span><span class="s1">&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;&quot;&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&quot;&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;</span><span class="se">\b</span><span class="s1">&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">b&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;</span><span class="se">\f</span><span class="s1">&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">f&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">n&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;</span><span class="se">\r</span><span class="s1">&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">r&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">t&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;</span><span class="se">\x0b</span><span class="s1">&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">u000b&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="JSON"><a class="viewcode-back" href="../../dictdumper.json.html#dictdumper.JSON">[docs]</a><span class="k">class</span> <span class="nc">JSON</span><span class="p">(</span><span class="n">Dumper</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Dump JavaScript object notation (JSON) format file.</span>
+
+<span class="sd">    .. code:: python</span>
+
+<span class="sd">        &gt;&gt;&gt; dumper = JSON(file_name)</span>
+<span class="sd">        &gt;&gt;&gt; dumper(content_dict_1, name=content_name_1)</span>
+<span class="sd">        &gt;&gt;&gt; dumper(content_dict_2, name=content_name_2)</span>
+<span class="sd">        ............</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        _file (str): output file name</span>
+<span class="sd">        _sptr (int): indicates start of appending point (file pointer)</span>
+<span class="sd">        _tctr (int): tab level counter</span>
+<span class="sd">        _hsrt (str): :data:`~dictdumper.json._HEADER_START`</span>
+<span class="sd">        _hend (str): :data:`~dictdumper.json._HEADER_END`</span>
+<span class="sd">        _vctr (DefaultDict[int, int]): value counter dict</span>
+
+<span class="sd">    .. note::</span>
+
+<span class="sd">        Terminology:</span>
+
+<span class="sd">        .. code::</span>
+
+<span class="sd">            object    ::=  &quot;{}&quot; | (&quot;{&quot; members &quot;}&quot;)</span>
+<span class="sd">            members   ::=  pair | (pair &quot;,&quot; members)</span>
+<span class="sd">            pair      ::=  string &quot;:&quot; value</span>
+<span class="sd">            array     ::=  &quot;[]&quot; | (&quot;[&quot; elements &quot;]&quot;)</span>
+<span class="sd">            elements  ::=  value | (value &quot;,&quot; elements)</span>
+<span class="sd">            value     ::=  string | number | object</span>
+<span class="sd">                            | array | true | false | null</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Properties.</span>
+    <span class="c1">##########################################################################</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">kind</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;File format of current dumper.</span>
+
+<span class="sd">        :rtype: Literal[&#39;json&#39;]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;json&#39;</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Type codes.</span>
+    <span class="c1">##########################################################################</span>
+
+    <span class="c1">#: Tuple[Tuple[type, str]]: Type codes.</span>
+    <span class="n">__type__</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="c1"># string</span>
+        <span class="p">(</span><span class="n">str_type</span><span class="p">,</span> <span class="s1">&#39;string&#39;</span><span class="p">),</span>
+
+        <span class="c1"># date</span>
+        <span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">,</span> <span class="s1">&#39;date&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span> <span class="s1">&#39;date&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="s1">&#39;date&#39;</span><span class="p">),</span>
+
+        <span class="c1"># bool</span>
+        <span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="s1">&#39;bool&#39;</span><span class="p">),</span>
+
+        <span class="c1"># number</span>
+        <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="s1">&#39;number&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="s1">&#39;number&#39;</span><span class="p">),</span>
+
+        <span class="c1"># object</span>
+        <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="s1">&#39;object&#39;</span><span class="p">),</span>
+
+        <span class="c1"># array</span>
+        <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="s1">&#39;array&#39;</span><span class="p">),</span>
+
+        <span class="c1"># null</span>
+        <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="s1">&#39;null&#39;</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Attributes.</span>
+    <span class="c1">##########################################################################</span>
+
+    <span class="c1">#: JSON head string.</span>
+    <span class="n">_hsrt</span> <span class="o">=</span> <span class="n">_HEADER_START</span>
+    <span class="c1">#: JSON tail string.</span>
+    <span class="n">_hend</span> <span class="o">=</span> <span class="n">_HEADER_END</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Data models.</span>
+    <span class="c1">##########################################################################</span>
+
+<div class="viewcode-block" id="JSON.__init__"><a class="viewcode-back" href="../../dictdumper.json.html#dictdumper.JSON.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialise dumper.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            fname (str): output file name</span>
+<span class="sd">            **kwargs: addition keyword arguments for initialisation</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">JSON</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1">#: DefaultDict[int, int]: Value counter dict.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vctr</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>  <span class="c1"># value counter dict</span></div>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Utilities.</span>
+    <span class="c1">##########################################################################</span>
+
+<div class="viewcode-block" id="JSON._encode_value"><a class="viewcode-back" href="../../dictdumper.json.html#dictdumper.JSON._encode_value">[docs]</a>    <span class="k">def</span> <span class="nf">_encode_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">):</span>  <span class="c1"># pylint: disable=unused-argument</span>
+        <span class="sd">&quot;&quot;&quot;Check content type for function call.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            o (Any): object to convert</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Any: the converted object</span>
+
+<span class="sd">        See Also:</span>
+<span class="sd">            The function is a direct wrapper for :meth:`~dictdumper.dumper.Dumper.object_hook`.</span>
+
+<span class="sd">        Notes:</span>
+<span class="sd">            The function will by default converts :obj:`bytearray`,</span>
+<span class="sd">            :obj:`memoryview`, :obj:`tuple`, :obj:`set`, :obj:`frozenset` to</span>
+<span class="sd">            JSON serialisable data.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="p">(</span><span class="n">bytes_type</span><span class="p">,</span> <span class="nb">bytearray</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_object</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">o</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">errors</span><span class="o">=</span><span class="s1">&#39;replace&#39;</span><span class="p">),</span> <span class="nb">hex</span><span class="o">=</span><span class="n">hexlify</span><span class="p">(</span><span class="n">o</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="nb">memoryview</span><span class="p">):</span>
+            <span class="n">tobytes</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="n">tobytes</span><span class="p">()</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_object</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">tobytes</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">errors</span><span class="o">=</span><span class="s1">&#39;replace&#39;</span><span class="p">),</span> <span class="nb">hex</span><span class="o">=</span><span class="n">hexlify</span><span class="p">(</span><span class="n">tobytes</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">set</span><span class="p">,</span> <span class="nb">frozenset</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_object</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">o</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">object_hook</span><span class="p">(</span><span class="n">o</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="JSON._append_value"><a class="viewcode-back" href="../../dictdumper.json.html#dictdumper.JSON._append_value">[docs]</a>    <span class="k">def</span> <span class="nf">_append_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Call this function to write contents.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value (Dict[str, Any]): content to be dumped</span>
+<span class="sd">            file (io.TextIOWrapper): output file</span>
+<span class="sd">            name (str): name of current content block</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tabs</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tctr</span>
+        <span class="n">cmma</span> <span class="o">=</span> <span class="s1">&#39;,</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vctr</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_tctr</span><span class="p">]</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{cmma}{tabs}</span><span class="s1">&quot;</span><span class="si">{name}</span><span class="s1">&quot;: &#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cmma</span><span class="o">=</span><span class="n">cmma</span><span class="p">,</span> <span class="n">tabs</span><span class="o">=</span><span class="n">tabs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="n">file</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_sptr</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">SEEK_SET</span><span class="p">)</span>
+        <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vctr</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_tctr</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_append_object</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span></div>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Functions.</span>
+    <span class="c1">##########################################################################</span>
+
+<div class="viewcode-block" id="JSON._append_object"><a class="viewcode-back" href="../../dictdumper.json.html#dictdumper.JSON._append_object">[docs]</a>    <span class="k">def</span> <span class="nf">_append_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Call this function to write object contents.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value (Dict[str, Any]): content to be dumped</span>
+<span class="sd">            file (io.TextIOWrapper): output file</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">labs</span> <span class="o">=</span> <span class="s1">&#39;{&#39;</span>
+        <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">labs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tctr</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">for</span> <span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">tabs</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tctr</span>
+            <span class="n">cmma</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vctr</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_tctr</span><span class="p">]</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+            <span class="n">keys</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{cmma}</span><span class="se">\n</span><span class="si">{tabs}</span><span class="s1">&quot;</span><span class="si">{item}</span><span class="s1">&quot;: &#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cmma</span><span class="o">=</span><span class="n">cmma</span><span class="p">,</span> <span class="n">tabs</span><span class="o">=</span><span class="n">tabs</span><span class="p">,</span> <span class="n">item</span><span class="o">=</span><span class="n">item</span><span class="p">)</span>
+            <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_vctr</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_tctr</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="n">enc_text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_encode_value</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+            <span class="n">func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_encode_func</span><span class="p">(</span><span class="n">enc_text</span><span class="p">)</span>
+            <span class="n">func</span><span class="p">(</span><span class="n">enc_text</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vctr</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_tctr</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tctr</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="n">tabs</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tctr</span>
+        <span class="n">labs</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="si">{tabs}{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;}&#39;</span><span class="p">,</span> <span class="n">tabs</span><span class="o">=</span><span class="n">tabs</span><span class="p">)</span>
+        <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">labs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="JSON._append_array"><a class="viewcode-back" href="../../dictdumper.json.html#dictdumper.JSON._append_array">[docs]</a>    <span class="k">def</span> <span class="nf">_append_array</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Call this function to write array contents.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value (List[Any]): content to be dumped</span>
+<span class="sd">            file (io.TextIOWrapper): output file</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">val_list</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_value</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">value</span><span class="p">]</span>
+        <span class="n">mul_line</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">val_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">mul_line</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">break</span>
+
+        <span class="n">labs</span> <span class="o">=</span> <span class="s1">&#39;[</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="k">if</span> <span class="n">mul_line</span> <span class="k">else</span> <span class="s1">&#39;[ &#39;</span>
+        <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">labs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tctr</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">tabs</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tctr</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">val_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vctr</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_tctr</span><span class="p">]:</span>
+                <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;,</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="k">if</span> <span class="n">mul_line</span> <span class="k">else</span> <span class="s1">&#39;, &#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">mul_line</span><span class="p">:</span>
+                <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">tabs</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_vctr</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_tctr</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="n">func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_encode_func</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="n">func</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_vctr</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_tctr</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tctr</span> <span class="o">-=</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="n">mul_line</span><span class="p">:</span>
+            <span class="n">tabs</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tctr</span>
+            <span class="n">labs</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="si">{tabs}</span><span class="s1">]&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tabs</span><span class="o">=</span><span class="n">tabs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">labs</span> <span class="o">=</span> <span class="s1">&#39; ]&#39;</span>
+        <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">labs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="JSON._append_string"><a class="viewcode-back" href="../../dictdumper.json.html#dictdumper.JSON._append_string">[docs]</a>    <span class="k">def</span> <span class="nf">_append_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>  <span class="c1"># pylint: disable=no-self-use</span>
+        <span class="sd">&quot;&quot;&quot;Call this function to write string contents.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value (str): content to be dumped</span>
+<span class="sd">            file (io.TextIOWrapper): output file</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">str_type</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">string</span><span class="o">.</span><span class="n">printable</span><span class="p">:</span>
+                <span class="n">temp</span> <span class="o">=</span> <span class="n">ESCAPE_DCT</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">char</span><span class="p">,</span> <span class="n">char</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">temp</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">u</span><span class="si">{0:04x}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">char</span><span class="p">))</span>
+            <span class="n">text</span> <span class="o">+=</span> <span class="n">temp</span>
+        <span class="n">labs</span> <span class="o">=</span> <span class="s1">&#39;&quot;</span><span class="si">{text}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">)</span>
+        <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">labs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="JSON._append_date"><a class="viewcode-back" href="../../dictdumper.json.html#dictdumper.JSON._append_date">[docs]</a>    <span class="k">def</span> <span class="nf">_append_date</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>  <span class="c1"># pylint: disable=no-self-use</span>
+        <span class="sd">&quot;&quot;&quot;Call this function to write date contents.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value (Union[datetime.date, datetime.datetime, datetime.time]): content to be dumped</span>
+<span class="sd">            file (io.TextIOWrapper): output file</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">isoformat</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="n">labs</span> <span class="o">=</span> <span class="s1">&#39;&quot;</span><span class="si">{text}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">)</span>
+        <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">labs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="JSON._append_number"><a class="viewcode-back" href="../../dictdumper.json.html#dictdumper.JSON._append_number">[docs]</a>    <span class="k">def</span> <span class="nf">_append_number</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Call this function to write number contents.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value (Union[int, float]): content to be dumped</span>
+<span class="sd">            file (io.TextIOWrapper): output file</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">math</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_object</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="n">str_type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;nan&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;NaN&#39;</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_append_object</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">math</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_object</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="n">str_type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;inf&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;Infinity&#39;</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_append_object</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">labs</span> <span class="o">=</span> <span class="n">str_type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">labs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="JSON._append_bool"><a class="viewcode-back" href="../../dictdumper.json.html#dictdumper.JSON._append_bool">[docs]</a>    <span class="k">def</span> <span class="nf">_append_bool</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>  <span class="c1"># pylint: disable=no-self-use</span>
+        <span class="sd">&quot;&quot;&quot;Call this function to write bool contents.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value (bool): content to be dumped</span>
+<span class="sd">            file (io.TextIOWrapper): output file</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">labs</span> <span class="o">=</span> <span class="s1">&#39;true&#39;</span> <span class="k">if</span> <span class="n">value</span> <span class="k">else</span> <span class="s1">&#39;false&#39;</span>
+        <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">labs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="JSON._append_null"><a class="viewcode-back" href="../../dictdumper.json.html#dictdumper.JSON._append_null">[docs]</a>    <span class="k">def</span> <span class="nf">_append_null</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>  <span class="c1"># pylint: disable=unused-argument,no-self-use</span>
+        <span class="sd">&quot;&quot;&quot;Call this function to write null contents.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value (None): content to be dumped</span>
+<span class="sd">            file (io.TextIOWrapper): output file</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">labs</span> <span class="o">=</span> <span class="s1">&#39;null&#39;</span>
+        <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">labs</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">DictDumper</a></h1>
+
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=JarryShaw&repo=dictdumper&type=star&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../dictdumper.html">DictDumper package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Jarry Shaw.
+      
+    </div>
+
+    
+    <a href="https://github.com/JarryShaw/dictdumper" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>

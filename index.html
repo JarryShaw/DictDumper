@@ -1,0 +1,175 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DictDumper - Stream Formatted Output Dumper &#8212; DictDumper 0.8.4.post2 documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="DictDumper package" href="dictdumper.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="dictdumper-stream-formatted-output-dumper">
+<h1>DictDumper - Stream Formatted Output Dumper<a class="headerlink" href="#dictdumper-stream-formatted-output-dumper" title="Permalink to this headline">¶</a></h1>
+<p>The <a class="reference internal" href="dictdumper.html#module-dictdumper" title="dictdumper"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dictdumper</span></code></a> project is an open source Python program works as a
+stream formatted output dumper for <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code></a>.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="dictdumper.html">DictDumper package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dictdumper.html#table-of-contents">Table of Contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dictdumper.dumper.html">Base Dumper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dictdumper.tree.html">Tree-View Dumper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dictdumper.xml.html">Base XML Dumper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dictdumper.plist.html">PLIST Dumper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dictdumper.json.html">JSON Dumper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dictdumper.vuejs.html">Vue.js Dumper (DEPRECATED)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dictdumper.html#module-contents">Module Contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>Currently, the module supports following formats –</p>
+<ul>
+<li><p><a class="reference internal" href="dictdumper.dumper.html#dictdumper.dumper.Dumper" title="dictdumper.dumper.Dumper"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dumper</span></code></a></p>
+<p>Abstract base class of all dumpers.</p>
+</li>
+<li><p><a class="reference internal" href="dictdumper.json.html#dictdumper.json.JSON" title="dictdumper.json.JSON"><code class="xref py py-class docutils literal notranslate"><span class="pre">JSON</span></code></a></p>
+<p>Dump JavaScript object notation (<code class="docutils literal notranslate"><span class="pre">JSON</span></code>) format file.</p>
+</li>
+<li><p><a class="reference internal" href="dictdumper.plist.html#dictdumper.plist.PLIST" title="dictdumper.plist.PLIST"><code class="xref py py-class docutils literal notranslate"><span class="pre">PLIST</span></code></a></p>
+<p>Dump Apple property list (<code class="docutils literal notranslate"><span class="pre">PLIST</span></code>) format file.</p>
+</li>
+<li><p><a class="reference internal" href="dictdumper.tree.html#dictdumper.tree.Tree" title="dictdumper.tree.Tree"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tree</span></code></a></p>
+<p>Dump tree-view text (<code class="docutils literal notranslate"><span class="pre">TXT</span></code>) format file.</p>
+</li>
+<li><p><a class="reference internal" href="dictdumper.xml.html#dictdumper.xml.XML" title="dictdumper.xml.XML"><code class="xref py py-class docutils literal notranslate"><span class="pre">XML</span></code></a></p>
+<p>Dump extensible markup language (<code class="docutils literal notranslate"><span class="pre">XML</span></code>) file;
+this is an abstract base class</p>
+</li>
+<li><p><a class="reference internal" href="dictdumper.vuejs.html#dictdumper.vuejs.VueJS" title="dictdumper.vuejs.VueJS"><code class="xref py py-class docutils literal notranslate"><span class="pre">VueJS</span></code></a></p>
+<p>Dump JavaScript file using <code class="docutils literal notranslate"><span class="pre">Vue.js</span></code> framework;
+this class is deprecated due to grammar error.</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 0.8.0.</span></p>
+</div>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <a class="reference internal" href="dictdumper.xml.html#dictdumper.xml.XML" title="dictdumper.xml.XML"><code class="xref py py-class docutils literal notranslate"><span class="pre">XML</span></code></a> class is an abstract
+base class for XML format dumpers.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The <a class="reference internal" href="dictdumper.vuejs.html#dictdumper.vuejs.VueJS" title="dictdumper.vuejs.VueJS"><code class="xref py py-class docutils literal notranslate"><span class="pre">VueJS</span></code></a> class is deprecated
+due to errors in grammar.</p>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">DictDumper</a></h1>
+
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=JarryShaw&repo=dictdumper&type=star&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="dictdumper.html">DictDumper package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+      <li>Next: <a href="dictdumper.html" title="next chapter">DictDumper package</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Jarry Shaw.
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+    <a href="https://github.com/JarryShaw/dictdumper" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>

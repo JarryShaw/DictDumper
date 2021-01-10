@@ -1,0 +1,846 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DictDumper package &#8212; DictDumper 0.8.4.post2 documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Base Dumper" href="dictdumper.dumper.html" />
+    <link rel="prev" title="DictDumper - Stream Formatted Output Dumper" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-dictdumper">
+<span id="dictdumper-package"></span><h1>DictDumper package<a class="headerlink" href="#module-dictdumper" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="dictdumper.dumper.html">Base Dumper</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dictdumper.dumper.html#dumper-class">Dumper class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dictdumper.dumper.html#internal-utilities">Internal utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dictdumper.tree.html">Tree-View Dumper</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dictdumper.tree.html#dumper-class">Dumper class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dictdumper.tree.html#internal-utilities">Internal utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dictdumper.xml.html">Base XML Dumper</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dictdumper.xml.html#dumper-class">Dumper class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dictdumper.xml.html#internal-utilities">Internal utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dictdumper.plist.html">PLIST Dumper</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dictdumper.plist.html#dumper-class">Dumper class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dictdumper.plist.html#internal-utilities">Internal utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dictdumper.json.html">JSON Dumper</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dictdumper.json.html#dumper-class">Dumper class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dictdumper.json.html#internal-utilities">Internal utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dictdumper.vuejs.html">Vue.js Dumper (DEPRECATED)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dictdumper.vuejs.html#dumper-class">Dumper class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dictdumper.vuejs.html#internal-utilities">Internal utilities</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<p>Stream formatted output dumper.</p>
+<p><a class="reference internal" href="#module-dictdumper" title="dictdumper"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dictdumper</span></code></a> is an open source Python program works as a
+stream formatted output dumper. Currently, it supports
+following formats:</p>
+<ul>
+<li><p><a class="reference internal" href="dictdumper.dumper.html#dictdumper.dumper.Dumper" title="dictdumper.dumper.Dumper"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dumper</span></code></a></p>
+<p>Abstract base class of all dumpers.</p>
+</li>
+<li><p><a class="reference internal" href="dictdumper.json.html#dictdumper.json.JSON" title="dictdumper.json.JSON"><code class="xref py py-class docutils literal notranslate"><span class="pre">JSON</span></code></a></p>
+<p>Dump JavaScript object notation (<code class="docutils literal notranslate"><span class="pre">JSON</span></code>) format file.</p>
+</li>
+<li><p><a class="reference internal" href="dictdumper.plist.html#dictdumper.plist.PLIST" title="dictdumper.plist.PLIST"><code class="xref py py-class docutils literal notranslate"><span class="pre">PLIST</span></code></a></p>
+<p>Dump Apple property list (<code class="docutils literal notranslate"><span class="pre">PLIST</span></code>) format file.</p>
+</li>
+<li><p><a class="reference internal" href="dictdumper.tree.html#dictdumper.tree.Tree" title="dictdumper.tree.Tree"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tree</span></code></a></p>
+<p>Dump tree-view text (<code class="docutils literal notranslate"><span class="pre">TXT</span></code>) format file.</p>
+</li>
+<li><p><a class="reference internal" href="dictdumper.xml.html#dictdumper.xml.XML" title="dictdumper.xml.XML"><code class="xref py py-class docutils literal notranslate"><span class="pre">XML</span></code></a></p>
+<p>Dump extensible markup language (<code class="docutils literal notranslate"><span class="pre">XML</span></code>) file;
+this is an abstract base class</p>
+</li>
+<li><p><a class="reference internal" href="dictdumper.vuejs.html#dictdumper.vuejs.VueJS" title="dictdumper.vuejs.VueJS"><code class="xref py py-class docutils literal notranslate"><span class="pre">VueJS</span></code></a></p>
+<p>Dump JavaScript file using <code class="docutils literal notranslate"><span class="pre">Vue.js</span></code> framework;
+this class is deprecated due to grammar error.</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 0.8.0.</span></p>
+</div>
+</li>
+</ul>
+<dl class="py class">
+<dt>
+<em class="property">class </em><code class="sig-prename descclassname">dictdumper.</code><code class="sig-name descname">JSON</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fname</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Bases: <a class="reference internal" href="dictdumper.dumper.html#dictdumper.dumper.Dumper" title="dictdumper.dumper.Dumper"><code class="xref py py-class docutils literal notranslate"><span class="pre">dictdumper.dumper.Dumper</span></code></a></p>
+<p>Dump JavaScript object notation (JSON) format file.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dumper</span> <span class="o">=</span> <span class="n">JSON</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dumper</span><span class="p">(</span><span class="n">content_dict_1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">content_name_1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dumper</span><span class="p">(</span><span class="n">content_dict_2</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">content_name_2</span><span class="p">)</span>
+<span class="go">............</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – output file name</p></li>
+<li><p><strong>_sptr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – indicates start of appending point (file pointer)</p></li>
+<li><p><a class="reference internal" href="dictdumper.json.html#dictdumper.json.JSON._tctr" title="dictdumper.json.JSON._tctr"><strong>_tctr</strong></a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – tab level counter</p></li>
+<li><p><a class="reference internal" href="dictdumper.json.html#dictdumper.json.JSON._hsrt" title="dictdumper.json.JSON._hsrt"><strong>_hsrt</strong></a> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – <a class="reference internal" href="dictdumper.json.html#dictdumper.json._HEADER_START" title="dictdumper.json._HEADER_START"><code class="xref py py-data docutils literal notranslate"><span class="pre">_HEADER_START</span></code></a></p></li>
+<li><p><a class="reference internal" href="dictdumper.json.html#dictdumper.json.JSON._hend" title="dictdumper.json.JSON._hend"><strong>_hend</strong></a> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – <a class="reference internal" href="dictdumper.json.html#dictdumper.json._HEADER_END" title="dictdumper.json._HEADER_END"><code class="xref py py-data docutils literal notranslate"><span class="pre">_HEADER_END</span></code></a></p></li>
+<li><p><a class="reference internal" href="dictdumper.json.html#dictdumper.json.JSON._vctr" title="dictdumper.json.JSON._vctr"><strong>_vctr</strong></a> (<em>DefaultDict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – value counter dict</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Terminology:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">object</span>    <span class="p">:</span><span class="o">:=</span>  <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span> <span class="o">|</span> <span class="p">(</span><span class="s2">&quot;{&quot;</span> <span class="n">members</span> <span class="s2">&quot;}&quot;</span><span class="p">)</span>
+<span class="n">members</span>   <span class="p">:</span><span class="o">:=</span>  <span class="n">pair</span> <span class="o">|</span> <span class="p">(</span><span class="n">pair</span> <span class="s2">&quot;,&quot;</span> <span class="n">members</span><span class="p">)</span>
+<span class="n">pair</span>      <span class="p">:</span><span class="o">:=</span>  <span class="n">string</span> <span class="s2">&quot;:&quot;</span> <span class="n">value</span>
+<span class="n">array</span>     <span class="p">:</span><span class="o">:=</span>  <span class="s2">&quot;[]&quot;</span> <span class="o">|</span> <span class="p">(</span><span class="s2">&quot;[&quot;</span> <span class="n">elements</span> <span class="s2">&quot;]&quot;</span><span class="p">)</span>
+<span class="n">elements</span>  <span class="p">:</span><span class="o">:=</span>  <span class="n">value</span> <span class="o">|</span> <span class="p">(</span><span class="n">value</span> <span class="s2">&quot;,&quot;</span> <span class="n">elements</span><span class="p">)</span>
+<span class="n">value</span>     <span class="p">:</span><span class="o">:=</span>  <span class="n">string</span> <span class="o">|</span> <span class="n">number</span> <span class="o">|</span> <span class="nb">object</span>
+                <span class="o">|</span> <span class="n">array</span> <span class="o">|</span> <span class="n">true</span> <span class="o">|</span> <span class="n">false</span> <span class="o">|</span> <span class="n">null</span>
+</pre></div>
+</div>
+</div>
+<dl class="py method">
+<dt>
+<em class="property">property </em><code class="sig-name descname">kind</code></dt>
+<dd><p>File format of current dumper.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Literal[‘json’]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fname</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON.__init__"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Initialise dumper.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – output file name</p></li>
+<li><p><strong>**kwargs</strong> – addition keyword arguments for initialisation</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname">_encode_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">o</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON._encode_value"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Check content type for function call.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>o</strong> (<em>Any</em>) – object to convert</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the converted object</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>The function is a direct wrapper for <a class="reference internal" href="dictdumper.dumper.html#dictdumper.dumper.Dumper.object_hook" title="dictdumper.dumper.Dumper.object_hook"><code class="xref py py-meth docutils literal notranslate"><span class="pre">object_hook()</span></code></a>.</p>
+</div>
+<div class="admonition-notes admonition">
+<p class="admonition-title">Notes</p>
+<p>The function will by default converts <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytearray" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bytearray</span></code></a>,
+<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#memoryview" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">memoryview</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#set" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#frozenset" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frozenset</span></code></a> to
+JSON serialisable data.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname">_append_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">file</span></em>, <em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON._append_value"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Call this function to write contents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>Any</em><em>]</em>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name of current content block</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname">_append_object</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON._append_object"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Call this function to write object contents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>Any</em><em>]</em>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname">_append_array</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON._append_array"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Call this function to write array contents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<em>List</em><em>[</em><em>Any</em><em>]</em>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname">_append_string</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON._append_string"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Call this function to write string contents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname">_append_date</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON._append_date"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Call this function to write date contents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.date" title="(in Python v3.9)"><em>datetime.date</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.9)"><em>datetime.datetime</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.time" title="(in Python v3.9)"><em>datetime.time</em></a><em>]</em>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname">_append_number</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON._append_number"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Call this function to write number contents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>]</em>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname">_append_bool</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON._append_bool"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Call this function to write bool contents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname">_append_null</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON._append_null"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Call this function to write null contents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt>
+<em class="property">class </em><code class="sig-prename descclassname">dictdumper.</code><code class="sig-name descname">PLIST</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fname</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/plist.html#PLIST"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Bases: <a class="reference internal" href="dictdumper.xml.html#dictdumper.xml.XML" title="dictdumper.xml.XML"><code class="xref py py-class docutils literal notranslate"><span class="pre">dictdumper.xml.XML</span></code></a></p>
+<p>Dump Apple property list (PLIST) format file.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dumper</span> <span class="o">=</span> <span class="n">PLIST</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dumper</span><span class="p">(</span><span class="n">content_dict_1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">content_name_1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dumper</span><span class="p">(</span><span class="n">content_dict_2</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">content_name_2</span><span class="p">)</span>
+<span class="go">............</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – output file name</p></li>
+<li><p><strong>_sptr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – indicates start of appending point (file pointer)</p></li>
+<li><p><a class="reference internal" href="dictdumper.plist.html#dictdumper.plist.PLIST._tctr" title="dictdumper.plist.PLIST._tctr"><strong>_tctr</strong></a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – tab level counter</p></li>
+<li><p><a class="reference internal" href="dictdumper.plist.html#dictdumper.plist.PLIST._hsrt" title="dictdumper.plist.PLIST._hsrt"><strong>_hsrt</strong></a> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – start string (<a class="reference internal" href="dictdumper.plist.html#dictdumper.plist._HEADER_START" title="dictdumper.plist._HEADER_START"><code class="xref py py-data docutils literal notranslate"><span class="pre">_HEADER_START</span></code></a>)</p></li>
+<li><p><a class="reference internal" href="dictdumper.plist.html#dictdumper.plist.PLIST._hend" title="dictdumper.plist.PLIST._hend"><strong>_hend</strong></a> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – end string (<a class="reference internal" href="dictdumper.plist.html#dictdumper.plist._HEADER_END" title="dictdumper.plist._HEADER_END"><code class="xref py py-data docutils literal notranslate"><span class="pre">_HEADER_END</span></code></a>)</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Terminology:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">value</span>    <span class="p">:</span><span class="o">:=</span>  <span class="n">array</span> <span class="o">|</span> <span class="nb">dict</span> <span class="o">|</span> <span class="n">string</span> <span class="o">|</span> <span class="n">data</span>
+                <span class="o">|</span> <span class="n">date</span> <span class="o">|</span> <span class="n">integer</span> <span class="o">|</span> <span class="n">real</span> <span class="o">|</span> <span class="nb">bool</span>
+<span class="n">array</span>    <span class="p">:</span><span class="o">:=</span>  <span class="s2">&quot;&lt;array&gt;&quot;</span> <span class="n">value</span><span class="o">*</span> <span class="s2">&quot;&lt;/array&gt;&quot;</span>
+<span class="nb">dict</span>     <span class="p">:</span><span class="o">:=</span>  <span class="s2">&quot;&lt;dict&gt;&quot;</span> <span class="p">(</span><span class="s2">&quot;&lt;key&gt;&quot;</span> <span class="nb">str</span> <span class="s2">&quot;&lt;/key&gt;&quot;</span> <span class="n">value</span><span class="p">)</span><span class="o">*</span> <span class="s2">&quot;&lt;/dict&gt;&quot;</span>
+<span class="n">string</span>   <span class="p">:</span><span class="o">:=</span>  <span class="s2">&quot;&lt;string&gt;&quot;</span> <span class="nb">str</span> <span class="s2">&quot;&lt;/string&gt;&quot;</span>
+<span class="n">data</span>     <span class="p">:</span><span class="o">:=</span>  <span class="s2">&quot;&lt;data&gt;&quot;</span> <span class="nb">bytes</span> <span class="s2">&quot;&lt;/data&gt;&quot;</span>
+<span class="n">date</span>     <span class="p">:</span><span class="o">:=</span>  <span class="s2">&quot;&lt;date&gt;&quot;</span> <span class="n">datetime</span> <span class="s2">&quot;&lt;/date&gt;&quot;</span>
+<span class="n">integer</span>  <span class="p">:</span><span class="o">:=</span>  <span class="s2">&quot;&lt;integer&gt;&quot;</span> <span class="nb">int</span> <span class="s2">&quot;&lt;/integer&gt;&quot;</span>
+<span class="n">real</span>     <span class="p">:</span><span class="o">:=</span>  <span class="s2">&quot;&lt;real&gt;&quot;</span> <span class="nb">float</span> <span class="s2">&quot;&lt;/real&gt;&quot;</span>
+<span class="nb">bool</span>     <span class="p">:</span><span class="o">:=</span>  <span class="s2">&quot;&lt;true/&gt;&quot;</span> <span class="o">|</span> <span class="s2">&quot;&lt;false/&gt;&quot;</span>
+</pre></div>
+</div>
+</div>
+<dl class="py method">
+<dt>
+<em class="property">property </em><code class="sig-name descname">kind</code></dt>
+<dd><p>File format of current dumper.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Literal[‘plist’]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname">_encode_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">o</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/plist.html#PLIST._encode_value"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Check content type for function call.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>o</strong> (<em>Any</em>) – object to convert</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the converted object</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>The function is a direct wrapper for <a class="reference internal" href="dictdumper.dumper.html#dictdumper.dumper.Dumper.object_hook" title="dictdumper.dumper.Dumper.object_hook"><code class="xref py py-meth docutils literal notranslate"><span class="pre">object_hook()</span></code></a>.</p>
+</div>
+<div class="admonition-notes admonition">
+<p class="admonition-title">Notes</p>
+<p>The function will by default converts <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytearray" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bytearray</span></code></a>, <code class="docutils literal notranslate"><span class="pre">None</span></code>,
+<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#memoryview" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">memoryview</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#set" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#frozenset" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frozenset</span></code></a> to
+PLIST serialisable data.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname">_append_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">file</span></em>, <em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/plist.html#PLIST._append_value"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Call this function to write contents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>Any</em><em>]</em>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name of current content block</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname">_append_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/plist.html#PLIST._append_dict"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Call this function to write dict contents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>Any</em><em>]</em>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname">_append_array</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/plist.html#PLIST._append_array"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Call this function to write array contents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<em>List</em><em>[</em><em>Any</em><em>]</em>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname">_append_string</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/plist.html#PLIST._append_string"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Call this function to write string contents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname">_append_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/plist.html#PLIST._append_data"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Call this function to write data contents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.9)"><em>bytes</em></a>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname">_append_date</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/plist.html#PLIST._append_date"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Call this function to write date contents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.date" title="(in Python v3.9)"><em>datetime.date</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.9)"><em>datetime.datetime</em></a><em>]</em>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname">_append_integer</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/plist.html#PLIST._append_integer"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Call this function to write integer contents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname">_append_real</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/plist.html#PLIST._append_real"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Call this function to write real contents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname">_append_bool</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/plist.html#PLIST._append_bool"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Call this function to write bool contents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt>
+<em class="property">class </em><code class="sig-prename descclassname">dictdumper.</code><code class="sig-name descname">Tree</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fname</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Bases: <a class="reference internal" href="dictdumper.dumper.html#dictdumper.dumper.Dumper" title="dictdumper.dumper.Dumper"><code class="xref py py-class docutils literal notranslate"><span class="pre">dictdumper.dumper.Dumper</span></code></a></p>
+<p>Dump a tree-view text (TXT) format file.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dumper</span> <span class="o">=</span> <span class="n">Tree</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dumper</span><span class="p">(</span><span class="n">content_dict_1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">contentname_1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dumper</span><span class="p">(</span><span class="n">content_dict_2</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">contentname_2</span><span class="p">)</span>
+<span class="go">............</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – output file name</p></li>
+<li><p><strong>_sptr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – indicates start of appending point (file pointer)</p></li>
+<li><p><a class="reference internal" href="dictdumper.tree.html#dictdumper.tree.Tree._tctr" title="dictdumper.tree.Tree._tctr"><strong>_tctr</strong></a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – tab level counter</p></li>
+<li><p><a class="reference internal" href="dictdumper.tree.html#dictdumper.tree.Tree._hsrt" title="dictdumper.tree.Tree._hsrt"><strong>_hsrt</strong></a> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – start string (<a class="reference internal" href="dictdumper.tree.html#dictdumper.tree._HEADER_START" title="dictdumper.tree._HEADER_START"><code class="xref py py-data docutils literal notranslate"><span class="pre">_HEADER_START</span></code></a>)</p></li>
+<li><p><a class="reference internal" href="dictdumper.tree.html#dictdumper.tree.Tree._hend" title="dictdumper.tree.Tree._hend"><strong>_hend</strong></a> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – end string (<a class="reference internal" href="dictdumper.tree.html#dictdumper.tree._HEADER_END" title="dictdumper.tree._HEADER_END"><code class="xref py py-data docutils literal notranslate"><span class="pre">_HEADER_END</span></code></a>)</p></li>
+<li><p><a class="reference internal" href="dictdumper.tree.html#dictdumper.tree.Tree._bctx" title="dictdumper.tree.Tree._bctx"><strong>_bctx</strong></a> (<em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>]</em>) – blank branch (indentation) context record</p></li>
+<li><p><a class="reference internal" href="dictdumper.tree.html#dictdumper.tree.Tree._nctr" title="dictdumper.tree.Tree._nctr"><strong>_nctr</strong></a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – branch number counter</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Terminology:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">value</span>   <span class="p">:</span><span class="o">:=</span>  <span class="n">branch</span> <span class="o">|</span> <span class="n">array</span> <span class="o">|</span> <span class="n">string</span> <span class="o">|</span> <span class="n">number</span> <span class="o">|</span> <span class="nb">bool</span> <span class="o">|</span> <span class="n">N</span><span class="o">/</span><span class="n">A</span>
+<span class="n">string</span>
+<span class="o">|--</span> <span class="n">string</span>
+<span class="o">|</span>     <span class="o">|--</span> <span class="n">string</span> <span class="o">-&gt;</span> <span class="n">value</span>
+<span class="o">|</span>     <span class="o">|--</span> <span class="n">string</span>
+<span class="o">|</span>     <span class="o">|</span>     <span class="o">|--</span> <span class="n">string</span> <span class="o">-&gt;</span> <span class="n">value</span>
+<span class="o">|</span>     <span class="o">|</span>     <span class="o">|--</span> <span class="n">string</span> <span class="o">-&gt;</span> <span class="n">value</span>
+<span class="o">|</span>     <span class="o">|--</span> <span class="n">string</span> <span class="o">-&gt;</span> <span class="n">value</span>
+<span class="o">|</span>     <span class="o">|--</span> <span class="n">string</span> <span class="o">-&gt;</span> <span class="n">value</span>
+<span class="o">|</span>           <span class="o">|--</span> <span class="n">string</span> <span class="o">-&gt;</span> <span class="n">value</span>
+<span class="o">|</span>           <span class="o">|--</span> <span class="n">string</span> <span class="o">-&gt;</span> <span class="n">value</span>
+<span class="o">|--</span> <span class="n">string</span> <span class="o">-&gt;</span> <span class="n">value</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">value</span>
+<span class="o">|--</span> <span class="n">string</span> <span class="o">-&gt;</span> <span class="kc">True</span>
+<span class="o">|--</span> <span class="n">string</span> <span class="o">-&gt;</span> <span class="kc">False</span>
+<span class="o">|--</span> <span class="n">string</span> <span class="o">-&gt;</span> <span class="n">N</span><span class="o">/</span><span class="n">A</span>
+<span class="o">|--</span> <span class="n">string</span> <span class="o">-&gt;</span> <span class="n">value</span>
+<span class="o">|--</span> <span class="n">string</span> <span class="o">-&gt;</span> <span class="n">value</span>
+</pre></div>
+</div>
+</div>
+<dl class="py method">
+<dt>
+<em class="property">property </em><code class="sig-name descname">kind</code></dt>
+<dd><p>File format of current dumper.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Literal[‘txt’]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<em class="property">static </em><code class="sig-name descname">check_newline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree.check_newline"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Check if newline is needed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> (<em>Union</em><em>[</em><em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>Any</em><em>]</em><em>, </em><em>AnyStr</em><em>]</em>) – value to check if
+new line is needed</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>if newline is needed</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
+</dd>
+</dl>
+<div class="admonition-notes admonition">
+<p class="admonition-title">Notes</p>
+<p>Newline is needed if</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">value</span></code> is a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code></a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">value</span></code> is string (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) and its length is greater than
+32 distinct characters</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">value</span></code> is bytestring (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bytes</span></code></a>) and the length of its hex
+representation is greater than 40 distinct characters</p></li>
+</ol>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname">_encode_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">o</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._encode_value"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Convert content for function call.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>o</strong> (<em>Any</em>) – object to convert</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the converted object</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>The function is a direct wrapper for <a class="reference internal" href="dictdumper.dumper.html#dictdumper.dumper.Dumper.object_hook" title="dictdumper.dumper.Dumper.object_hook"><code class="xref py py-meth docutils literal notranslate"><span class="pre">object_hook()</span></code></a>.</p>
+</div>
+<div class="admonition-notes admonition">
+<p class="admonition-title">Notes</p>
+<p>The function will by default converts <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytearray" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bytearray</span></code></a>,
+<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#memoryview" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">memoryview</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#set" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#frozenset" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frozenset</span></code></a> to
+tree-view represetable data.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname">_append_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">file</span></em>, <em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_value"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Call this function to write contents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>Any</em><em>]</em>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name of current content block</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname">_append_branch</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_branch"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Call this function to write branch contents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>Any</em><em>]</em>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname">_append_array</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_array"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Call this function to write array contents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<em>List</em><em>[</em><em>Any</em><em>]</em>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname">_append_string</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_string"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Call this function to write string contents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname">_append_bytes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_bytes"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Call this function to write bytes contents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.9)"><em>bytes</em></a>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname">_append_date</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_date"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Call this function to write date contents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.date" title="(in Python v3.9)"><em>datetime.date</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.9)"><em>datetime.datetime</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.time" title="(in Python v3.9)"><em>datetime.time</em></a><em>]</em>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname">_append_number</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_number"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Call this function to write number contents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#complex" title="(in Python v3.9)"><em>complex</em></a><em>]</em>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname">_append_bool</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_bool"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Call this function to write bool contents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt>
+<code class="sig-name descname">_append_none</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_none"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Call this function to write none contents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">DictDumper</a></h1>
+
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=JarryShaw&repo=dictdumper&type=star&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">DictDumper package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#table-of-contents">Table of Contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dictdumper.dumper.html">Base Dumper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dictdumper.tree.html">Tree-View Dumper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dictdumper.xml.html">Base XML Dumper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dictdumper.plist.html">PLIST Dumper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dictdumper.json.html">JSON Dumper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dictdumper.vuejs.html">Vue.js Dumper (DEPRECATED)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-contents">Module Contents</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">DictDumper - Stream Formatted Output Dumper</a></li>
+      <li>Next: <a href="dictdumper.dumper.html" title="next chapter">Base Dumper</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Jarry Shaw.
+      
+      |
+      <a href="_sources/dictdumper.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+    <a href="https://github.com/JarryShaw/dictdumper" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>

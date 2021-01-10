@@ -1,0 +1,403 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JSON Dumper &#8212; DictDumper 0.8.4.post2 documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Vue.js Dumper (DEPRECATED)" href="dictdumper.vuejs.html" />
+    <link rel="prev" title="PLIST Dumper" href="dictdumper.plist.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-dictdumper.json">
+<span id="json-dumper"></span><h1>JSON Dumper<a class="headerlink" href="#module-dictdumper.json" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="#module-dictdumper.json" title="dictdumper.json"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dictdumper.json</span></code></a> contains <a class="reference internal" href="#dictdumper.json.JSON" title="dictdumper.json.JSON"><code class="xref py py-class docutils literal notranslate"><span class="pre">JSON</span></code></a>
+only, which dumpers a JavaScript object notation (JSON) file.
+Usage sample is described as below.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dumper</span> <span class="o">=</span> <span class="n">JSON</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dumper</span><span class="p">(</span><span class="n">content_dict_1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">content_name_1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dumper</span><span class="p">(</span><span class="n">content_dict_2</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">content_name_2</span><span class="p">)</span>
+<span class="go">............</span>
+</pre></div>
+</div>
+<div class="section" id="dumper-class">
+<h2>Dumper class<a class="headerlink" href="#dumper-class" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="dictdumper.json.JSON">
+<em class="property">class </em><code class="sig-prename descclassname">dictdumper.json.</code><code class="sig-name descname">JSON</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fname</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dictdumper.json.JSON" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="dictdumper.dumper.html#dictdumper.dumper.Dumper" title="dictdumper.dumper.Dumper"><code class="xref py py-class docutils literal notranslate"><span class="pre">dictdumper.dumper.Dumper</span></code></a></p>
+<p>Dump JavaScript object notation (JSON) format file.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dumper</span> <span class="o">=</span> <span class="n">JSON</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dumper</span><span class="p">(</span><span class="n">content_dict_1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">content_name_1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dumper</span><span class="p">(</span><span class="n">content_dict_2</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">content_name_2</span><span class="p">)</span>
+<span class="go">............</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – output file name</p></li>
+<li><p><strong>_sptr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – indicates start of appending point (file pointer)</p></li>
+<li><p><a class="reference internal" href="#dictdumper.json.JSON._tctr" title="dictdumper.json.JSON._tctr"><strong>_tctr</strong></a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – tab level counter</p></li>
+<li><p><a class="reference internal" href="#dictdumper.json.JSON._hsrt" title="dictdumper.json.JSON._hsrt"><strong>_hsrt</strong></a> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – <a class="reference internal" href="#dictdumper.json._HEADER_START" title="dictdumper.json._HEADER_START"><code class="xref py py-data docutils literal notranslate"><span class="pre">_HEADER_START</span></code></a></p></li>
+<li><p><a class="reference internal" href="#dictdumper.json.JSON._hend" title="dictdumper.json.JSON._hend"><strong>_hend</strong></a> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – <a class="reference internal" href="#dictdumper.json._HEADER_END" title="dictdumper.json._HEADER_END"><code class="xref py py-data docutils literal notranslate"><span class="pre">_HEADER_END</span></code></a></p></li>
+<li><p><a class="reference internal" href="#dictdumper.json.JSON._vctr" title="dictdumper.json.JSON._vctr"><strong>_vctr</strong></a> (<em>DefaultDict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – value counter dict</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Terminology:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">object</span>    <span class="p">:</span><span class="o">:=</span>  <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span> <span class="o">|</span> <span class="p">(</span><span class="s2">&quot;{&quot;</span> <span class="n">members</span> <span class="s2">&quot;}&quot;</span><span class="p">)</span>
+<span class="n">members</span>   <span class="p">:</span><span class="o">:=</span>  <span class="n">pair</span> <span class="o">|</span> <span class="p">(</span><span class="n">pair</span> <span class="s2">&quot;,&quot;</span> <span class="n">members</span><span class="p">)</span>
+<span class="n">pair</span>      <span class="p">:</span><span class="o">:=</span>  <span class="n">string</span> <span class="s2">&quot;:&quot;</span> <span class="n">value</span>
+<span class="n">array</span>     <span class="p">:</span><span class="o">:=</span>  <span class="s2">&quot;[]&quot;</span> <span class="o">|</span> <span class="p">(</span><span class="s2">&quot;[&quot;</span> <span class="n">elements</span> <span class="s2">&quot;]&quot;</span><span class="p">)</span>
+<span class="n">elements</span>  <span class="p">:</span><span class="o">:=</span>  <span class="n">value</span> <span class="o">|</span> <span class="p">(</span><span class="n">value</span> <span class="s2">&quot;,&quot;</span> <span class="n">elements</span><span class="p">)</span>
+<span class="n">value</span>     <span class="p">:</span><span class="o">:=</span>  <span class="n">string</span> <span class="o">|</span> <span class="n">number</span> <span class="o">|</span> <span class="nb">object</span>
+                <span class="o">|</span> <span class="n">array</span> <span class="o">|</span> <span class="n">true</span> <span class="o">|</span> <span class="n">false</span> <span class="o">|</span> <span class="n">null</span>
+</pre></div>
+</div>
+</div>
+<dl class="py attribute">
+<dt id="dictdumper.json.JSON.__type__">
+<code class="sig-name descname">__type__</code><em class="property"> = ((&lt;class 'str'&gt;, 'string'), (&lt;class 'datetime.date'&gt;, 'date'), (&lt;class 'datetime.datetime'&gt;, 'date'), (&lt;class 'datetime.time'&gt;, 'date'), (&lt;class 'bool'&gt;, 'bool'), (&lt;class 'int'&gt;, 'number'), (&lt;class 'float'&gt;, 'number'), (&lt;class 'dict'&gt;, 'object'), (&lt;class 'list'&gt;, 'array'), (&lt;class 'NoneType'&gt;, 'null'))</em><a class="headerlink" href="#dictdumper.json.JSON.__type__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Type codes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Tuple[Tuple[<a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.9)">type</a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a>]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="dictdumper.json.JSON._tctr">
+<code class="sig-name descname">_tctr</code><em class="property"> = 1</em><a class="headerlink" href="#dictdumper.json.JSON._tctr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tab level counter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="dictdumper.json.JSON._hsrt">
+<code class="sig-name descname">_hsrt</code><em class="property"> = '{\n'</em><a class="headerlink" href="#dictdumper.json.JSON._hsrt" title="Permalink to this definition">¶</a></dt>
+<dd><p>JSON head string.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="dictdumper.json.JSON._hend">
+<code class="sig-name descname">_hend</code><em class="property"> = '\n}'</em><a class="headerlink" href="#dictdumper.json.JSON._hend" title="Permalink to this definition">¶</a></dt>
+<dd><p>JSON tail string.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="dictdumper.json.JSON._vctr">
+<code class="sig-name descname">_vctr</code><em class="property"> = defaultdict(&lt;class 'int'&gt;, {})</em><a class="headerlink" href="#dictdumper.json.JSON._vctr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Value counter dict.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DefaultDict[int,</span> <span class="pre">int]</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="dictdumper.json.JSON.kind">
+<em class="property">property </em><code class="sig-name descname">kind</code><a class="headerlink" href="#dictdumper.json.JSON.kind" title="Permalink to this definition">¶</a></dt>
+<dd><p>File format of current dumper.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Literal[‘json’]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="dictdumper.json.JSON.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fname</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dictdumper.json.JSON.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialise dumper.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – output file name</p></li>
+<li><p><strong>**kwargs</strong> – addition keyword arguments for initialisation</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="dictdumper.json.JSON._encode_value">
+<code class="sig-name descname">_encode_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">o</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON._encode_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dictdumper.json.JSON._encode_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check content type for function call.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>o</strong> (<em>Any</em>) – object to convert</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the converted object</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>The function is a direct wrapper for <a class="reference internal" href="dictdumper.dumper.html#dictdumper.dumper.Dumper.object_hook" title="dictdumper.dumper.Dumper.object_hook"><code class="xref py py-meth docutils literal notranslate"><span class="pre">object_hook()</span></code></a>.</p>
+</div>
+<div class="admonition-notes admonition">
+<p class="admonition-title">Notes</p>
+<p>The function will by default converts <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytearray" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bytearray</span></code></a>,
+<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#memoryview" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">memoryview</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#set" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#frozenset" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frozenset</span></code></a> to
+JSON serialisable data.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="dictdumper.json.JSON._append_value">
+<code class="sig-name descname">_append_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">file</span></em>, <em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON._append_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dictdumper.json.JSON._append_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call this function to write contents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>Any</em><em>]</em>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name of current content block</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="dictdumper.json.JSON._append_object">
+<code class="sig-name descname">_append_object</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON._append_object"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dictdumper.json.JSON._append_object" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call this function to write object contents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>Any</em><em>]</em>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="dictdumper.json.JSON._append_array">
+<code class="sig-name descname">_append_array</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON._append_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dictdumper.json.JSON._append_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call this function to write array contents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<em>List</em><em>[</em><em>Any</em><em>]</em>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="dictdumper.json.JSON._append_string">
+<code class="sig-name descname">_append_string</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON._append_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dictdumper.json.JSON._append_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call this function to write string contents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="dictdumper.json.JSON._append_date">
+<code class="sig-name descname">_append_date</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON._append_date"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dictdumper.json.JSON._append_date" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call this function to write date contents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.date" title="(in Python v3.9)"><em>datetime.date</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.9)"><em>datetime.datetime</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.time" title="(in Python v3.9)"><em>datetime.time</em></a><em>]</em>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="dictdumper.json.JSON._append_number">
+<code class="sig-name descname">_append_number</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON._append_number"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dictdumper.json.JSON._append_number" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call this function to write number contents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>]</em>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="dictdumper.json.JSON._append_bool">
+<code class="sig-name descname">_append_bool</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON._append_bool"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dictdumper.json.JSON._append_bool" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call this function to write bool contents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="dictdumper.json.JSON._append_null">
+<code class="sig-name descname">_append_null</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">file</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON._append_null"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dictdumper.json.JSON._append_null" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call this function to write null contents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="internal-utilities">
+<h2>Internal utilities<a class="headerlink" href="#internal-utilities" title="Permalink to this headline">¶</a></h2>
+<dl class="py data">
+<dt id="dictdumper.json._HEADER_START">
+<code class="sig-prename descclassname">dictdumper.json.</code><code class="sig-name descname">_HEADER_START</code><em class="property"> = '{\n'</em><a class="headerlink" href="#dictdumper.json._HEADER_START" title="Permalink to this definition">¶</a></dt>
+<dd><p>JSON head string.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt id="dictdumper.json._HEADER_END">
+<code class="sig-prename descclassname">dictdumper.json.</code><code class="sig-name descname">_HEADER_END</code><em class="property"> = '\n}'</em><a class="headerlink" href="#dictdumper.json._HEADER_END" title="Permalink to this definition">¶</a></dt>
+<dd><p>JSON tail string.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">DictDumper</a></h1>
+
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=JarryShaw&repo=dictdumper&type=star&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="dictdumper.html">DictDumper package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="dictdumper.html#table-of-contents">Table of Contents</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="dictdumper.dumper.html">Base Dumper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dictdumper.tree.html">Tree-View Dumper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dictdumper.xml.html">Base XML Dumper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dictdumper.plist.html">PLIST Dumper</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">JSON Dumper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dictdumper.vuejs.html">Vue.js Dumper (DEPRECATED)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dictdumper.html#module-contents">Module Contents</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="dictdumper.html">DictDumper package</a><ul>
+      <li>Previous: <a href="dictdumper.plist.html" title="previous chapter">PLIST Dumper</a></li>
+      <li>Next: <a href="dictdumper.vuejs.html" title="next chapter">Vue.js Dumper (DEPRECATED)</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Jarry Shaw.
+      
+      |
+      <a href="_sources/dictdumper.json.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+    <a href="https://github.com/JarryShaw/dictdumper" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>

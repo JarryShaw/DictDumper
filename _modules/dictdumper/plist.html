@@ -1,0 +1,426 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>dictdumper.plist &#8212; DictDumper 0.8.4.post2 documentation</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for dictdumper.plist</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;dumper a PLIST file</span>
+
+<span class="sd">:mod:`dictdumper.plist` contains :class:`~dictdumper.plist.PLIST`</span>
+<span class="sd">only, which dumpers an Apple property list (PLIST) file. Usage</span>
+<span class="sd">sample is described as below.</span>
+
+<span class="sd">.. code:: python</span>
+
+<span class="sd">    &gt;&gt;&gt; dumper = PLIST(file_name)</span>
+<span class="sd">    &gt;&gt;&gt; dumper(content_dict_1, name=content_name_1)</span>
+<span class="sd">    &gt;&gt;&gt; dumper(content_dict_2, name=content_name_2)</span>
+<span class="sd">    ............</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1"># Dumper for PLIST files</span>
+<span class="c1"># Write a macOS Property List file</span>
+
+<span class="kn">import</span> <span class="nn">base64</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">dictdumper._types</span> <span class="kn">import</span> <span class="n">bytes_type</span><span class="p">,</span> <span class="n">str_type</span>
+<span class="kn">from</span> <span class="nn">dictdumper.xml</span> <span class="kn">import</span> <span class="n">XML</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;PLIST&#39;</span><span class="p">]</span>
+
+<span class="c1">#: PLIST head string.</span>
+<span class="n">_HEADER_START</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span><span class="se">\</span>
+<span class="s1">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="s1">&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;</span>
+<span class="s1">&lt;plist version=&quot;1.0&quot;&gt;</span>
+<span class="s1">&lt;dict&gt;</span>
+<span class="s1">&#39;&#39;&#39;</span>
+
+<span class="c1">#: PLIST tail string.</span>
+<span class="n">_HEADER_END</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span><span class="se">\</span>
+<span class="s1">&lt;/dict&gt;</span>
+<span class="s1">&lt;/plist&gt;</span>
+<span class="s1">&#39;&#39;&#39;</span>
+
+
+<div class="viewcode-block" id="PLIST"><a class="viewcode-back" href="../../dictdumper.plist.html#dictdumper.PLIST">[docs]</a><span class="k">class</span> <span class="nc">PLIST</span><span class="p">(</span><span class="n">XML</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Dump Apple property list (PLIST) format file.</span>
+
+<span class="sd">    .. code:: python</span>
+
+<span class="sd">        &gt;&gt;&gt; dumper = PLIST(file_name)</span>
+<span class="sd">        &gt;&gt;&gt; dumper(content_dict_1, name=content_name_1)</span>
+<span class="sd">        &gt;&gt;&gt; dumper(content_dict_2, name=content_name_2)</span>
+<span class="sd">        ............</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        _file (str): output file name</span>
+<span class="sd">        _sptr (int): indicates start of appending point (file pointer)</span>
+<span class="sd">        _tctr (int): tab level counter</span>
+<span class="sd">        _hsrt (str): start string (:data:`~dictdumper.plist._HEADER_START`)</span>
+<span class="sd">        _hend (str): end string (:data:`~dictdumper.plist._HEADER_END`)</span>
+
+<span class="sd">    .. note::</span>
+
+<span class="sd">        Terminology:</span>
+
+<span class="sd">        .. code::</span>
+
+<span class="sd">            value    ::=  array | dict | string | data</span>
+<span class="sd">                            | date | integer | real | bool</span>
+<span class="sd">            array    ::=  &quot;&lt;array&gt;&quot; value* &quot;&lt;/array&gt;&quot;</span>
+<span class="sd">            dict     ::=  &quot;&lt;dict&gt;&quot; (&quot;&lt;key&gt;&quot; str &quot;&lt;/key&gt;&quot; value)* &quot;&lt;/dict&gt;&quot;</span>
+<span class="sd">            string   ::=  &quot;&lt;string&gt;&quot; str &quot;&lt;/string&gt;&quot;</span>
+<span class="sd">            data     ::=  &quot;&lt;data&gt;&quot; bytes &quot;&lt;/data&gt;&quot;</span>
+<span class="sd">            date     ::=  &quot;&lt;date&gt;&quot; datetime &quot;&lt;/date&gt;&quot;</span>
+<span class="sd">            integer  ::=  &quot;&lt;integer&gt;&quot; int &quot;&lt;/integer&gt;&quot;</span>
+<span class="sd">            real     ::=  &quot;&lt;real&gt;&quot; float &quot;&lt;/real&gt;&quot;</span>
+<span class="sd">            bool     ::=  &quot;&lt;true/&gt;&quot; | &quot;&lt;false/&gt;&quot;</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Properties.</span>
+    <span class="c1">##########################################################################</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">kind</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;File format of current dumper.</span>
+
+<span class="sd">        :rtype: Literal[&#39;plist&#39;]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;plist&#39;</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Type codes.</span>
+    <span class="c1">##########################################################################</span>
+
+    <span class="c1">#: Tuple[Tuple[type, str]]: Type codes.</span>
+    <span class="n">__type__</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="c1"># string</span>
+        <span class="p">(</span><span class="n">str_type</span><span class="p">,</span> <span class="s1">&#39;string&#39;</span><span class="p">),</span>
+
+        <span class="c1"># bool</span>
+        <span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="s1">&#39;bool&#39;</span><span class="p">),</span>
+
+        <span class="c1"># dict</span>
+        <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="s1">&#39;dict&#39;</span><span class="p">),</span>
+
+        <span class="c1"># date</span>
+        <span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">,</span> <span class="s1">&#39;date&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span> <span class="s1">&#39;date&#39;</span><span class="p">),</span>
+
+        <span class="c1"># integer</span>
+        <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="s1">&#39;integer&#39;</span><span class="p">),</span>
+
+        <span class="c1"># real</span>
+        <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="s1">&#39;real&#39;</span><span class="p">),</span>
+
+        <span class="c1"># data</span>
+        <span class="p">(</span><span class="n">bytes_type</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span><span class="p">),</span>
+
+        <span class="c1"># array</span>
+        <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="s1">&#39;array&#39;</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Attributes.</span>
+    <span class="c1">##########################################################################</span>
+
+    <span class="c1">#: PLIST head string.</span>
+    <span class="n">_hsrt</span> <span class="o">=</span> <span class="n">_HEADER_START</span>
+    <span class="c1">#: PLIST tail string.</span>
+    <span class="n">_hend</span> <span class="o">=</span> <span class="n">_HEADER_END</span>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Utilities.</span>
+    <span class="c1">##########################################################################</span>
+
+<div class="viewcode-block" id="PLIST._encode_value"><a class="viewcode-back" href="../../dictdumper.plist.html#dictdumper.PLIST._encode_value">[docs]</a>    <span class="k">def</span> <span class="nf">_encode_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">):</span>  <span class="c1"># pylint: disable=unused-argument</span>
+        <span class="sd">&quot;&quot;&quot;Check content type for function call.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            o (Any): object to convert</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Any: the converted object</span>
+
+<span class="sd">        See Also:</span>
+<span class="sd">            The function is a direct wrapper for :meth:`~dictdumper.dumper.Dumper.object_hook`.</span>
+
+<span class="sd">        Notes:</span>
+<span class="sd">            The function will by default converts :obj:`bytearray`, ``None``,</span>
+<span class="sd">            :obj:`memoryview`, :obj:`tuple`, :obj:`set`, :obj:`frozenset` to</span>
+<span class="sd">            PLIST serialisable data.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">o</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_object</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="s1">&#39;None&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="nb">bytearray</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_object</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">bytes_type</span><span class="p">(</span><span class="n">o</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="nb">memoryview</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_object</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">o</span><span class="o">.</span><span class="n">tobytes</span><span class="p">())</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">set</span><span class="p">,</span> <span class="nb">frozenset</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_object</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">o</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">object_hook</span><span class="p">(</span><span class="n">o</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PLIST._append_value"><a class="viewcode-back" href="../../dictdumper.plist.html#dictdumper.PLIST._append_value">[docs]</a>    <span class="k">def</span> <span class="nf">_append_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Call this function to write contents.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value (Dict[str, Any]): content to be dumped</span>
+<span class="sd">            file (io.TextIOWrapper): output file</span>
+<span class="sd">            name (str): name of current content block</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tabs</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tctr</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{tabs}</span><span class="s1">&lt;key&gt;</span><span class="si">{name}</span><span class="s1">&lt;/key&gt;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tabs</span><span class="o">=</span><span class="n">tabs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="n">file</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_sptr</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">SEEK_SET</span><span class="p">)</span>
+        <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_append_dict</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span></div>
+
+    <span class="c1">##########################################################################</span>
+    <span class="c1"># Functions.</span>
+    <span class="c1">##########################################################################</span>
+
+<div class="viewcode-block" id="PLIST._append_dict"><a class="viewcode-back" href="../../dictdumper.plist.html#dictdumper.PLIST._append_dict">[docs]</a>    <span class="k">def</span> <span class="nf">_append_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Call this function to write dict contents.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value (Dict[str, Any]): content to be dumped</span>
+<span class="sd">            file (io.TextIOWrapper): output file</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tabs</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tctr</span>
+        <span class="n">labs</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{tabs}</span><span class="s1">&lt;dict&gt;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tabs</span><span class="o">=</span><span class="n">tabs</span><span class="p">)</span>
+        <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">labs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tctr</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">for</span> <span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">text</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="n">tabs</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tctr</span>
+            <span class="n">keys</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{tabs}</span><span class="s1">&lt;key&gt;</span><span class="si">{item}</span><span class="s1">&lt;/key&gt;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tabs</span><span class="o">=</span><span class="n">tabs</span><span class="p">,</span> <span class="n">item</span><span class="o">=</span><span class="n">item</span><span class="p">)</span>
+            <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
+
+            <span class="n">enc_text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_encode_value</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+            <span class="n">func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_encode_func</span><span class="p">(</span><span class="n">enc_text</span><span class="p">)</span>
+            <span class="n">func</span><span class="p">(</span><span class="n">enc_text</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tctr</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="n">tabs</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tctr</span>
+        <span class="n">labs</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{tabs}</span><span class="s1">&lt;/dict&gt;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tabs</span><span class="o">=</span><span class="n">tabs</span><span class="p">)</span>
+        <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">labs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PLIST._append_array"><a class="viewcode-back" href="../../dictdumper.plist.html#dictdumper.PLIST._append_array">[docs]</a>    <span class="k">def</span> <span class="nf">_append_array</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Call this function to write array contents.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value (List[Any]): content to be dumped</span>
+<span class="sd">            file (io.TextIOWrapper): output file</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tabs</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tctr</span>
+        <span class="n">labs</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{tabs}</span><span class="s1">&lt;array&gt;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tabs</span><span class="o">=</span><span class="n">tabs</span><span class="p">)</span>
+        <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">labs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tctr</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">item</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="n">enc_text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_encode_value</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="n">func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_encode_func</span><span class="p">(</span><span class="n">enc_text</span><span class="p">)</span>
+            <span class="n">func</span><span class="p">(</span><span class="n">enc_text</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tctr</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="n">tabs</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tctr</span>
+        <span class="n">labs</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{tabs}</span><span class="s1">&lt;/array&gt;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tabs</span><span class="o">=</span><span class="n">tabs</span><span class="p">)</span>
+        <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">labs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PLIST._append_string"><a class="viewcode-back" href="../../dictdumper.plist.html#dictdumper.PLIST._append_string">[docs]</a>    <span class="k">def</span> <span class="nf">_append_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Call this function to write string contents.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value (str): content to be dumped</span>
+<span class="sd">            file (io.TextIOWrapper): output file</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tabs</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tctr</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="n">labs</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{tabs}</span><span class="s1">&lt;string&gt;</span><span class="si">{text}</span><span class="s1">&lt;/string&gt;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tabs</span><span class="o">=</span><span class="n">tabs</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">)</span>
+        <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">labs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PLIST._append_data"><a class="viewcode-back" href="../../dictdumper.plist.html#dictdumper.PLIST._append_data">[docs]</a>    <span class="k">def</span> <span class="nf">_append_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Call this function to write data contents.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value (bytes): content to be dumped</span>
+<span class="sd">            file (io.TextIOWrapper): output file</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># binascii.b2a_base64(value) -&gt; plistlib.Data</span>
+        <span class="c1"># binascii.a2b_base64(Data) -&gt; value(bytes)</span>
+
+        <span class="n">tabs</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tctr</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+        <span class="n">labs</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{tabs}</span><span class="s1">&lt;data&gt;</span><span class="si">{text}</span><span class="s1">&lt;/data&gt;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tabs</span><span class="o">=</span><span class="n">tabs</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">)</span>
+        <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">labs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PLIST._append_date"><a class="viewcode-back" href="../../dictdumper.plist.html#dictdumper.PLIST._append_date">[docs]</a>    <span class="k">def</span> <span class="nf">_append_date</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Call this function to write date contents.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value (Union[datetime.date, datetime.datetime]): content to be dumped</span>
+<span class="sd">            file (io.TextIOWrapper): output file</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tabs</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tctr</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">T%H:%M:%S.</span><span class="si">%f</span><span class="s1">Z&#39;</span><span class="p">)</span>
+        <span class="n">labs</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{tabs}</span><span class="s1">&lt;date&gt;</span><span class="si">{text}</span><span class="s1">&lt;/date&gt;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tabs</span><span class="o">=</span><span class="n">tabs</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">)</span>
+        <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">labs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PLIST._append_integer"><a class="viewcode-back" href="../../dictdumper.plist.html#dictdumper.PLIST._append_integer">[docs]</a>    <span class="k">def</span> <span class="nf">_append_integer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Call this function to write integer contents.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value (int): content to be dumped</span>
+<span class="sd">            file (io.TextIOWrapper): output file</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tabs</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tctr</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="n">labs</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{tabs}</span><span class="s1">&lt;integer&gt;</span><span class="si">{text}</span><span class="s1">&lt;/integer&gt;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tabs</span><span class="o">=</span><span class="n">tabs</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">)</span>
+        <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">labs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PLIST._append_real"><a class="viewcode-back" href="../../dictdumper.plist.html#dictdumper.PLIST._append_real">[docs]</a>    <span class="k">def</span> <span class="nf">_append_real</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Call this function to write real contents.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value (float): content to be dumped</span>
+<span class="sd">            file (io.TextIOWrapper): output file</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tabs</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tctr</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="n">labs</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{tabs}</span><span class="s1">&lt;real&gt;</span><span class="si">{text}</span><span class="s1">&lt;/real&gt;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tabs</span><span class="o">=</span><span class="n">tabs</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">)</span>
+        <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">labs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PLIST._append_bool"><a class="viewcode-back" href="../../dictdumper.plist.html#dictdumper.PLIST._append_bool">[docs]</a>    <span class="k">def</span> <span class="nf">_append_bool</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Call this function to write bool contents.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value (bool): content to be dumped</span>
+<span class="sd">            file (io.TextIOWrapper): output file</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tabs</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tctr</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;&lt;true/&gt;&#39;</span> <span class="k">if</span> <span class="n">value</span> <span class="k">else</span> <span class="s1">&#39;&lt;false/&gt;&#39;</span>
+        <span class="n">labs</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{tabs}{text}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tabs</span><span class="o">=</span><span class="n">tabs</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">)</span>
+        <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">labs</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">DictDumper</a></h1>
+
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=JarryShaw&repo=dictdumper&type=star&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../dictdumper.html">DictDumper package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Jarry Shaw.
+      
+    </div>
+
+    
+    <a href="https://github.com/JarryShaw/dictdumper" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>

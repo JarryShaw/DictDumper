@@ -1,0 +1,391 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Base Dumper &#8212; DictDumper 0.8.4.post2 documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Tree-View Dumper" href="dictdumper.tree.html" />
+    <link rel="prev" title="DictDumper package" href="dictdumper.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-dictdumper.dumpers">
+<span id="base-dumper"></span><h1>Base Dumper<a class="headerlink" href="#module-dictdumper.dumpers" title="Permalink to this headline">¶</a></h1>
+<p><code class="xref py py-mod docutils literal notranslate"><span class="pre">dumper</span></code> contains <a class="reference internal" href="#dictdumper.dumper.Dumper" title="dictdumper.dumper.Dumper"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dumper</span></code></a> only,
+which is an abstract base class for all dumpers, eg. <a class="reference internal" href="dictdumper.vuejs.html#dictdumper.vuejs.VueJS" title="dictdumper.vuejs.VueJS"><code class="xref py py-class docutils literal notranslate"><span class="pre">VueJS</span></code></a>,
+<a class="reference internal" href="dictdumper.json.html#dictdumper.json.JSON" title="dictdumper.json.JSON"><code class="xref py py-class docutils literal notranslate"><span class="pre">JSON</span></code></a>, <a class="reference internal" href="dictdumper.plist.html#dictdumper.plist.PLIST" title="dictdumper.plist.PLIST"><code class="xref py py-class docutils literal notranslate"><span class="pre">PLIST</span></code></a>,
+<a class="reference internal" href="dictdumper.tree.html#dictdumper.tree.Tree" title="dictdumper.tree.Tree"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tree</span></code></a>, and <a class="reference internal" href="dictdumper.xml.html#dictdumper.xml.XML" title="dictdumper.xml.XML"><code class="xref py py-class docutils literal notranslate"><span class="pre">XML</span></code></a>.</p>
+<div class="section" id="dumper-class">
+<h2>Dumper class<a class="headerlink" href="#dumper-class" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="dictdumper.dumper.Dumper">
+<em class="property">class </em><code class="sig-prename descclassname">dictdumper.dumper.</code><code class="sig-name descname">Dumper</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fname</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dictdumper.dumper.Dumper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Abstract base class of all dumpers.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dumper</span> <span class="o">=</span> <span class="n">Dumper</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dumper</span><span class="p">(</span><span class="n">content_dict_1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">content_name_1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dumper</span><span class="p">(</span><span class="n">content_dict_2</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">content_name_2</span><span class="p">)</span>
+<span class="go">............</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – output file name</p></li>
+<li><p><strong>_sptr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – indicates start of appending point (file pointer)</p></li>
+<li><p><a class="reference internal" href="#dictdumper.dumper.Dumper._tctr" title="dictdumper.dumper.Dumper._tctr"><strong>_tctr</strong></a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – tab level counter</p></li>
+<li><p><a class="reference internal" href="#dictdumper.dumper.Dumper._hsrt" title="dictdumper.dumper.Dumper._hsrt"><strong>_hsrt</strong></a> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – start string (<code class="docutils literal notranslate"><span class="pre">_HEADER_START</span></code>)</p></li>
+<li><p><a class="reference internal" href="#dictdumper.dumper.Dumper._hend" title="dictdumper.dumper.Dumper._hend"><strong>_hend</strong></a> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – end string (<code class="docutils literal notranslate"><span class="pre">_HEADER_END</span></code>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="dictdumper.dumper.Dumper.__type__">
+<code class="sig-name descname">__type__</code><em class="property"> = ()</em><a class="headerlink" href="#dictdumper.dumper.Dumper.__type__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Type codes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Tuple[Tuple[<a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.9)">type</a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a>]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="dictdumper.dumper.Dumper._tctr">
+<code class="sig-name descname">_tctr</code><em class="property"> = 1</em><a class="headerlink" href="#dictdumper.dumper.Dumper._tctr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tab level counter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="dictdumper.dumper.Dumper._hsrt">
+<code class="sig-name descname">_hsrt</code><em class="property"> = ''</em><a class="headerlink" href="#dictdumper.dumper.Dumper._hsrt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dumper head string.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="dictdumper.dumper.Dumper._hend">
+<code class="sig-name descname">_hend</code><em class="property"> = ''</em><a class="headerlink" href="#dictdumper.dumper.Dumper._hend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dumper tail string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="dictdumper.dumper.Dumper.kind">
+<em class="property">abstract property </em><code class="sig-name descname">kind</code><a class="headerlink" href="#dictdumper.dumper.Dumper.kind" title="Permalink to this definition">¶</a></dt>
+<dd><p>File format of current dumper.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="dictdumper.dumper.Dumper.filename">
+<em class="property">property </em><code class="sig-name descname">filename</code><a class="headerlink" href="#dictdumper.dumper.Dumper.filename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Output file name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="dictdumper.dumper.Dumper.make_object">
+<em class="property">static </em><code class="sig-name descname">make_object</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">o</span></em>, <em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper.make_object"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dictdumper.dumper.Dumper.make_object" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an object with convertion information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>o</strong> (<em>Any</em>) – object to convert</p></li>
+<li><p><strong>value</strong> (<em>Any</em>) – converted value of <code class="docutils literal notranslate"><span class="pre">o</span></code></p></li>
+<li><p><strong>**kwargs</strong> – additional information for the convertion</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Information context of the convertion.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a>, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="dictdumper.dumper.Dumper.object_hook">
+<code class="sig-name descname">object_hook</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">o</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper.object_hook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dictdumper.dumper.Dumper.object_hook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert content for function call.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>o</strong> (<em>Any</em>) – object to convert</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the converted object</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="dictdumper.dumper.Dumper.default">
+<code class="sig-name descname">default</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">o</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper.default"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dictdumper.dumper.Dumper.default" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check content type for function call.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>o</strong> (<em>Any</em>) – object to check</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="#dictdumper.dumper.DumperError" title="dictdumper.dumper.DumperError"><strong>DumperError</strong></a> – <code class="docutils literal notranslate"><span class="pre">o</span></code> is an unsupported content type</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="dictdumper.dumper.Dumper.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fname</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dictdumper.dumper.Dumper.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialise dumper.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – output file name</p></li>
+<li><p><strong>**kwargs</strong> – addition keyword arguments for initialisation</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="dictdumper.dumper.Dumper.__call__">
+<code class="sig-name descname">__call__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dictdumper.dumper.Dumper.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dumper a new block.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>Any</em><em>]</em>) – content to be dumped</p></li>
+<li><p><strong>name</strong> (<em>v</em>) – name of current content block</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the dumper class itself (to support chain calling)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#dictdumper.dumper.Dumper" title="dictdumper.dumper.Dumper">Dumper</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="dictdumper.dumper.Dumper._dump_header">
+<code class="sig-name descname">_dump_header</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper._dump_header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dictdumper.dumper.Dumper._dump_header" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initially dump file heads and tails.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Keyword Arguments</dt>
+<dd class="field-odd"><p><strong>**kwargs</strong> – Arbitrary keyword arguments.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="dictdumper.dumper.Dumper._encode_func">
+<code class="sig-name descname">_encode_func</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">o</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper._encode_func"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dictdumper.dumper.Dumper._encode_func" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check content type for function call.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>o</strong> (<em>Any</em>) – object to check</p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>If the type of <code class="docutils literal notranslate"><span class="pre">o</span></code> is not defined in <a class="reference internal" href="#dictdumper.dumper.Dumper.__type__" title="dictdumper.dumper.Dumper.__type__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__type__</span></code></a>,
+the function refers to <a class="reference internal" href="#dictdumper.dumper.Dumper.default" title="dictdumper.dumper.Dumper.default"><code class="xref py py-meth docutils literal notranslate"><span class="pre">default()</span></code></a> for custom hooks.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="dictdumper.dumper.Dumper._encode_value">
+<code class="sig-name descname">_encode_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">o</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper._encode_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dictdumper.dumper.Dumper._encode_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert content for function call.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>o</strong> (<em>Any</em>) – object to convert</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the converted object</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>The function is a direct wrapper for <a class="reference internal" href="#dictdumper.dumper.Dumper.object_hook" title="dictdumper.dumper.Dumper.object_hook"><code class="xref py py-meth docutils literal notranslate"><span class="pre">object_hook()</span></code></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="dictdumper.dumper.Dumper._append_value">
+<em class="property">abstract </em><code class="sig-name descname">_append_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">file</span></em>, <em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper._append_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dictdumper.dumper.Dumper._append_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call this function to write contents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>Any</em><em>]</em>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name of current content block</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="internal-utilities">
+<h2>Internal utilities<a class="headerlink" href="#internal-utilities" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="dictdumper.dumper.deprecated">
+<code class="sig-prename descclassname">dictdumper.dumper.</code><code class="sig-name descname">deprecated</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cls</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#deprecated"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dictdumper.dumper.deprecated" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deprecation warning.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cls</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><em>object</em></a>) – the class to mark as deprecated</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The original <code class="docutils literal notranslate"><span class="pre">cls</span></code> itself.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)">object</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py exception">
+<dt id="dictdumper.dumper.DumperError">
+<em class="property">exception </em><code class="sig-prename descclassname">dictdumper.dumper.</code><code class="sig-name descname">DumperError</code><a class="reference internal" href="_modules/dictdumper/dumper.html#DumperError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dictdumper.dumper.DumperError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TypeError</span></code></a></p>
+<p>Unsupported content type.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">DictDumper</a></h1>
+
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=JarryShaw&repo=dictdumper&type=star&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="dictdumper.html">DictDumper package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="dictdumper.html#table-of-contents">Table of Contents</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Base Dumper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dictdumper.tree.html">Tree-View Dumper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dictdumper.xml.html">Base XML Dumper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dictdumper.plist.html">PLIST Dumper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dictdumper.json.html">JSON Dumper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dictdumper.vuejs.html">Vue.js Dumper (DEPRECATED)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dictdumper.html#module-contents">Module Contents</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="dictdumper.html">DictDumper package</a><ul>
+      <li>Previous: <a href="dictdumper.html" title="previous chapter">DictDumper package</a></li>
+      <li>Next: <a href="dictdumper.tree.html" title="next chapter">Tree-View Dumper</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Jarry Shaw.
+      
+      |
+      <a href="_sources/dictdumper.dumper.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+    <a href="https://github.com/JarryShaw/dictdumper" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>
