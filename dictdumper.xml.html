@@ -57,7 +57,7 @@ file. Usage sample is described as below.</p>
 <h2>Dumper class<a class="headerlink" href="#dumper-class" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="dictdumper.xml.XML">
-<em class="property">class </em><code class="sig-prename descclassname">dictdumper.xml.</code><code class="sig-name descname">XML</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fname</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/xml.html#XML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dictdumper.xml.XML" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">dictdumper.xml.</span></code><code class="sig-name descname"><span class="pre">XML</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/xml.html#XML"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.xml.XML" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="dictdumper.dumper.html#dictdumper.dumper.Dumper" title="dictdumper.dumper.Dumper"><code class="xref py py-class docutils literal notranslate"><span class="pre">dictdumper.dumper.Dumper</span></code></a></p>
 <p>Dump extensible markup language (XML) file.</p>
 <div class="admonition note">
@@ -83,8 +83,14 @@ file. Usage sample is described as below.</p>
 </dl>
 <dl class="py attribute">
 <dt id="dictdumper.xml.XML.__type__">
-<code class="sig-name descname">__type__</code><em class="property"> = ()</em><a class="headerlink" href="#dictdumper.xml.XML.__type__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">__type__</span></code><em class="property"> <span class="pre">=</span> <span class="pre">()</span></em><a class="headerlink" href="#dictdumper.xml.XML.__type__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Type codes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Tuple[Tuple[<a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.9)">type</a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a>]]</p>
+</dd>
+</dl>
+<p>Type codes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tuple[Tuple[type,</span> <span class="pre">str]]</span></code></p>
@@ -94,8 +100,14 @@ file. Usage sample is described as below.</p>
 
 <dl class="py attribute">
 <dt id="dictdumper.xml.XML._tctr">
-<code class="sig-name descname">_tctr</code><em class="property"> = 1</em><a class="headerlink" href="#dictdumper.xml.XML._tctr" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">_tctr</span></code><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#dictdumper.xml.XML._tctr" title="Permalink to this definition">¶</a></dt>
 <dd><p>Tab level counter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
+</dd>
+</dl>
+<p>Tab level counter.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
@@ -105,19 +117,19 @@ file. Usage sample is described as below.</p>
 
 <dl class="py attribute">
 <dt id="dictdumper.xml.XML._hsrt">
-<code class="sig-name descname">_hsrt</code><em class="property"> = '&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;\n&lt;content&gt;\n'</em><a class="headerlink" href="#dictdumper.xml.XML._hsrt" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">_hsrt</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'&lt;?xml</span> <span class="pre">version=&quot;1.0&quot;</span> <span class="pre">encoding=&quot;UTF-8&quot;?&gt;\n&lt;content&gt;\n'</span></em><a class="headerlink" href="#dictdumper.xml.XML._hsrt" title="Permalink to this definition">¶</a></dt>
 <dd><p>XML head string.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="dictdumper.xml.XML._hend">
-<code class="sig-name descname">_hend</code><em class="property"> = '&lt;/content&gt;\n'</em><a class="headerlink" href="#dictdumper.xml.XML._hend" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">_hend</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'&lt;/content&gt;\n'</span></em><a class="headerlink" href="#dictdumper.xml.XML._hend" title="Permalink to this definition">¶</a></dt>
 <dd><p>XML tail string.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="dictdumper.xml.XML.kind">
-<em class="property">property </em><code class="sig-name descname">kind</code><a class="headerlink" href="#dictdumper.xml.XML.kind" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">kind</span></code><a class="headerlink" href="#dictdumper.xml.XML.kind" title="Permalink to this definition">¶</a></dt>
 <dd><p>File format of current dumper.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -128,7 +140,7 @@ file. Usage sample is described as below.</p>
 
 <dl class="py method">
 <dt id="dictdumper.xml.XML._append_value">
-<em class="property">abstract </em><code class="sig-name descname">_append_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">file</span></em>, <em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/xml.html#XML._append_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dictdumper.xml.XML._append_value" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">_append_value</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/xml.html#XML._append_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.xml.XML._append_value" title="Permalink to this definition">¶</a></dt>
 <dd><p>Call this function to write contents.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -148,13 +160,13 @@ file. Usage sample is described as below.</p>
 <h2>Internal utilities<a class="headerlink" href="#internal-utilities" title="Permalink to this headline">¶</a></h2>
 <dl class="py data">
 <dt id="dictdumper.xml._HEADER_START">
-<code class="sig-prename descclassname">dictdumper.xml.</code><code class="sig-name descname">_HEADER_START</code><em class="property"> = '&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;\n&lt;content&gt;\n'</em><a class="headerlink" href="#dictdumper.xml._HEADER_START" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">dictdumper.xml.</span></code><code class="sig-name descname"><span class="pre">_HEADER_START</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'&lt;?xml</span> <span class="pre">version=&quot;1.0&quot;</span> <span class="pre">encoding=&quot;UTF-8&quot;?&gt;\n&lt;content&gt;\n'</span></em><a class="headerlink" href="#dictdumper.xml._HEADER_START" title="Permalink to this definition">¶</a></dt>
 <dd><p>XML head string.</p>
 </dd></dl>
 
 <dl class="py data">
 <dt id="dictdumper.xml._HEADER_END">
-<code class="sig-prename descclassname">dictdumper.xml.</code><code class="sig-name descname">_HEADER_END</code><em class="property"> = '&lt;/content&gt;\n'</em><a class="headerlink" href="#dictdumper.xml._HEADER_END" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">dictdumper.xml.</span></code><code class="sig-name descname"><span class="pre">_HEADER_END</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'&lt;/content&gt;\n'</span></em><a class="headerlink" href="#dictdumper.xml._HEADER_END" title="Permalink to this definition">¶</a></dt>
 <dd><p>XML tail string.</p>
 </dd></dl>
 

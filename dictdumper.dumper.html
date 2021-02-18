@@ -42,7 +42,7 @@ which is an abstract base class for all dumpers, eg. <a class="reference interna
 <h2>Dumper class<a class="headerlink" href="#dumper-class" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="dictdumper.dumper.Dumper">
-<em class="property">class </em><code class="sig-prename descclassname">dictdumper.dumper.</code><code class="sig-name descname">Dumper</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fname</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dictdumper.dumper.Dumper" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">dictdumper.dumper.</span></code><code class="sig-name descname"><span class="pre">Dumper</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.dumper.Dumper" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Abstract base class of all dumpers.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dumper</span> <span class="o">=</span> <span class="n">Dumper</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
@@ -64,7 +64,7 @@ which is an abstract base class for all dumpers, eg. <a class="reference interna
 </dl>
 <dl class="py attribute">
 <dt id="dictdumper.dumper.Dumper.__type__">
-<code class="sig-name descname">__type__</code><em class="property"> = ()</em><a class="headerlink" href="#dictdumper.dumper.Dumper.__type__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">__type__</span></code><em class="property"> <span class="pre">=</span> <span class="pre">()</span></em><a class="headerlink" href="#dictdumper.dumper.Dumper.__type__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Type codes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -75,7 +75,7 @@ which is an abstract base class for all dumpers, eg. <a class="reference interna
 
 <dl class="py attribute">
 <dt id="dictdumper.dumper.Dumper._tctr">
-<code class="sig-name descname">_tctr</code><em class="property"> = 1</em><a class="headerlink" href="#dictdumper.dumper.Dumper._tctr" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">_tctr</span></code><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#dictdumper.dumper.Dumper._tctr" title="Permalink to this definition">¶</a></dt>
 <dd><p>Tab level counter.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -86,19 +86,19 @@ which is an abstract base class for all dumpers, eg. <a class="reference interna
 
 <dl class="py attribute">
 <dt id="dictdumper.dumper.Dumper._hsrt">
-<code class="sig-name descname">_hsrt</code><em class="property"> = ''</em><a class="headerlink" href="#dictdumper.dumper.Dumper._hsrt" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">_hsrt</span></code><em class="property"> <span class="pre">=</span> <span class="pre">''</span></em><a class="headerlink" href="#dictdumper.dumper.Dumper._hsrt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Dumper head string.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="dictdumper.dumper.Dumper._hend">
-<code class="sig-name descname">_hend</code><em class="property"> = ''</em><a class="headerlink" href="#dictdumper.dumper.Dumper._hend" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">_hend</span></code><em class="property"> <span class="pre">=</span> <span class="pre">''</span></em><a class="headerlink" href="#dictdumper.dumper.Dumper._hend" title="Permalink to this definition">¶</a></dt>
 <dd><p>Dumper tail string.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="dictdumper.dumper.Dumper.kind">
-<em class="property">abstract property </em><code class="sig-name descname">kind</code><a class="headerlink" href="#dictdumper.dumper.Dumper.kind" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">abstract</span> <span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">kind</span></code><a class="headerlink" href="#dictdumper.dumper.Dumper.kind" title="Permalink to this definition">¶</a></dt>
 <dd><p>File format of current dumper.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -109,7 +109,7 @@ which is an abstract base class for all dumpers, eg. <a class="reference interna
 
 <dl class="py method">
 <dt id="dictdumper.dumper.Dumper.filename">
-<em class="property">property </em><code class="sig-name descname">filename</code><a class="headerlink" href="#dictdumper.dumper.Dumper.filename" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">filename</span></code><a class="headerlink" href="#dictdumper.dumper.Dumper.filename" title="Permalink to this definition">¶</a></dt>
 <dd><p>Output file name.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -120,7 +120,7 @@ which is an abstract base class for all dumpers, eg. <a class="reference interna
 
 <dl class="py method">
 <dt id="dictdumper.dumper.Dumper.make_object">
-<em class="property">static </em><code class="sig-name descname">make_object</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">o</span></em>, <em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper.make_object"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dictdumper.dumper.Dumper.make_object" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">make_object</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">o</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper.make_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.dumper.Dumper.make_object" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create an object with convertion information.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -141,7 +141,7 @@ which is an abstract base class for all dumpers, eg. <a class="reference interna
 
 <dl class="py method">
 <dt id="dictdumper.dumper.Dumper.object_hook">
-<code class="sig-name descname">object_hook</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">o</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper.object_hook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dictdumper.dumper.Dumper.object_hook" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">object_hook</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">o</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper.object_hook"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.dumper.Dumper.object_hook" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert content for function call.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -158,7 +158,7 @@ which is an abstract base class for all dumpers, eg. <a class="reference interna
 
 <dl class="py method">
 <dt id="dictdumper.dumper.Dumper.default">
-<code class="sig-name descname">default</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">o</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper.default"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dictdumper.dumper.Dumper.default" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">default</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">o</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper.default"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.dumper.Dumper.default" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check content type for function call.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -172,7 +172,7 @@ which is an abstract base class for all dumpers, eg. <a class="reference interna
 
 <dl class="py method">
 <dt id="dictdumper.dumper.Dumper.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fname</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dictdumper.dumper.Dumper.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.dumper.Dumper.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialise dumper.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -186,7 +186,7 @@ which is an abstract base class for all dumpers, eg. <a class="reference interna
 
 <dl class="py method">
 <dt id="dictdumper.dumper.Dumper.__call__">
-<code class="sig-name descname">__call__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dictdumper.dumper.Dumper.__call__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">__call__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.dumper.Dumper.__call__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Dumper a new block.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -206,7 +206,7 @@ which is an abstract base class for all dumpers, eg. <a class="reference interna
 
 <dl class="py method">
 <dt id="dictdumper.dumper.Dumper._dump_header">
-<code class="sig-name descname">_dump_header</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper._dump_header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dictdumper.dumper.Dumper._dump_header" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">_dump_header</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper._dump_header"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.dumper.Dumper._dump_header" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initially dump file heads and tails.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Keyword Arguments</dt>
@@ -217,7 +217,7 @@ which is an abstract base class for all dumpers, eg. <a class="reference interna
 
 <dl class="py method">
 <dt id="dictdumper.dumper.Dumper._encode_func">
-<code class="sig-name descname">_encode_func</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">o</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper._encode_func"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dictdumper.dumper.Dumper._encode_func" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">_encode_func</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">o</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper._encode_func"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.dumper.Dumper._encode_func" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check content type for function call.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -233,7 +233,7 @@ the function refers to <a class="reference internal" href="#dictdumper.dumper.Du
 
 <dl class="py method">
 <dt id="dictdumper.dumper.Dumper._encode_value">
-<code class="sig-name descname">_encode_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">o</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper._encode_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dictdumper.dumper.Dumper._encode_value" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">_encode_value</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">o</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper._encode_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.dumper.Dumper._encode_value" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert content for function call.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -254,7 +254,7 @@ the function refers to <a class="reference internal" href="#dictdumper.dumper.Du
 
 <dl class="py method">
 <dt id="dictdumper.dumper.Dumper._append_value">
-<em class="property">abstract </em><code class="sig-name descname">_append_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">file</span></em>, <em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper._append_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dictdumper.dumper.Dumper._append_value" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">_append_value</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper._append_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.dumper.Dumper._append_value" title="Permalink to this definition">¶</a></dt>
 <dd><p>Call this function to write contents.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -274,7 +274,7 @@ the function refers to <a class="reference internal" href="#dictdumper.dumper.Du
 <h2>Internal utilities<a class="headerlink" href="#internal-utilities" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="dictdumper.dumper.deprecated">
-<code class="sig-prename descclassname">dictdumper.dumper.</code><code class="sig-name descname">deprecated</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cls</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#deprecated"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dictdumper.dumper.deprecated" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">dictdumper.dumper.</span></code><code class="sig-name descname"><span class="pre">deprecated</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#deprecated"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.dumper.deprecated" title="Permalink to this definition">¶</a></dt>
 <dd><p>Deprecation warning.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -291,7 +291,7 @@ the function refers to <a class="reference internal" href="#dictdumper.dumper.Du
 
 <dl class="py exception">
 <dt id="dictdumper.dumper.DumperError">
-<em class="property">exception </em><code class="sig-prename descclassname">dictdumper.dumper.</code><code class="sig-name descname">DumperError</code><a class="reference internal" href="_modules/dictdumper/dumper.html#DumperError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dictdumper.dumper.DumperError" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">exception</span> </em><code class="sig-prename descclassname"><span class="pre">dictdumper.dumper.</span></code><code class="sig-name descname"><span class="pre">DumperError</span></code><a class="reference internal" href="_modules/dictdumper/dumper.html#DumperError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.dumper.DumperError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TypeError</span></code></a></p>
 <p>Unsupported content type.</p>
 </dd></dl>
