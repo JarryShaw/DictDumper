@@ -4,11 +4,12 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>DictDumper package &#8212; DictDumper 0.8.4.post2 documentation</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
@@ -32,9 +33,9 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="module-dictdumper">
+  <section id="module-dictdumper">
 <span id="dictdumper-package"></span><h1>DictDumper package<a class="headerlink" href="#module-dictdumper" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="table-of-contents">
+<section id="table-of-contents">
 <h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
@@ -70,8 +71,8 @@
 </li>
 </ul>
 </div>
-</div>
-<div class="section" id="module-contents">
+</section>
+<section id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
 <p>Stream formatted output dumper.</p>
 <p><a class="reference internal" href="#module-dictdumper" title="dictdumper"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dictdumper</span></code></a> is an open source Python program works as a
@@ -103,8 +104,8 @@ this class is deprecated due to grammar error.</p>
 </li>
 </ul>
 <dl class="py class">
-<dt>
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">dictdumper.</span></code><code class="sig-name descname"><span class="pre">JSON</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">dictdumper.</span></span><span class="sig-name descname"><span class="pre">JSON</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Bases: <a class="reference internal" href="dictdumper.dumper.html#dictdumper.dumper.Dumper" title="dictdumper.dumper.Dumper"><code class="xref py py-class docutils literal notranslate"><span class="pre">dictdumper.dumper.Dumper</span></code></a></p>
 <p>Dump JavaScript object notation (JSON) format file.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dumper</span> <span class="o">=</span> <span class="n">JSON</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
@@ -118,10 +119,10 @@ this class is deprecated due to grammar error.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – output file name</p></li>
 <li><p><strong>_sptr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – indicates start of appending point (file pointer)</p></li>
-<li><p><a class="reference internal" href="dictdumper.json.html#dictdumper.json.JSON._tctr" title="dictdumper.json.JSON._tctr"><strong>_tctr</strong></a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – tab level counter</p></li>
-<li><p><a class="reference internal" href="dictdumper.json.html#dictdumper.json.JSON._hsrt" title="dictdumper.json.JSON._hsrt"><strong>_hsrt</strong></a> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – <a class="reference internal" href="dictdumper.json.html#dictdumper.json._HEADER_START" title="dictdumper.json._HEADER_START"><code class="xref py py-data docutils literal notranslate"><span class="pre">_HEADER_START</span></code></a></p></li>
-<li><p><a class="reference internal" href="dictdumper.json.html#dictdumper.json.JSON._hend" title="dictdumper.json.JSON._hend"><strong>_hend</strong></a> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – <a class="reference internal" href="dictdumper.json.html#dictdumper.json._HEADER_END" title="dictdumper.json._HEADER_END"><code class="xref py py-data docutils literal notranslate"><span class="pre">_HEADER_END</span></code></a></p></li>
-<li><p><a class="reference internal" href="dictdumper.json.html#dictdumper.json.JSON._vctr" title="dictdumper.json.JSON._vctr"><strong>_vctr</strong></a> (<em>DefaultDict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – value counter dict</p></li>
+<li><p><strong>_tctr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – tab level counter</p></li>
+<li><p><strong>_hsrt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – <a class="reference internal" href="dictdumper.json.html#dictdumper.json._HEADER_START" title="dictdumper.json._HEADER_START"><code class="xref py py-data docutils literal notranslate"><span class="pre">_HEADER_START</span></code></a></p></li>
+<li><p><strong>_hend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – <a class="reference internal" href="dictdumper.json.html#dictdumper.json._HEADER_END" title="dictdumper.json._HEADER_END"><code class="xref py py-data docutils literal notranslate"><span class="pre">_HEADER_END</span></code></a></p></li>
+<li><p><strong>_vctr</strong> (<em>DefaultDict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em>) – value counter dict</p></li>
 </ul>
 </dd>
 </dl>
@@ -138,9 +139,9 @@ this class is deprecated due to grammar error.</p>
 </pre></div>
 </div>
 </div>
-<dl class="py method">
-<dt>
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">kind</span></code></dt>
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">kind</span></span></dt>
 <dd><p>File format of current dumper.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -150,8 +151,8 @@ this class is deprecated due to grammar error.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt>
-<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Initialise dumper.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -164,8 +165,8 @@ this class is deprecated due to grammar error.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt>
-<code class="sig-name descname"><span class="pre">_encode_value</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">o</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON._encode_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_encode_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">o</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON._encode_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Check content type for function call.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -191,8 +192,8 @@ JSON serialisable data.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt>
-<code class="sig-name descname"><span class="pre">_append_value</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON._append_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_append_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON._append_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Call this function to write contents.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -206,8 +207,8 @@ JSON serialisable data.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt>
-<code class="sig-name descname"><span class="pre">_append_object</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON._append_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_append_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON._append_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Call this function to write object contents.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -220,8 +221,8 @@ JSON serialisable data.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt>
-<code class="sig-name descname"><span class="pre">_append_array</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON._append_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_append_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON._append_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Call this function to write array contents.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -234,8 +235,8 @@ JSON serialisable data.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt>
-<code class="sig-name descname"><span class="pre">_append_string</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON._append_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_append_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON._append_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Call this function to write string contents.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -248,8 +249,8 @@ JSON serialisable data.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt>
-<code class="sig-name descname"><span class="pre">_append_date</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON._append_date"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_append_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON._append_date"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Call this function to write date contents.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -262,8 +263,8 @@ JSON serialisable data.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt>
-<code class="sig-name descname"><span class="pre">_append_number</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON._append_number"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_append_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON._append_number"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Call this function to write number contents.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -276,8 +277,8 @@ JSON serialisable data.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt>
-<code class="sig-name descname"><span class="pre">_append_bool</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON._append_bool"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_append_bool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON._append_bool"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Call this function to write bool contents.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -290,8 +291,8 @@ JSON serialisable data.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt>
-<code class="sig-name descname"><span class="pre">_append_null</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON._append_null"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_append_null</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/json.html#JSON._append_null"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Call this function to write null contents.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -306,8 +307,8 @@ JSON serialisable data.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt>
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">dictdumper.</span></code><code class="sig-name descname"><span class="pre">PLIST</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/plist.html#PLIST"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">dictdumper.</span></span><span class="sig-name descname"><span class="pre">PLIST</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/plist.html#PLIST"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Bases: <a class="reference internal" href="dictdumper.xml.html#dictdumper.xml.XML" title="dictdumper.xml.XML"><code class="xref py py-class docutils literal notranslate"><span class="pre">dictdumper.xml.XML</span></code></a></p>
 <p>Dump Apple property list (PLIST) format file.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dumper</span> <span class="o">=</span> <span class="n">PLIST</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
@@ -321,9 +322,9 @@ JSON serialisable data.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – output file name</p></li>
 <li><p><strong>_sptr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – indicates start of appending point (file pointer)</p></li>
-<li><p><a class="reference internal" href="dictdumper.plist.html#dictdumper.plist.PLIST._tctr" title="dictdumper.plist.PLIST._tctr"><strong>_tctr</strong></a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – tab level counter</p></li>
-<li><p><a class="reference internal" href="dictdumper.plist.html#dictdumper.plist.PLIST._hsrt" title="dictdumper.plist.PLIST._hsrt"><strong>_hsrt</strong></a> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – start string (<a class="reference internal" href="dictdumper.plist.html#dictdumper.plist._HEADER_START" title="dictdumper.plist._HEADER_START"><code class="xref py py-data docutils literal notranslate"><span class="pre">_HEADER_START</span></code></a>)</p></li>
-<li><p><a class="reference internal" href="dictdumper.plist.html#dictdumper.plist.PLIST._hend" title="dictdumper.plist.PLIST._hend"><strong>_hend</strong></a> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – end string (<a class="reference internal" href="dictdumper.plist.html#dictdumper.plist._HEADER_END" title="dictdumper.plist._HEADER_END"><code class="xref py py-data docutils literal notranslate"><span class="pre">_HEADER_END</span></code></a>)</p></li>
+<li><p><strong>_tctr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – tab level counter</p></li>
+<li><p><strong>_hsrt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – start string (<a class="reference internal" href="dictdumper.plist.html#dictdumper.plist._HEADER_START" title="dictdumper.plist._HEADER_START"><code class="xref py py-data docutils literal notranslate"><span class="pre">_HEADER_START</span></code></a>)</p></li>
+<li><p><strong>_hend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – end string (<a class="reference internal" href="dictdumper.plist.html#dictdumper.plist._HEADER_END" title="dictdumper.plist._HEADER_END"><code class="xref py py-data docutils literal notranslate"><span class="pre">_HEADER_END</span></code></a>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -343,9 +344,9 @@ JSON serialisable data.</p>
 </pre></div>
 </div>
 </div>
-<dl class="py method">
-<dt>
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">kind</span></code></dt>
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">kind</span></span></dt>
 <dd><p>File format of current dumper.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -355,8 +356,8 @@ JSON serialisable data.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt>
-<code class="sig-name descname"><span class="pre">_encode_value</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">o</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/plist.html#PLIST._encode_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_encode_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">o</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/plist.html#PLIST._encode_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Check content type for function call.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -382,8 +383,8 @@ PLIST serialisable data.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt>
-<code class="sig-name descname"><span class="pre">_append_value</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/plist.html#PLIST._append_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_append_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/plist.html#PLIST._append_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Call this function to write contents.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -397,8 +398,8 @@ PLIST serialisable data.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt>
-<code class="sig-name descname"><span class="pre">_append_dict</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/plist.html#PLIST._append_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_append_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/plist.html#PLIST._append_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Call this function to write dict contents.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -411,8 +412,8 @@ PLIST serialisable data.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt>
-<code class="sig-name descname"><span class="pre">_append_array</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/plist.html#PLIST._append_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_append_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/plist.html#PLIST._append_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Call this function to write array contents.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -425,8 +426,8 @@ PLIST serialisable data.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt>
-<code class="sig-name descname"><span class="pre">_append_string</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/plist.html#PLIST._append_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_append_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/plist.html#PLIST._append_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Call this function to write string contents.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -439,8 +440,8 @@ PLIST serialisable data.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt>
-<code class="sig-name descname"><span class="pre">_append_data</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/plist.html#PLIST._append_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_append_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/plist.html#PLIST._append_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Call this function to write data contents.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -453,8 +454,8 @@ PLIST serialisable data.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt>
-<code class="sig-name descname"><span class="pre">_append_date</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/plist.html#PLIST._append_date"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_append_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/plist.html#PLIST._append_date"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Call this function to write date contents.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -467,8 +468,8 @@ PLIST serialisable data.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt>
-<code class="sig-name descname"><span class="pre">_append_integer</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/plist.html#PLIST._append_integer"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_append_integer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/plist.html#PLIST._append_integer"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Call this function to write integer contents.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -481,8 +482,8 @@ PLIST serialisable data.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt>
-<code class="sig-name descname"><span class="pre">_append_real</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/plist.html#PLIST._append_real"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_append_real</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/plist.html#PLIST._append_real"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Call this function to write real contents.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -495,8 +496,8 @@ PLIST serialisable data.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt>
-<code class="sig-name descname"><span class="pre">_append_bool</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/plist.html#PLIST._append_bool"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_append_bool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/plist.html#PLIST._append_bool"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Call this function to write bool contents.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -511,8 +512,8 @@ PLIST serialisable data.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt>
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">dictdumper.</span></code><code class="sig-name descname"><span class="pre">Tree</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">dictdumper.</span></span><span class="sig-name descname"><span class="pre">Tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Bases: <a class="reference internal" href="dictdumper.dumper.html#dictdumper.dumper.Dumper" title="dictdumper.dumper.Dumper"><code class="xref py py-class docutils literal notranslate"><span class="pre">dictdumper.dumper.Dumper</span></code></a></p>
 <p>Dump a tree-view text (TXT) format file.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dumper</span> <span class="o">=</span> <span class="n">Tree</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
@@ -526,11 +527,11 @@ PLIST serialisable data.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – output file name</p></li>
 <li><p><strong>_sptr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – indicates start of appending point (file pointer)</p></li>
-<li><p><a class="reference internal" href="dictdumper.tree.html#dictdumper.tree.Tree._tctr" title="dictdumper.tree.Tree._tctr"><strong>_tctr</strong></a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – tab level counter</p></li>
-<li><p><a class="reference internal" href="dictdumper.tree.html#dictdumper.tree.Tree._hsrt" title="dictdumper.tree.Tree._hsrt"><strong>_hsrt</strong></a> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – start string (<a class="reference internal" href="dictdumper.tree.html#dictdumper.tree._HEADER_START" title="dictdumper.tree._HEADER_START"><code class="xref py py-data docutils literal notranslate"><span class="pre">_HEADER_START</span></code></a>)</p></li>
-<li><p><a class="reference internal" href="dictdumper.tree.html#dictdumper.tree.Tree._hend" title="dictdumper.tree.Tree._hend"><strong>_hend</strong></a> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – end string (<a class="reference internal" href="dictdumper.tree.html#dictdumper.tree._HEADER_END" title="dictdumper.tree._HEADER_END"><code class="xref py py-data docutils literal notranslate"><span class="pre">_HEADER_END</span></code></a>)</p></li>
-<li><p><a class="reference internal" href="dictdumper.tree.html#dictdumper.tree.Tree._bctx" title="dictdumper.tree.Tree._bctx"><strong>_bctx</strong></a> (<em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>]</em>) – blank branch (indentation) context record</p></li>
-<li><p><a class="reference internal" href="dictdumper.tree.html#dictdumper.tree.Tree._nctr" title="dictdumper.tree.Tree._nctr"><strong>_nctr</strong></a> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – branch number counter</p></li>
+<li><p><strong>_tctr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – tab level counter</p></li>
+<li><p><strong>_hsrt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – start string (<a class="reference internal" href="dictdumper.tree.html#dictdumper.tree._HEADER_START" title="dictdumper.tree._HEADER_START"><code class="xref py py-data docutils literal notranslate"><span class="pre">_HEADER_START</span></code></a>)</p></li>
+<li><p><strong>_hend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – end string (<a class="reference internal" href="dictdumper.tree.html#dictdumper.tree._HEADER_END" title="dictdumper.tree._HEADER_END"><code class="xref py py-data docutils literal notranslate"><span class="pre">_HEADER_END</span></code></a>)</p></li>
+<li><p><strong>_bctx</strong> (<em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>]</em>) – blank branch (indentation) context record</p></li>
+<li><p><strong>_nctr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – branch number counter</p></li>
 </ul>
 </dd>
 </dl>
@@ -557,9 +558,9 @@ PLIST serialisable data.</p>
 </pre></div>
 </div>
 </div>
-<dl class="py method">
-<dt>
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">kind</span></code></dt>
+<dl class="py property">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">kind</span></span></dt>
 <dd><p>File format of current dumper.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -569,8 +570,8 @@ PLIST serialisable data.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt>
-<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">check_newline</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree.check_newline"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">check_newline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree.check_newline"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Check if newline is needed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -598,8 +599,8 @@ representation is greater than 40 distinct characters</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt>
-<code class="sig-name descname"><span class="pre">_encode_value</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">o</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._encode_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_encode_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">o</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._encode_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Convert content for function call.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -625,8 +626,8 @@ tree-view represetable data.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt>
-<code class="sig-name descname"><span class="pre">_append_value</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_append_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Call this function to write contents.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -640,8 +641,8 @@ tree-view represetable data.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt>
-<code class="sig-name descname"><span class="pre">_append_branch</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_branch"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_append_branch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_branch"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Call this function to write branch contents.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -654,8 +655,8 @@ tree-view represetable data.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt>
-<code class="sig-name descname"><span class="pre">_append_array</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_append_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Call this function to write array contents.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -668,8 +669,8 @@ tree-view represetable data.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt>
-<code class="sig-name descname"><span class="pre">_append_string</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_append_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Call this function to write string contents.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -682,8 +683,8 @@ tree-view represetable data.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt>
-<code class="sig-name descname"><span class="pre">_append_bytes</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_bytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_append_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_bytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Call this function to write bytes contents.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -696,8 +697,8 @@ tree-view represetable data.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt>
-<code class="sig-name descname"><span class="pre">_append_date</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_date"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_append_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_date"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Call this function to write date contents.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -710,8 +711,8 @@ tree-view represetable data.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt>
-<code class="sig-name descname"><span class="pre">_append_number</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_number"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_append_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_number"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Call this function to write number contents.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -724,8 +725,8 @@ tree-view represetable data.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt>
-<code class="sig-name descname"><span class="pre">_append_bool</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_bool"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_append_bool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_bool"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Call this function to write bool contents.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -738,8 +739,8 @@ tree-view represetable data.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt>
-<code class="sig-name descname"><span class="pre">_append_none</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_none"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_append_none</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_none"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Call this function to write none contents.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -753,8 +754,8 @@ tree-view represetable data.</p>
 
 </dd></dl>
 
-</div>
-</div>
+</section>
+</section>
 
 
           </div>
