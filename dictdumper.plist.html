@@ -42,7 +42,7 @@ sample is described as below.</p>
 <h2>Dumper class<a class="headerlink" href="#dumper-class" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="dictdumper.plist.PLIST">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">dictdumper.plist.</span></span><span class="sig-name descname"><span class="pre">PLIST</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/plist.html#PLIST"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.plist.PLIST" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dictdumper.plist.</span></span><span class="sig-name descname"><span class="pre">PLIST</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/plist.html#PLIST"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.plist.PLIST" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="dictdumper.xml.html#dictdumper.xml.XML" title="dictdumper.xml.XML"><code class="xref py py-class docutils literal notranslate"><span class="pre">dictdumper.xml.XML</span></code></a></p>
 <p>Dump Apple property list (PLIST) format file.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dumper</span> <span class="o">=</span> <span class="n">PLIST</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
@@ -54,11 +54,11 @@ sample is described as below.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Variables</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – output file name</p></li>
-<li><p><strong>_sptr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – indicates start of appending point (file pointer)</p></li>
-<li><p><strong>_tctr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – tab level counter</p></li>
-<li><p><strong>_hsrt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – start string (<a class="reference internal" href="#dictdumper.plist._HEADER_START" title="dictdumper.plist._HEADER_START"><code class="xref py py-data docutils literal notranslate"><span class="pre">_HEADER_START</span></code></a>)</p></li>
-<li><p><strong>_hend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – end string (<a class="reference internal" href="#dictdumper.plist._HEADER_END" title="dictdumper.plist._HEADER_END"><code class="xref py py-data docutils literal notranslate"><span class="pre">_HEADER_END</span></code></a>)</p></li>
+<li><p><strong>_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – output file name</p></li>
+<li><p><strong>_sptr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – indicates start of appending point (file pointer)</p></li>
+<li><p><strong>_tctr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – tab level counter</p></li>
+<li><p><strong>_hsrt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – start string (<a class="reference internal" href="#dictdumper.plist._HEADER_START" title="dictdumper.plist._HEADER_START"><code class="xref py py-data docutils literal notranslate"><span class="pre">_HEADER_START</span></code></a>)</p></li>
+<li><p><strong>_hend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – end string (<a class="reference internal" href="#dictdumper.plist._HEADER_END" title="dictdumper.plist._HEADER_END"><code class="xref py py-data docutils literal notranslate"><span class="pre">_HEADER_END</span></code></a>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -80,47 +80,47 @@ sample is described as below.</p>
 </div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="dictdumper.plist.PLIST.__type__">
-<span class="sig-name descname"><span class="pre">__type__</span></span><em class="property"> <span class="pre">=</span> <span class="pre">((&lt;class</span> <span class="pre">'str'&gt;,</span> <span class="pre">'string'),</span> <span class="pre">(&lt;class</span> <span class="pre">'bool'&gt;,</span> <span class="pre">'bool'),</span> <span class="pre">(&lt;class</span> <span class="pre">'dict'&gt;,</span> <span class="pre">'dict'),</span> <span class="pre">(&lt;class</span> <span class="pre">'datetime.date'&gt;,</span> <span class="pre">'date'),</span> <span class="pre">(&lt;class</span> <span class="pre">'datetime.datetime'&gt;,</span> <span class="pre">'date'),</span> <span class="pre">(&lt;class</span> <span class="pre">'int'&gt;,</span> <span class="pre">'integer'),</span> <span class="pre">(&lt;class</span> <span class="pre">'float'&gt;,</span> <span class="pre">'real'),</span> <span class="pre">(&lt;class</span> <span class="pre">'bytes'&gt;,</span> <span class="pre">'data'),</span> <span class="pre">(&lt;class</span> <span class="pre">'list'&gt;,</span> <span class="pre">'array'))</span></em><a class="headerlink" href="#dictdumper.plist.PLIST.__type__" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">__type__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">((&lt;class</span> <span class="pre">'str'&gt;,</span> <span class="pre">'string'),</span> <span class="pre">(&lt;class</span> <span class="pre">'bool'&gt;,</span> <span class="pre">'bool'),</span> <span class="pre">(&lt;class</span> <span class="pre">'dict'&gt;,</span> <span class="pre">'dict'),</span> <span class="pre">(&lt;class</span> <span class="pre">'datetime.date'&gt;,</span> <span class="pre">'date'),</span> <span class="pre">(&lt;class</span> <span class="pre">'datetime.datetime'&gt;,</span> <span class="pre">'date'),</span> <span class="pre">(&lt;class</span> <span class="pre">'int'&gt;,</span> <span class="pre">'integer'),</span> <span class="pre">(&lt;class</span> <span class="pre">'float'&gt;,</span> <span class="pre">'real'),</span> <span class="pre">(&lt;class</span> <span class="pre">'bytes'&gt;,</span> <span class="pre">'data'),</span> <span class="pre">(&lt;class</span> <span class="pre">'list'&gt;,</span> <span class="pre">'array'))</span></em><a class="headerlink" href="#dictdumper.plist.PLIST.__type__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Type codes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>Tuple[Tuple[<a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.9)">type</a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a>]]</p>
+<dd class="field-odd"><p>Tuple[Tuple[<a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.10)">type</a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a>]]</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="dictdumper.plist.PLIST._tctr">
-<span class="sig-name descname"><span class="pre">_tctr</span></span><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#dictdumper.plist.PLIST._tctr" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">_tctr</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#dictdumper.plist.PLIST._tctr" title="Permalink to this definition">¶</a></dt>
 <dd><p>Tab level counter.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
 </dd>
 </dl>
 <p>Tab level counter.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="dictdumper.plist.PLIST._hsrt">
-<span class="sig-name descname"><span class="pre">_hsrt</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'&lt;?xml</span> <span class="pre">version=&quot;1.0&quot;</span> <span class="pre">encoding=&quot;UTF-8&quot;?&gt;\n&lt;!DOCTYPE</span> <span class="pre">plist</span> <span class="pre">PUBLIC</span> <span class="pre">&quot;-//Apple//DTD</span> <span class="pre">PLIST</span> <span class="pre">1.0//EN&quot;</span> <span class="pre">&quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;\n&lt;plist</span> <span class="pre">version=&quot;1.0&quot;&gt;\n&lt;dict&gt;\n'</span></em><a class="headerlink" href="#dictdumper.plist.PLIST._hsrt" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">_hsrt</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'&lt;?xml</span> <span class="pre">version=&quot;1.0&quot;</span> <span class="pre">encoding=&quot;UTF-8&quot;?&gt;\n&lt;!DOCTYPE</span> <span class="pre">plist</span> <span class="pre">PUBLIC</span> <span class="pre">&quot;-//Apple//DTD</span> <span class="pre">PLIST</span> <span class="pre">1.0//EN&quot;</span> <span class="pre">&quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;\n&lt;plist</span> <span class="pre">version=&quot;1.0&quot;&gt;\n&lt;dict&gt;\n'</span></em><a class="headerlink" href="#dictdumper.plist.PLIST._hsrt" title="Permalink to this definition">¶</a></dt>
 <dd><p>PLIST head string.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="dictdumper.plist.PLIST._hend">
-<span class="sig-name descname"><span class="pre">_hend</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'&lt;/dict&gt;\n&lt;/plist&gt;\n'</span></em><a class="headerlink" href="#dictdumper.plist.PLIST._hend" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">_hend</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'&lt;/dict&gt;\n&lt;/plist&gt;\n'</span></em><a class="headerlink" href="#dictdumper.plist.PLIST._hend" title="Permalink to this definition">¶</a></dt>
 <dd><p>PLIST tail string.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="dictdumper.plist.PLIST.kind">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">kind</span></span><a class="headerlink" href="#dictdumper.plist.PLIST.kind" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">kind</span></span><a class="headerlink" href="#dictdumper.plist.PLIST.kind" title="Permalink to this definition">¶</a></dt>
 <dd><p>File format of current dumper.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -150,8 +150,8 @@ sample is described as below.</p>
 </div>
 <div class="admonition-notes admonition">
 <p class="admonition-title">Notes</p>
-<p>The function will by default converts <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytearray" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bytearray</span></code></a>, <code class="docutils literal notranslate"><span class="pre">None</span></code>,
-<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#memoryview" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">memoryview</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#set" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#frozenset" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frozenset</span></code></a> to
+<p>The function will by default converts <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytearray" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bytearray</span></code></a>, <code class="docutils literal notranslate"><span class="pre">None</span></code>,
+<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#memoryview" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">memoryview</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#set" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#frozenset" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frozenset</span></code></a> to
 PLIST serialisable data.</p>
 </div>
 </dd></dl>
@@ -163,9 +163,9 @@ PLIST serialisable data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>value</strong> (<em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>Any</em><em>]</em>) – content to be dumped</p></li>
-<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
-<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name of current content block</p></li>
+<li><p><strong>value</strong> (<em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>, </em><em>Any</em><em>]</em>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.10)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – name of current content block</p></li>
 </ul>
 </dd>
 </dl>
@@ -178,8 +178,8 @@ PLIST serialisable data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>value</strong> (<em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>Any</em><em>]</em>) – content to be dumped</p></li>
-<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+<li><p><strong>value</strong> (<em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>, </em><em>Any</em><em>]</em>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.10)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
 </ul>
 </dd>
 </dl>
@@ -193,7 +193,7 @@ PLIST serialisable data.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>value</strong> (<em>List</em><em>[</em><em>Any</em><em>]</em>) – content to be dumped</p></li>
-<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.10)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
 </ul>
 </dd>
 </dl>
@@ -206,8 +206,8 @@ PLIST serialisable data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – content to be dumped</p></li>
-<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.10)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
 </ul>
 </dd>
 </dl>
@@ -220,8 +220,8 @@ PLIST serialisable data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.9)"><em>bytes</em></a>) – content to be dumped</p></li>
-<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.10)"><em>bytes</em></a>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.10)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
 </ul>
 </dd>
 </dl>
@@ -234,8 +234,8 @@ PLIST serialisable data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>value</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.date" title="(in Python v3.9)"><em>datetime.date</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.9)"><em>datetime.datetime</em></a><em>]</em>) – content to be dumped</p></li>
-<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+<li><p><strong>value</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.date" title="(in Python v3.10)"><em>datetime.date</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.10)"><em>datetime.datetime</em></a><em>]</em>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.10)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
 </ul>
 </dd>
 </dl>
@@ -248,8 +248,8 @@ PLIST serialisable data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – content to be dumped</p></li>
-<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.10)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
 </ul>
 </dd>
 </dl>
@@ -262,8 +262,8 @@ PLIST serialisable data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – content to be dumped</p></li>
-<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.10)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
 </ul>
 </dd>
 </dl>
@@ -276,8 +276,8 @@ PLIST serialisable data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – content to be dumped</p></li>
-<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.9)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – content to be dumped</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.10)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
 </ul>
 </dd>
 </dl>
@@ -290,13 +290,13 @@ PLIST serialisable data.</p>
 <h2>Internal utilities<a class="headerlink" href="#internal-utilities" title="Permalink to this headline">¶</a></h2>
 <dl class="py data">
 <dt class="sig sig-object py" id="dictdumper.plist._HEADER_START">
-<span class="sig-prename descclassname"><span class="pre">dictdumper.plist.</span></span><span class="sig-name descname"><span class="pre">_HEADER_START</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'&lt;?xml</span> <span class="pre">version=&quot;1.0&quot;</span> <span class="pre">encoding=&quot;UTF-8&quot;?&gt;\n&lt;!DOCTYPE</span> <span class="pre">plist</span> <span class="pre">PUBLIC</span> <span class="pre">&quot;-//Apple//DTD</span> <span class="pre">PLIST</span> <span class="pre">1.0//EN&quot;</span> <span class="pre">&quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;\n&lt;plist</span> <span class="pre">version=&quot;1.0&quot;&gt;\n&lt;dict&gt;\n'</span></em><a class="headerlink" href="#dictdumper.plist._HEADER_START" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">dictdumper.plist.</span></span><span class="sig-name descname"><span class="pre">_HEADER_START</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'&lt;?xml</span> <span class="pre">version=&quot;1.0&quot;</span> <span class="pre">encoding=&quot;UTF-8&quot;?&gt;\n&lt;!DOCTYPE</span> <span class="pre">plist</span> <span class="pre">PUBLIC</span> <span class="pre">&quot;-//Apple//DTD</span> <span class="pre">PLIST</span> <span class="pre">1.0//EN&quot;</span> <span class="pre">&quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;\n&lt;plist</span> <span class="pre">version=&quot;1.0&quot;&gt;\n&lt;dict&gt;\n'</span></em><a class="headerlink" href="#dictdumper.plist._HEADER_START" title="Permalink to this definition">¶</a></dt>
 <dd><p>PLIST head string.</p>
 </dd></dl>
 
 <dl class="py data">
 <dt class="sig sig-object py" id="dictdumper.plist._HEADER_END">
-<span class="sig-prename descclassname"><span class="pre">dictdumper.plist.</span></span><span class="sig-name descname"><span class="pre">_HEADER_END</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'&lt;/dict&gt;\n&lt;/plist&gt;\n'</span></em><a class="headerlink" href="#dictdumper.plist._HEADER_END" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">dictdumper.plist.</span></span><span class="sig-name descname"><span class="pre">_HEADER_END</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'&lt;/dict&gt;\n&lt;/plist&gt;\n'</span></em><a class="headerlink" href="#dictdumper.plist._HEADER_END" title="Permalink to this definition">¶</a></dt>
 <dd><p>PLIST tail string.</p>
 </dd></dl>
 
