@@ -29,7 +29,7 @@ rstcheck = "*"
 tox = "*"
 
 [requires]
-python_version = "3.9"
+python_version = "3"
 
 [pipenv]
 allow_prereleases = true
