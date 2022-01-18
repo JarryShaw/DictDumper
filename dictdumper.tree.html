@@ -60,13 +60,13 @@ sample is described as below.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Variables</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – output file name</p></li>
-<li><p><strong>_sptr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – indicates start of appending point (file pointer)</p></li>
-<li><p><strong>_tctr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – tab level counter</p></li>
-<li><p><strong>_hsrt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – start string (<a class="reference internal" href="#dictdumper.tree._HEADER_START" title="dictdumper.tree._HEADER_START"><code class="xref py py-data docutils literal notranslate"><span class="pre">_HEADER_START</span></code></a>)</p></li>
-<li><p><strong>_hend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – end string (<a class="reference internal" href="#dictdumper.tree._HEADER_END" title="dictdumper.tree._HEADER_END"><code class="xref py py-data docutils literal notranslate"><span class="pre">_HEADER_END</span></code></a>)</p></li>
-<li><p><strong>_bctx</strong> (<em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>]</em>) – blank branch (indentation) context record</p></li>
-<li><p><strong>_nctr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – branch number counter</p></li>
+<li><p><strong>~Tree._file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – output file name</p></li>
+<li><p><strong>~Tree._sptr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – indicates start of appending point (file pointer)</p></li>
+<li><p><strong>~Tree._tctr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – tab level counter</p></li>
+<li><p><strong>~Tree._hsrt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – start string (<a class="reference internal" href="#dictdumper.tree._HEADER_START" title="dictdumper.tree._HEADER_START"><code class="xref py py-data docutils literal notranslate"><span class="pre">_HEADER_START</span></code></a>)</p></li>
+<li><p><strong>~Tree._hend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – end string (<a class="reference internal" href="#dictdumper.tree._HEADER_END" title="dictdumper.tree._HEADER_END"><code class="xref py py-data docutils literal notranslate"><span class="pre">_HEADER_END</span></code></a>)</p></li>
+<li><p><strong>~Tree._bctx</strong> (<em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>]</em>) – blank branch (indentation) context record</p></li>
+<li><p><strong>~Tree._nctr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – branch number counter</p></li>
 </ul>
 </dd>
 </dl>
@@ -342,7 +342,7 @@ tree-view represetable data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><em>None</em></a>) – content to be dumped</p></li>
+<li><p><strong>value</strong> (<em>None</em>) – content to be dumped</p></li>
 <li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.10)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
 </ul>
 </dd>
