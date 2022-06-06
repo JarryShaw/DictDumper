@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>Base Dumper &#8212; DictDumper 0.8.4.post2 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
@@ -12,6 +12,7 @@
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -34,13 +35,13 @@
           <div class="body" role="main">
             
   <section id="module-dictdumper.dumpers">
-<span id="base-dumper"></span><h1>Base Dumper<a class="headerlink" href="#module-dictdumper.dumpers" title="Permalink to this headline">¶</a></h1>
+<span id="base-dumper"></span><h1>Base Dumper<a class="headerlink" href="#module-dictdumper.dumpers" title="Permalink to this heading">¶</a></h1>
 <p><code class="xref py py-mod docutils literal notranslate"><span class="pre">dumper</span></code> contains <a class="reference internal" href="#dictdumper.dumper.Dumper" title="dictdumper.dumper.Dumper"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dumper</span></code></a> only,
 which is an abstract base class for all dumpers, eg. <a class="reference internal" href="dictdumper.vuejs.html#dictdumper.vuejs.VueJS" title="dictdumper.vuejs.VueJS"><code class="xref py py-class docutils literal notranslate"><span class="pre">VueJS</span></code></a>,
 <a class="reference internal" href="dictdumper.json.html#dictdumper.json.JSON" title="dictdumper.json.JSON"><code class="xref py py-class docutils literal notranslate"><span class="pre">JSON</span></code></a>, <a class="reference internal" href="dictdumper.plist.html#dictdumper.plist.PLIST" title="dictdumper.plist.PLIST"><code class="xref py py-class docutils literal notranslate"><span class="pre">PLIST</span></code></a>,
 <a class="reference internal" href="dictdumper.tree.html#dictdumper.tree.Tree" title="dictdumper.tree.Tree"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tree</span></code></a>, and <a class="reference internal" href="dictdumper.xml.html#dictdumper.xml.XML" title="dictdumper.xml.XML"><code class="xref py py-class docutils literal notranslate"><span class="pre">XML</span></code></a>.</p>
 <section id="dumper-class">
-<h2>Dumper class<a class="headerlink" href="#dumper-class" title="Permalink to this headline">¶</a></h2>
+<h2>Dumper class<a class="headerlink" href="#dumper-class" title="Permalink to this heading">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="dictdumper.dumper.Dumper">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dictdumper.dumper.</span></span><span class="sig-name descname"><span class="pre">Dumper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.dumper.Dumper" title="Permalink to this definition">¶</a></dt>
@@ -53,7 +54,7 @@ which is an abstract base class for all dumpers, eg. <a class="reference interna
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Variables</dt>
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – output file name</p></li>
 <li><p><strong>_sptr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – indicates start of appending point (file pointer)</p></li>
@@ -68,7 +69,7 @@ which is an abstract base class for all dumpers, eg. <a class="reference interna
 <span class="sig-name descname"><span class="pre">__type__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">()</span></em><a class="headerlink" href="#dictdumper.dumper.Dumper.__type__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Type codes.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Tuple[Tuple[<a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.10)">type</a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a>]]</p>
 </dd>
 </dl>
@@ -79,7 +80,7 @@ which is an abstract base class for all dumpers, eg. <a class="reference interna
 <span class="sig-name descname"><span class="pre">_tctr</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#dictdumper.dumper.Dumper._tctr" title="Permalink to this definition">¶</a></dt>
 <dd><p>Tab level counter.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
 </dd>
 </dl>
@@ -102,7 +103,7 @@ which is an abstract base class for all dumpers, eg. <a class="reference interna
 <em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">kind</span></span><a class="headerlink" href="#dictdumper.dumper.Dumper.kind" title="Permalink to this definition">¶</a></dt>
 <dd><p>File format of current dumper.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a></p>
 </dd>
 </dl>
@@ -113,7 +114,7 @@ which is an abstract base class for all dumpers, eg. <a class="reference interna
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filename</span></span><a class="headerlink" href="#dictdumper.dumper.Dumper.filename" title="Permalink to this definition">¶</a></dt>
 <dd><p>Output file name.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a></p>
 </dd>
 </dl>
@@ -124,17 +125,17 @@ which is an abstract base class for all dumpers, eg. <a class="reference interna
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">o</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper.make_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.dumper.Dumper.make_object" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create an object with convertion information.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>o</strong> (<em>Any</em>) – object to convert</p></li>
 <li><p><strong>value</strong> (<em>Any</em>) – converted value of <code class="docutils literal notranslate"><span class="pre">o</span></code></p></li>
 <li><p><strong>**kwargs</strong> – additional information for the convertion</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Information context of the convertion.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a>, Any]</p>
 </dd>
 </dl>
@@ -145,13 +146,13 @@ which is an abstract base class for all dumpers, eg. <a class="reference interna
 <span class="sig-name descname"><span class="pre">object_hook</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">o</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper.object_hook"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.dumper.Dumper.object_hook" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert content for function call.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>o</strong> (<em>Any</em>) – object to convert</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>the converted object</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Any</p>
 </dd>
 </dl>
@@ -162,10 +163,10 @@ which is an abstract base class for all dumpers, eg. <a class="reference interna
 <span class="sig-name descname"><span class="pre">default</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">o</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper.default"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.dumper.Dumper.default" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check content type for function call.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>o</strong> (<em>Any</em>) – object to check</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#dictdumper.dumper.DumperError" title="dictdumper.dumper.DumperError"><strong>DumperError</strong></a> – <code class="docutils literal notranslate"><span class="pre">o</span></code> is an unsupported content type</p>
 </dd>
 </dl>
@@ -176,7 +177,7 @@ which is an abstract base class for all dumpers, eg. <a class="reference interna
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.dumper.Dumper.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialise dumper.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>fname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – output file name</p></li>
 <li><p><strong>**kwargs</strong> – addition keyword arguments for initialisation</p></li>
@@ -190,16 +191,16 @@ which is an abstract base class for all dumpers, eg. <a class="reference interna
 <span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.dumper.Dumper.__call__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Dumper a new block.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>value</strong> (<em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>, </em><em>Any</em><em>]</em>) – content to be dumped</p></li>
 <li><p><strong>name</strong> (<em>v</em>) – name of current content block</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>the dumper class itself (to support chain calling)</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#dictdumper.dumper.Dumper" title="dictdumper.dumper.Dumper">Dumper</a></p>
 </dd>
 </dl>
@@ -210,7 +211,7 @@ which is an abstract base class for all dumpers, eg. <a class="reference interna
 <span class="sig-name descname"><span class="pre">_dump_header</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper._dump_header"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.dumper.Dumper._dump_header" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initially dump file heads and tails.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Keyword Arguments</dt>
+<dt class="field-odd">Keyword Arguments<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>**kwargs</strong> – Arbitrary keyword arguments.</p>
 </dd>
 </dl>
@@ -221,7 +222,7 @@ which is an abstract base class for all dumpers, eg. <a class="reference interna
 <span class="sig-name descname"><span class="pre">_encode_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">o</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper._encode_func"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.dumper.Dumper._encode_func" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check content type for function call.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>o</strong> (<em>Any</em>) – object to check</p>
 </dd>
 </dl>
@@ -237,13 +238,13 @@ the function refers to <a class="reference internal" href="#dictdumper.dumper.Du
 <span class="sig-name descname"><span class="pre">_encode_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">o</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper._encode_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.dumper.Dumper._encode_value" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert content for function call.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>o</strong> (<em>Any</em>) – object to convert</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>the converted object</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Any</p>
 </dd>
 </dl>
@@ -258,7 +259,7 @@ the function refers to <a class="reference internal" href="#dictdumper.dumper.Du
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_append_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#Dumper._append_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.dumper.Dumper._append_value" title="Permalink to this definition">¶</a></dt>
 <dd><p>Call this function to write contents.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>value</strong> (<em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>, </em><em>Any</em><em>]</em>) – content to be dumped</p></li>
 <li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="(in Python v3.10)"><em>io.TextIOWrapper</em></a>) – output file</p></li>
@@ -272,19 +273,19 @@ the function refers to <a class="reference internal" href="#dictdumper.dumper.Du
 
 </section>
 <section id="internal-utilities">
-<h2>Internal utilities<a class="headerlink" href="#internal-utilities" title="Permalink to this headline">¶</a></h2>
+<h2>Internal utilities<a class="headerlink" href="#internal-utilities" title="Permalink to this heading">¶</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="dictdumper.dumper.deprecated">
 <span class="sig-prename descclassname"><span class="pre">dictdumper.dumper.</span></span><span class="sig-name descname"><span class="pre">deprecated</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/dumper.html#deprecated"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.dumper.deprecated" title="Permalink to this definition">¶</a></dt>
 <dd><p>Deprecation warning.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>cls</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><em>object</em></a>) – the class to mark as deprecated</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The original <code class="docutils literal notranslate"><span class="pre">cls</span></code> itself.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)">object</a></p>
 </dd>
 </dl>
@@ -360,7 +361,7 @@ the function refers to <a class="reference internal" href="#dictdumper.dumper.Du
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
 
 
 
