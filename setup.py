@@ -69,7 +69,7 @@ class dictdumper_sdist(sdist):
         super(dictdumper_sdist, self).make_release_tree(base_dir, *args, **kwargs)
 
         # PyBPC compatibility enforcement
-        refactor(os.path.join(base_dir, 'dictdumper'))
+        #refactor(os.path.join(base_dir, 'dictdumper'))
 
 
 class dictdumper_build_py(build_py):
@@ -79,7 +79,7 @@ class dictdumper_build_py(build_py):
         super(dictdumper_build_py, self).build_package_data()
 
         # PyBPC compatibility enforcement
-        refactor(os.path.join(self.build_lib, 'dictdumper'))
+        #refactor(os.path.join(self.build_lib, 'dictdumper'))
 
 
 class dictdumper_develop(develop):
@@ -89,7 +89,7 @@ class dictdumper_develop(develop):
         super(dictdumper_develop, self).run()
 
         # PyBPC compatibility enforcement
-        refactor(os.path.join(self.install_lib, 'dictdumper'))
+        #refactor(os.path.join(self.install_lib, 'dictdumper'))
 
 
 class dictdumper_install(install):
@@ -99,7 +99,7 @@ class dictdumper_install(install):
         super(dictdumper_install, self).run()
 
         # PyBPC compatibility enforcement
-        refactor(os.path.join(self.install_lib, 'dictdumper'))  # type: ignore[arg-type]
+        #refactor(os.path.join(self.install_lib, 'dictdumper'))  # type: ignore[arg-type]
 
 
 setup(
