@@ -22,8 +22,8 @@ except:
 
 
 def get_long_description() -> 'str':
-    """Extract description from README.rst, for PyPI's usage."""
-    with open('README.rst', encoding='utf-8') as file:
+    """Extract description from README.md, for PyPI's usage."""
+    with open('README.md', encoding='utf-8') as file:
         long_description = file.read()
     return long_description
 
