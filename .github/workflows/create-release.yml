@@ -37,22 +37,15 @@ jobs:
           echo "DICTDUMPER_PRERELEASE=$(python -c 'import dictdumper, pkg_resources; print(str(pkg_resources.parse_version(dictdumper.__version__).is_prerelease).lower())')" >> $GITHUB_OUTPUT
           echo "DICTDUMPER_CONDA_LABEL=$(python -c 'import dictdumper, pkg_resources; print("dev" if pkg_resources.parse_version(dictdumper.__version__).is_prerelease else "main")')" >> $GITHUB_OUTPUT
 
-      - uses: mukunku/tag-exists-action@v1.2.0
-        id: check_tag
-        with:
-          tag: "v${{ steps.get_version.outputs.DICTDUMPER_VERSION }}"
-
     outputs:
       DICTDUMPER_VERSION: ${{ steps.get_version.outputs.DICTDUMPER_VERSION }}
       DICTDUMPER_PRERELEASE: ${{ steps.get_version.outputs.DICTDUMPER_PRERELEASE }}
-      DICTDUMPER_TAG_EXISTS: ${{ steps.check_tag.outputs.exists }}
       DICTDUMPER_CONDA_LABEL: ${{ steps.get_version.outputs.DICTDUMPER_CONDA_LABEL }}
 
   pypi_github:
     name: PyPI & GitHub Release # with Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest
     needs: [ version_check ]
-    if: ${{ startsWith(github.ref, 'v') || needs.version_check.outputs.DICTDUMPER_TAG_EXISTS == 'false' }}
     # strategy:
     #   matrix:
     #     python-version:
@@ -154,7 +147,6 @@ jobs:
     name: Conda deployment of package with Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest
     needs: [ version_check ]
-    if: ${{ startsWith(github.ref, 'v') || needs.version_check.outputs.DICTDUMPER_TAG_EXISTS == 'false' }}
     strategy:
       matrix:
         python-version: [ "3.8", "3.9", "3.10", "3.11" ] # ignore 3.6/7 for now
