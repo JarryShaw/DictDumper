@@ -9,10 +9,8 @@
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
    
@@ -69,7 +67,7 @@
     <span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">nullcontext</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
     <span class="k">class</span> <span class="nc">nullcontext</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Context manager that does no additional processing.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Context manager that does no additional processing.&quot;&quot;&quot;</span>
 
         <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span>
@@ -92,7 +90,7 @@
 
 <div class="viewcode-block" id="indent"><a class="viewcode-back" href="../../dictdumper.tree.html#dictdumper.indent">[docs]</a><span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
 <span class="k">def</span> <span class="nf">indent</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">branch</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Indentation context.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Indentation context.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        ctx (:obj:`List[str]`): indentation context</span>
@@ -113,7 +111,7 @@
 
 
 <div class="viewcode-block" id="Tree"><a class="viewcode-back" href="../../dictdumper.tree.html#dictdumper.Tree">[docs]</a><span class="k">class</span> <span class="nc">Tree</span><span class="p">(</span><span class="n">Dumper</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Dump a tree-view text (TXT) format file.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Dump a tree-view text (TXT) format file.</span>
 
 <span class="sd">    .. code:: python</span>
 
@@ -163,7 +161,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">kind</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;File format of current dumper.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;File format of current dumper.</span>
 
 <span class="sd">        :rtype: Literal[&#39;txt&#39;]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -210,7 +208,7 @@
 
 <div class="viewcode-block" id="Tree.check_newline"><a class="viewcode-back" href="../../dictdumper.tree.html#dictdumper.Tree.check_newline">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">check_newline</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Check if newline is needed.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if newline is needed.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            value (Union[Dict[str, Any], AnyStr]): value to check if</span>
@@ -256,7 +254,7 @@
     <span class="c1">##########################################################################</span>
 
 <div class="viewcode-block" id="Tree._encode_value"><a class="viewcode-back" href="../../dictdumper.tree.html#dictdumper.Tree._encode_value">[docs]</a>    <span class="k">def</span> <span class="nf">_encode_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">):</span>  <span class="c1"># pylint: disable=unused-argument</span>
-        <span class="sd">&quot;&quot;&quot;Convert content for function call.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert content for function call.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            o (Any): object to convert</span>
@@ -283,7 +281,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">object_hook</span><span class="p">(</span><span class="n">o</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Tree._append_value"><a class="viewcode-back" href="../../dictdumper.tree.html#dictdumper.Tree._append_value">[docs]</a>    <span class="k">def</span> <span class="nf">_append_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Call this function to write contents.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Call this function to write contents.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            value (Dict[str, Any]): content to be dumped</span>
@@ -307,7 +305,7 @@
     <span class="c1">##########################################################################</span>
 
 <div class="viewcode-block" id="Tree._append_branch"><a class="viewcode-back" href="../../dictdumper.tree.html#dictdumper.Tree._append_branch">[docs]</a>    <span class="k">def</span> <span class="nf">_append_branch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>  <span class="c1"># pylint: disable=inconsistent-return-statements</span>
-        <span class="sd">&quot;&quot;&quot;Call this function to write branch contents.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Call this function to write branch contents.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            value (Dict[str, Any]): content to be dumped</span>
@@ -329,7 +327,7 @@
                 <span class="n">func</span><span class="p">(</span><span class="n">enc_text</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Tree._append_array"><a class="viewcode-back" href="../../dictdumper.tree.html#dictdumper.Tree._append_array">[docs]</a>    <span class="k">def</span> <span class="nf">_append_array</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>  <span class="c1"># pylint: disable=inconsistent-return-statements</span>
-        <span class="sd">&quot;&quot;&quot;Call this function to write array contents.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Call this function to write array contents.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            value (List[Any]): content to be dumped</span>
@@ -359,7 +357,7 @@
                 <span class="n">func</span><span class="p">(</span><span class="n">enc_text</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Tree._append_string"><a class="viewcode-back" href="../../dictdumper.tree.html#dictdumper.Tree._append_string">[docs]</a>    <span class="k">def</span> <span class="nf">_append_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>  <span class="c1"># pylint: disable=inconsistent-return-statements</span>
-        <span class="sd">&quot;&quot;&quot;Call this function to write string contents.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Call this function to write string contents.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            value (str): content to be dumped</span>
@@ -382,7 +380,7 @@
         <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">labs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Tree._append_bytes"><a class="viewcode-back" href="../../dictdumper.tree.html#dictdumper.Tree._append_bytes">[docs]</a>    <span class="k">def</span> <span class="nf">_append_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>  <span class="c1"># pylint: disable=inconsistent-return-statements</span>
-        <span class="sd">&quot;&quot;&quot;Call this function to write bytes contents.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Call this function to write bytes contents.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            value (bytes): content to be dumped</span>
@@ -409,7 +407,7 @@
         <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">labs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Tree._append_date"><a class="viewcode-back" href="../../dictdumper.tree.html#dictdumper.Tree._append_date">[docs]</a>    <span class="k">def</span> <span class="nf">_append_date</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>  <span class="c1"># pylint: disable=no-self-use</span>
-        <span class="sd">&quot;&quot;&quot;Call this function to write date contents.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Call this function to write date contents.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            value (Union[datetime.date, datetime.datetime, datetime.time]): content to be dumped</span>
@@ -421,7 +419,7 @@
         <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">labs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Tree._append_number"><a class="viewcode-back" href="../../dictdumper.tree.html#dictdumper.Tree._append_number">[docs]</a>    <span class="k">def</span> <span class="nf">_append_number</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>  <span class="c1"># pylint: disable=no-self-use</span>
-        <span class="sd">&quot;&quot;&quot;Call this function to write number contents.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Call this function to write number contents.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            value (Union[int, float, complex]): content to be dumped</span>
@@ -438,7 +436,7 @@
         <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">labs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Tree._append_bool"><a class="viewcode-back" href="../../dictdumper.tree.html#dictdumper.Tree._append_bool">[docs]</a>    <span class="k">def</span> <span class="nf">_append_bool</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>  <span class="c1"># pylint: disable=no-self-use</span>
-        <span class="sd">&quot;&quot;&quot;Call this function to write bool contents.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Call this function to write bool contents.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            value (bool): content to be dumped</span>
@@ -450,7 +448,7 @@
         <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">labs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Tree._append_none"><a class="viewcode-back" href="../../dictdumper.tree.html#dictdumper.Tree._append_none">[docs]</a>    <span class="k">def</span> <span class="nf">_append_none</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>  <span class="c1"># pylint: disable=unused-argument,no-self-use</span>
-        <span class="sd">&quot;&quot;&quot;Call this function to write none contents.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Call this function to write none contents.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            value (None): content to be dumped</span>
@@ -521,7 +519,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2020, Jarry Shaw.
+      &copy;2018-2023, Jarry Shaw.
       
     </div>
 
