@@ -1,13 +1,18 @@
+global-exclude .DS_Store
+
+global-include *.rst
 global-include *.py
+
+prune .eggs
+prune .github
+prune .venv
+prune docs
+prune sample
+prune temp
+prune test
 
 include doc/*.png
 include README.md
 include LICENSE
 
-prune .cache
-prune .venv
-prune .tox
-
-prune src
-prune temp
-prune tests
+exclude pcapkit/protocols/*/NotImplemented

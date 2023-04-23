@@ -47,3 +47,6 @@ from dictdumper.tree import Tree
 from dictdumper.vuejs import VueJS  # pylint: disable=unused-import
 
 __all__ = ['JSON', 'PLIST', 'Tree']
+
+# version string
+__version__ = '0.8.4.post3'

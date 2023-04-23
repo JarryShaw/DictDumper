@@ -25,11 +25,20 @@ ipython = "*"
 coverage = "*"
 codecov = "*"
 sphinx = "*"
-rstcheck = "*"
-tox = "*"
+sphinx-autodoc-typehints = "*"
+furo = "*"
+sphinxext-opengraph = "*"
+sphinx-copybutton = "*"
+rstcheck = {extras = ["sphinx","toml"],version = "*"}
+esbonio = "*"
+vermin = "*"
+types-docutils = "*"
+types-setuptools = "*"
+build = "*"
+twine = "*"
 
 [requires]
-python_version = "3.9"
+python_version = "3"
 
 [pipenv]
 allow_prereleases = true

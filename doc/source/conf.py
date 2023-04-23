@@ -4,6 +4,10 @@
 # list see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
+import datetime
+
+import dictdumper
+
 # -- Path setup --------------------------------------------------------------
 
 # If extensions (or modules to document with autodoc) are in another directory,
@@ -14,15 +18,14 @@
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
-
 # -- Project information -----------------------------------------------------
 
 project = 'DictDumper'
-copyright = '2020, Jarry Shaw'
+copyright = f'2018-{datetime.date.today().year}, Jarry Shaw'  # pylint: disable=redefined-builtin
 author = 'Jarry Shaw'
 
 # The full version, including alpha/beta/rc tags
-release = '0.8.4.post2'
+release = dictdumper.__version__
 
 
 # -- General configuration ---------------------------------------------------
@@ -69,7 +72,7 @@ templates_path = ['_templates']
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = []
+exclude_patterns = []  # type: list[str]
 
 
 # -- Options for HTML output -------------------------------------------------
