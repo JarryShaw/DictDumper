@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="../../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>dictdumper.json &#8212; DictDumper 0.8.4.post2 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=4f649999" />
     <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=039e1c02" />
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=284b3f35"></script>
+    <script src="../../_static/documentation_options.js?v=f2beefbb"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
    
@@ -81,7 +81,9 @@
 <span class="p">}</span>
 
 
-<div class="viewcode-block" id="JSON"><a class="viewcode-back" href="../../dictdumper.json.html#dictdumper.JSON">[docs]</a><span class="k">class</span> <span class="nc">JSON</span><span class="p">(</span><span class="n">Dumper</span><span class="p">):</span>
+<div class="viewcode-block" id="JSON">
+<a class="viewcode-back" href="../../dictdumper.json.html#dictdumper.JSON">[docs]</a>
+<span class="k">class</span> <span class="nc">JSON</span><span class="p">(</span><span class="n">Dumper</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Dump JavaScript object notation (JSON) format file.</span>
 
 <span class="sd">    .. code:: python</span>
@@ -170,7 +172,9 @@
     <span class="c1"># Data models.</span>
     <span class="c1">##########################################################################</span>
 
-<div class="viewcode-block" id="JSON.__init__"><a class="viewcode-back" href="../../dictdumper.json.html#dictdumper.JSON.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="JSON.__init__">
+<a class="viewcode-back" href="../../dictdumper.json.html#dictdumper.JSON.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialise dumper.</span>
 
 <span class="sd">        Args:</span>
@@ -183,11 +187,14 @@
         <span class="c1">#: DefaultDict[int, int]: Value counter dict.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_vctr</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>  <span class="c1"># value counter dict</span></div>
 
+
     <span class="c1">##########################################################################</span>
     <span class="c1"># Utilities.</span>
     <span class="c1">##########################################################################</span>
 
-<div class="viewcode-block" id="JSON._encode_value"><a class="viewcode-back" href="../../dictdumper.json.html#dictdumper.JSON._encode_value">[docs]</a>    <span class="k">def</span> <span class="nf">_encode_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">):</span>  <span class="c1"># pylint: disable=unused-argument</span>
+<div class="viewcode-block" id="JSON._encode_value">
+<a class="viewcode-back" href="../../dictdumper.json.html#dictdumper.JSON._encode_value">[docs]</a>
+    <span class="k">def</span> <span class="nf">_encode_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">):</span>  <span class="c1"># pylint: disable=unused-argument</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Check content type for function call.</span>
 
 <span class="sd">        Args:</span>
@@ -214,7 +221,10 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_object</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">o</span><span class="p">))</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">object_hook</span><span class="p">(</span><span class="n">o</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="JSON._append_value"><a class="viewcode-back" href="../../dictdumper.json.html#dictdumper.JSON._append_value">[docs]</a>    <span class="k">def</span> <span class="nf">_append_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+
+<div class="viewcode-block" id="JSON._append_value">
+<a class="viewcode-back" href="../../dictdumper.json.html#dictdumper.JSON._append_value">[docs]</a>
+    <span class="k">def</span> <span class="nf">_append_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Call this function to write contents.</span>
 
 <span class="sd">        Args:</span>
@@ -233,11 +243,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_vctr</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_tctr</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_append_object</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span></div>
 
+
     <span class="c1">##########################################################################</span>
     <span class="c1"># Functions.</span>
     <span class="c1">##########################################################################</span>
 
-<div class="viewcode-block" id="JSON._append_object"><a class="viewcode-back" href="../../dictdumper.json.html#dictdumper.JSON._append_object">[docs]</a>    <span class="k">def</span> <span class="nf">_append_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
+<div class="viewcode-block" id="JSON._append_object">
+<a class="viewcode-back" href="../../dictdumper.json.html#dictdumper.JSON._append_object">[docs]</a>
+    <span class="k">def</span> <span class="nf">_append_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Call this function to write object contents.</span>
 
 <span class="sd">        Args:</span>
@@ -267,7 +280,10 @@
         <span class="n">labs</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="si">{tabs}{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;}&#39;</span><span class="p">,</span> <span class="n">tabs</span><span class="o">=</span><span class="n">tabs</span><span class="p">)</span>
         <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">labs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="JSON._append_array"><a class="viewcode-back" href="../../dictdumper.json.html#dictdumper.JSON._append_array">[docs]</a>    <span class="k">def</span> <span class="nf">_append_array</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
+
+<div class="viewcode-block" id="JSON._append_array">
+<a class="viewcode-back" href="../../dictdumper.json.html#dictdumper.JSON._append_array">[docs]</a>
+    <span class="k">def</span> <span class="nf">_append_array</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Call this function to write array contents.</span>
 
 <span class="sd">        Args:</span>
@@ -309,7 +325,10 @@
             <span class="n">labs</span> <span class="o">=</span> <span class="s1">&#39; ]&#39;</span>
         <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">labs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="JSON._append_string"><a class="viewcode-back" href="../../dictdumper.json.html#dictdumper.JSON._append_string">[docs]</a>    <span class="k">def</span> <span class="nf">_append_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>  <span class="c1"># pylint: disable=no-self-use</span>
+
+<div class="viewcode-block" id="JSON._append_string">
+<a class="viewcode-back" href="../../dictdumper.json.html#dictdumper.JSON._append_string">[docs]</a>
+    <span class="k">def</span> <span class="nf">_append_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>  <span class="c1"># pylint: disable=no-self-use</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Call this function to write string contents.</span>
 
 <span class="sd">        Args:</span>
@@ -327,7 +346,10 @@
         <span class="n">labs</span> <span class="o">=</span> <span class="s1">&#39;&quot;</span><span class="si">{text}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">)</span>
         <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">labs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="JSON._append_date"><a class="viewcode-back" href="../../dictdumper.json.html#dictdumper.JSON._append_date">[docs]</a>    <span class="k">def</span> <span class="nf">_append_date</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>  <span class="c1"># pylint: disable=no-self-use</span>
+
+<div class="viewcode-block" id="JSON._append_date">
+<a class="viewcode-back" href="../../dictdumper.json.html#dictdumper.JSON._append_date">[docs]</a>
+    <span class="k">def</span> <span class="nf">_append_date</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>  <span class="c1"># pylint: disable=no-self-use</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Call this function to write date contents.</span>
 
 <span class="sd">        Args:</span>
@@ -339,7 +361,10 @@
         <span class="n">labs</span> <span class="o">=</span> <span class="s1">&#39;&quot;</span><span class="si">{text}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">)</span>
         <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">labs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="JSON._append_number"><a class="viewcode-back" href="../../dictdumper.json.html#dictdumper.JSON._append_number">[docs]</a>    <span class="k">def</span> <span class="nf">_append_number</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
+
+<div class="viewcode-block" id="JSON._append_number">
+<a class="viewcode-back" href="../../dictdumper.json.html#dictdumper.JSON._append_number">[docs]</a>
+    <span class="k">def</span> <span class="nf">_append_number</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Call this function to write number contents.</span>
 
 <span class="sd">        Args:</span>
@@ -357,7 +382,10 @@
             <span class="n">labs</span> <span class="o">=</span> <span class="n">str_type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
             <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">labs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="JSON._append_bool"><a class="viewcode-back" href="../../dictdumper.json.html#dictdumper.JSON._append_bool">[docs]</a>    <span class="k">def</span> <span class="nf">_append_bool</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>  <span class="c1"># pylint: disable=no-self-use</span>
+
+<div class="viewcode-block" id="JSON._append_bool">
+<a class="viewcode-back" href="../../dictdumper.json.html#dictdumper.JSON._append_bool">[docs]</a>
+    <span class="k">def</span> <span class="nf">_append_bool</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>  <span class="c1"># pylint: disable=no-self-use</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Call this function to write bool contents.</span>
 
 <span class="sd">        Args:</span>
@@ -368,7 +396,10 @@
         <span class="n">labs</span> <span class="o">=</span> <span class="s1">&#39;true&#39;</span> <span class="k">if</span> <span class="n">value</span> <span class="k">else</span> <span class="s1">&#39;false&#39;</span>
         <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">labs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="JSON._append_null"><a class="viewcode-back" href="../../dictdumper.json.html#dictdumper.JSON._append_null">[docs]</a>    <span class="k">def</span> <span class="nf">_append_null</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>  <span class="c1"># pylint: disable=unused-argument,no-self-use</span>
+
+<div class="viewcode-block" id="JSON._append_null">
+<a class="viewcode-back" href="../../dictdumper.json.html#dictdumper.JSON._append_null">[docs]</a>
+    <span class="k">def</span> <span class="nf">_append_null</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>  <span class="c1"># pylint: disable=unused-argument,no-self-use</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Call this function to write null contents.</span>
 
 <span class="sd">        Args:</span>
@@ -377,7 +408,9 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">labs</span> <span class="o">=</span> <span class="s1">&#39;null&#39;</span>
-        <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">labs</span><span class="p">)</span></div></div>
+        <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">labs</span><span class="p">)</span></div>
+</div>
+
 </pre></div>
 
           </div>

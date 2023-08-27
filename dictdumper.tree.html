@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,9 +8,9 @@
     <title>Tree-View Dumper &#8212; DictDumper 0.8.4.post2 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=4f649999" />
     <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=039e1c02" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=284b3f35"></script>
+    <script src="_static/documentation_options.js?v=f2beefbb"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
-    <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Base XML Dumper" href="dictdumper.xml.html" />
@@ -31,9 +31,9 @@
 
           <div class="body" role="main">
             
-  <section id="module-dictdumper.tree">
-<span id="tree-view-dumper"></span><h1>Tree-View Dumper<a class="headerlink" href="#module-dictdumper.tree" title="Permalink to this heading">¶</a></h1>
-<p><a class="reference internal" href="#module-dictdumper.tree" title="dictdumper.tree"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dictdumper.tree</span></code></a> contains <a class="reference internal" href="#dictdumper.tree.Tree" title="dictdumper.tree.Tree"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tree</span></code></a>
+  <section id="tree-view-dumper">
+<h1>Tree-View Dumper<a class="headerlink" href="#tree-view-dumper" title="Link to this heading">¶</a></h1>
+<p id="module-dictdumper.tree"><a class="reference internal" href="#module-dictdumper.tree" title="dictdumper.tree"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dictdumper.tree</span></code></a> contains <a class="reference internal" href="#dictdumper.tree.Tree" title="dictdumper.tree.Tree"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tree</span></code></a>
 only, which dumpers a tree-view text (TXT) format file. Usage
 sample is described as below.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dumper</span> <span class="o">=</span> <span class="n">Tree</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
@@ -43,10 +43,10 @@ sample is described as below.</p>
 </pre></div>
 </div>
 <section id="dumper-class">
-<h2>Dumper class<a class="headerlink" href="#dumper-class" title="Permalink to this heading">¶</a></h2>
+<h2>Dumper class<a class="headerlink" href="#dumper-class" title="Link to this heading">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="dictdumper.tree.Tree">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dictdumper.tree.</span></span><span class="sig-name descname"><span class="pre">Tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.tree.Tree" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dictdumper.tree.</span></span><span class="sig-name descname"><span class="pre">Tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.tree.Tree" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="dictdumper.dumper.html#dictdumper.dumper.Dumper" title="dictdumper.dumper.Dumper"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dumper</span></code></a></p>
 <p>Dump a tree-view text (TXT) format file.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dumper</span> <span class="o">=</span> <span class="n">Tree</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
@@ -93,7 +93,7 @@ sample is described as below.</p>
 </div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="dictdumper.tree.Tree.__type__">
-<span class="sig-name descname"><span class="pre">__type__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">((&lt;class</span> <span class="pre">'str'&gt;,</span> <span class="pre">'string'),</span> <span class="pre">(&lt;class</span> <span class="pre">'bool'&gt;,</span> <span class="pre">'bool'),</span> <span class="pre">(&lt;class</span> <span class="pre">'dict'&gt;,</span> <span class="pre">'branch'),</span> <span class="pre">(&lt;class</span> <span class="pre">'NoneType'&gt;,</span> <span class="pre">'none'),</span> <span class="pre">(&lt;class</span> <span class="pre">'datetime.date'&gt;,</span> <span class="pre">'date'),</span> <span class="pre">(&lt;class</span> <span class="pre">'datetime.datetime'&gt;,</span> <span class="pre">'date'),</span> <span class="pre">(&lt;class</span> <span class="pre">'datetime.time'&gt;,</span> <span class="pre">'date'),</span> <span class="pre">(&lt;class</span> <span class="pre">'int'&gt;,</span> <span class="pre">'number'),</span> <span class="pre">(&lt;class</span> <span class="pre">'float'&gt;,</span> <span class="pre">'number'),</span> <span class="pre">(&lt;class</span> <span class="pre">'complex'&gt;,</span> <span class="pre">'number'),</span> <span class="pre">(&lt;class</span> <span class="pre">'bytes'&gt;,</span> <span class="pre">'bytes'),</span> <span class="pre">(&lt;class</span> <span class="pre">'list'&gt;,</span> <span class="pre">'array'))</span></em><a class="headerlink" href="#dictdumper.tree.Tree.__type__" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">__type__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">((&lt;class</span> <span class="pre">'str'&gt;,</span> <span class="pre">'string'),</span> <span class="pre">(&lt;class</span> <span class="pre">'bool'&gt;,</span> <span class="pre">'bool'),</span> <span class="pre">(&lt;class</span> <span class="pre">'dict'&gt;,</span> <span class="pre">'branch'),</span> <span class="pre">(&lt;class</span> <span class="pre">'NoneType'&gt;,</span> <span class="pre">'none'),</span> <span class="pre">(&lt;class</span> <span class="pre">'datetime.date'&gt;,</span> <span class="pre">'date'),</span> <span class="pre">(&lt;class</span> <span class="pre">'datetime.datetime'&gt;,</span> <span class="pre">'date'),</span> <span class="pre">(&lt;class</span> <span class="pre">'datetime.time'&gt;,</span> <span class="pre">'date'),</span> <span class="pre">(&lt;class</span> <span class="pre">'int'&gt;,</span> <span class="pre">'number'),</span> <span class="pre">(&lt;class</span> <span class="pre">'float'&gt;,</span> <span class="pre">'number'),</span> <span class="pre">(&lt;class</span> <span class="pre">'complex'&gt;,</span> <span class="pre">'number'),</span> <span class="pre">(&lt;class</span> <span class="pre">'bytes'&gt;,</span> <span class="pre">'bytes'),</span> <span class="pre">(&lt;class</span> <span class="pre">'list'&gt;,</span> <span class="pre">'array'))</span></em><a class="headerlink" href="#dictdumper.tree.Tree.__type__" title="Link to this definition">¶</a></dt>
 <dd><p>Type codes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -104,7 +104,7 @@ sample is described as below.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="dictdumper.tree.Tree._tctr">
-<span class="sig-name descname"><span class="pre">_tctr</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#dictdumper.tree.Tree._tctr" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">_tctr</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#dictdumper.tree.Tree._tctr" title="Link to this definition">¶</a></dt>
 <dd><p>Tab level counter.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -121,19 +121,19 @@ sample is described as below.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="dictdumper.tree.Tree._hsrt">
-<span class="sig-name descname"><span class="pre">_hsrt</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#dictdumper.tree.Tree._hsrt" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">_hsrt</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#dictdumper.tree.Tree._hsrt" title="Link to this definition">¶</a></dt>
 <dd><p>Tree-view head string.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="dictdumper.tree.Tree._hend">
-<span class="sig-name descname"><span class="pre">_hend</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#dictdumper.tree.Tree._hend" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">_hend</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#dictdumper.tree.Tree._hend" title="Link to this definition">¶</a></dt>
 <dd><p>Tree-view tail string.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="dictdumper.tree.Tree._nctr">
-<span class="sig-name descname"><span class="pre">_nctr</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#dictdumper.tree.Tree._nctr" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">_nctr</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#dictdumper.tree.Tree._nctr" title="Link to this definition">¶</a></dt>
 <dd><p>Branch number counter.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -144,7 +144,7 @@ sample is described as below.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="dictdumper.tree.Tree._bctx">
-<span class="sig-name descname"><span class="pre">_bctx</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#dictdumper.tree.Tree._bctx" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">_bctx</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#dictdumper.tree.Tree._bctx" title="Link to this definition">¶</a></dt>
 <dd><p>Blank branch (indentation) context record.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -155,7 +155,7 @@ sample is described as below.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="dictdumper.tree.Tree.kind">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">kind</span></span><a class="headerlink" href="#dictdumper.tree.Tree.kind" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">kind</span></span><a class="headerlink" href="#dictdumper.tree.Tree.kind" title="Link to this definition">¶</a></dt>
 <dd><p>File format of current dumper.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -166,7 +166,7 @@ sample is described as below.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="dictdumper.tree.Tree.check_newline">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">check_newline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree.check_newline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.tree.Tree.check_newline" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">check_newline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree.check_newline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.tree.Tree.check_newline" title="Link to this definition">¶</a></dt>
 <dd><p>Check if newline is needed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -195,7 +195,7 @@ representation is greater than 40 distinct characters</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="dictdumper.tree.Tree._encode_value">
-<span class="sig-name descname"><span class="pre">_encode_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">o</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._encode_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.tree.Tree._encode_value" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">_encode_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">o</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._encode_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.tree.Tree._encode_value" title="Link to this definition">¶</a></dt>
 <dd><p>Convert content for function call.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -222,7 +222,7 @@ tree-view represetable data.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="dictdumper.tree.Tree._append_value">
-<span class="sig-name descname"><span class="pre">_append_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.tree.Tree._append_value" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">_append_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.tree.Tree._append_value" title="Link to this definition">¶</a></dt>
 <dd><p>Call this function to write contents.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -237,7 +237,7 @@ tree-view represetable data.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="dictdumper.tree.Tree._append_branch">
-<span class="sig-name descname"><span class="pre">_append_branch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_branch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.tree.Tree._append_branch" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">_append_branch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_branch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.tree.Tree._append_branch" title="Link to this definition">¶</a></dt>
 <dd><p>Call this function to write branch contents.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -251,7 +251,7 @@ tree-view represetable data.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="dictdumper.tree.Tree._append_array">
-<span class="sig-name descname"><span class="pre">_append_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.tree.Tree._append_array" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">_append_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.tree.Tree._append_array" title="Link to this definition">¶</a></dt>
 <dd><p>Call this function to write array contents.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -265,7 +265,7 @@ tree-view represetable data.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="dictdumper.tree.Tree._append_string">
-<span class="sig-name descname"><span class="pre">_append_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.tree.Tree._append_string" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">_append_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.tree.Tree._append_string" title="Link to this definition">¶</a></dt>
 <dd><p>Call this function to write string contents.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -279,7 +279,7 @@ tree-view represetable data.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="dictdumper.tree.Tree._append_bytes">
-<span class="sig-name descname"><span class="pre">_append_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_bytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.tree.Tree._append_bytes" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">_append_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_bytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.tree.Tree._append_bytes" title="Link to this definition">¶</a></dt>
 <dd><p>Call this function to write bytes contents.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -293,7 +293,7 @@ tree-view represetable data.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="dictdumper.tree.Tree._append_date">
-<span class="sig-name descname"><span class="pre">_append_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_date"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.tree.Tree._append_date" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">_append_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_date"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.tree.Tree._append_date" title="Link to this definition">¶</a></dt>
 <dd><p>Call this function to write date contents.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -307,7 +307,7 @@ tree-view represetable data.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="dictdumper.tree.Tree._append_number">
-<span class="sig-name descname"><span class="pre">_append_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_number"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.tree.Tree._append_number" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">_append_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_number"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.tree.Tree._append_number" title="Link to this definition">¶</a></dt>
 <dd><p>Call this function to write number contents.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -321,7 +321,7 @@ tree-view represetable data.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="dictdumper.tree.Tree._append_bool">
-<span class="sig-name descname"><span class="pre">_append_bool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_bool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.tree.Tree._append_bool" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">_append_bool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_bool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.tree.Tree._append_bool" title="Link to this definition">¶</a></dt>
 <dd><p>Call this function to write bool contents.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -335,7 +335,7 @@ tree-view represetable data.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="dictdumper.tree.Tree._append_none">
-<span class="sig-name descname"><span class="pre">_append_none</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_none"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.tree.Tree._append_none" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">_append_none</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#Tree._append_none"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.tree.Tree._append_none" title="Link to this definition">¶</a></dt>
 <dd><p>Call this function to write none contents.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -351,10 +351,10 @@ tree-view represetable data.</p>
 
 </section>
 <section id="internal-utilities">
-<h2>Internal utilities<a class="headerlink" href="#internal-utilities" title="Permalink to this heading">¶</a></h2>
+<h2>Internal utilities<a class="headerlink" href="#internal-utilities" title="Link to this heading">¶</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="dictdumper.tree.indent">
-<span class="sig-prename descclassname"><span class="pre">dictdumper.tree.</span></span><span class="sig-name descname"><span class="pre">indent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#indent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.tree.indent" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">dictdumper.tree.</span></span><span class="sig-name descname"><span class="pre">indent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dictdumper/tree.html#indent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dictdumper.tree.indent" title="Link to this definition">¶</a></dt>
 <dd><p>Indentation context.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -373,25 +373,25 @@ the spaces template (<a class="reference internal" href="#dictdumper.tree._TEMP_
 
 <dl class="py data">
 <dt class="sig sig-object py" id="dictdumper.tree._HEADER_START">
-<span class="sig-prename descclassname"><span class="pre">dictdumper.tree.</span></span><span class="sig-name descname"><span class="pre">_HEADER_START</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#dictdumper.tree._HEADER_START" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">dictdumper.tree.</span></span><span class="sig-name descname"><span class="pre">_HEADER_START</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#dictdumper.tree._HEADER_START" title="Link to this definition">¶</a></dt>
 <dd><p>Tree-view head string.</p>
 </dd></dl>
 
 <dl class="py data">
 <dt class="sig sig-object py" id="dictdumper.tree._HEADER_END">
-<span class="sig-prename descclassname"><span class="pre">dictdumper.tree.</span></span><span class="sig-name descname"><span class="pre">_HEADER_END</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#dictdumper.tree._HEADER_END" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">dictdumper.tree.</span></span><span class="sig-name descname"><span class="pre">_HEADER_END</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#dictdumper.tree._HEADER_END" title="Link to this definition">¶</a></dt>
 <dd><p>Tree-view tail string.</p>
 </dd></dl>
 
 <dl class="py data">
 <dt class="sig sig-object py" id="dictdumper.tree._TEMP_BRANCH">
-<span class="sig-prename descclassname"><span class="pre">dictdumper.tree.</span></span><span class="sig-name descname"><span class="pre">_TEMP_BRANCH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'</span>&#160; <span class="pre">|</span>&#160;&#160; <span class="pre">'</span></em><a class="headerlink" href="#dictdumper.tree._TEMP_BRANCH" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">dictdumper.tree.</span></span><span class="sig-name descname"><span class="pre">_TEMP_BRANCH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'</span>&#160; <span class="pre">|</span>&#160;&#160; <span class="pre">'</span></em><a class="headerlink" href="#dictdumper.tree._TEMP_BRANCH" title="Link to this definition">¶</a></dt>
 <dd><p>Branch template</p>
 </dd></dl>
 
 <dl class="py data">
 <dt class="sig sig-object py" id="dictdumper.tree._TEMP_SPACES">
-<span class="sig-prename descclassname"><span class="pre">dictdumper.tree.</span></span><span class="sig-name descname"><span class="pre">_TEMP_SPACES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">'</span></em><a class="headerlink" href="#dictdumper.tree._TEMP_SPACES" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">dictdumper.tree.</span></span><span class="sig-name descname"><span class="pre">_TEMP_SPACES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">'</span></em><a class="headerlink" href="#dictdumper.tree._TEMP_SPACES" title="Link to this definition">¶</a></dt>
 <dd><p>Spaces template</p>
 </dd></dl>
 
