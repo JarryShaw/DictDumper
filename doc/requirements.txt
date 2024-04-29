@@ -1,5 +1,5 @@
 # sphinx
-Sphinx==7.2.6
+Sphinx==7.3.7
 
 # extentions
 sphinx-autodoc-typehints==2.0.0
