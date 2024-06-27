@@ -1,0 +1,48 @@
+{% set name = "dictdumper" %}
+{% set version = environ['DICTDUMPER_VERSION'] %}
+{% set build_number = environ['DICTDUMPER_BUILD'] %}
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  path: ../..
+  #git_url: https://github.com/JarryShaw/dictdumper.git
+  #git_rev: "conda-{{ version }}+{{ build_number }}"
+  #git_depth: 1 # (Defaults to -1/not shallow)
+
+build:
+  number: {{ build_number }}
+  script: "{{ PYTHON }} -m pip install . -vv"
+
+requirements:
+  build:
+    - git
+    - python
+    - pip
+    - setuptools>=61.0.0
+  host:
+    - python
+    - pip
+    - setuptools>=61.0.0
+  run:
+    - python
+
+test:
+ imports:
+   - dictdumper
+
+about:
+  home: https://jarryshaw.github.io/dictdumper
+  license: BSD 3-Clause License
+  license_family: BSD
+  license_file:
+    - LICENSE
+  summary: "DictDumper: comprehensive network packet analysis library"
+  doc_url: https://jarryshaw.github.io/dictdumper
+  dev_url: https://github.com/jarryshaw/dictdumper
+
+extra:
+  recipe-maintainers:
+    - jarryshaw
