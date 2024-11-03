@@ -20,7 +20,7 @@ jobs:
 
       - uses: actions/setup-python@v4
         with:
-          python-version: '3.12'
+          python-version: '3.14'
 
       - name: Install and Setup
         run: |
@@ -144,11 +144,12 @@ jobs:
     strategy:
       matrix:
         python-version:
-          - "3.8"
           - "3.9"
           - "3.10"
           - "3.11"
           - "3.12"
+          - "3.13"
+          - "3.14"
           - "pypy3.8"
           - "pypy3.9"
           - "pypy3.10"
@@ -221,11 +222,12 @@ jobs:
           - ubuntu-latest
           # - windows-latest  # skip for now
         python-version:
-          - "3.8"
           - "3.9"
           - "3.10"
           - "3.11"
           - "3.12"
+          - "3.13"
+          - "3.14"
     steps:
       - uses: actions/checkout@v4
         with:
