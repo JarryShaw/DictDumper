@@ -50,6 +50,33 @@ ESCAPE_DCT = {
 }
 
 
+def encode_string(value):
+    """Escape ``value`` for use as the body of a JSON string.
+
+    Args:
+        value (Any): object to escape, converted to :obj:`str` beforehand
+            should it not be one already
+
+    Returns:
+        str: The escaped text, *without* the enclosing quotation marks.
+
+    Notes:
+        Both mapping keys and string values are escaped through this function,
+        so that a key is always written exactly as the string beside it would
+        be. Characters outside :data:`string.printable` are emitted as ``\\uXXXX``
+        escape sequences, which keeps the output pure ASCII.
+
+    """
+    text = ''
+    for char in value if isinstance(value, str_type) else str_type(value):
+        if char in string.printable:
+            temp = ESCAPE_DCT.get(char, char)
+        else:
+            temp = '\\u{0:04x}'.format(ord(char))
+        text += temp
+    return text
+
+
 class JSON(Dumper):
     """Dump JavaScript object notation (JSON) format file.
 
@@ -194,7 +221,8 @@ class JSON(Dumper):
         """
         tabs = '\t' * self._tctr
         cmma = ',\n' if self._vctr[self._tctr] else ''
-        keys = '{cmma}{tabs}"{name}": '.format(cmma=cmma, tabs=tabs, name=name)
+        keys = '{cmma}{tabs}"{name}": '.format(cmma=cmma, tabs=tabs,
+                                               name=encode_string(name))
 
         file.seek(self._sptr, os.SEEK_SET)
         file.write(keys)
@@ -221,7 +249,8 @@ class JSON(Dumper):
         for (item, text) in value.items():
             tabs = '\t' * self._tctr
             cmma = ',' if self._vctr[self._tctr] else ''
-            keys = '{cmma}\n{tabs}"{item}": '.format(cmma=cmma, tabs=tabs, item=item)
+            keys = '{cmma}\n{tabs}"{item}": '.format(cmma=cmma, tabs=tabs,
+                                                     item=encode_string(item))
             file.write(keys)
 
             self._vctr[self._tctr] += 1
@@ -286,14 +315,7 @@ class JSON(Dumper):
             file (io.TextIOWrapper): output file
 
         """
-        text = ''
-        for char in str_type(value):
-            if char in string.printable:
-                temp = ESCAPE_DCT.get(char, char)
-            else:
-                temp = '\\u{0:04x}'.format(ord(char))
-            text += temp
-        labs = '"{text}"'.format(text=text)
+        labs = '"{text}"'.format(text=encode_string(value))
         file.write(labs)
 
     def _append_date(self, value, file):  # pylint: disable=no-self-use
