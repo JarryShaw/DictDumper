@@ -61,6 +61,33 @@ def encode_xml(value):
     return escape(value if isinstance(value, str_type) else str_type(value))
 
 
+def _format_date(value):
+    """Render ``value`` in the property list ``<date>`` format.
+
+    Args:
+        value (Union[datetime.date, datetime.datetime]): date to render
+
+    Returns:
+        str: The date as ``YYYY-MM-DDThh:mm:ssZ``.
+
+    Notes:
+        The format carries whole seconds only, so microseconds on ``value`` are
+        discarded; this is the same rendering :func:`plistlib.dump` produces.
+        A :obj:`datetime.date` has no time of day and is rendered at midnight.
+
+        The fields are formatted rather than passed through
+        :meth:`~datetime.date.strftime` because ``%Y`` is not guaranteed to be
+        zero padded, and the reader requires a four digit year.
+
+    """
+    if isinstance(value, datetime.datetime):
+        clock = (value.hour, value.minute, value.second)
+    else:
+        clock = (0, 0, 0)
+    return '{0:04d}-{1:02d}-{2:02d}T{3:02d}:{4:02d}:{5:02d}Z'.format(
+        value.year, value.month, value.day, *clock)
+
+
 class PLIST(XML):
     """Dump Apple property list (PLIST) format file.
 
@@ -294,9 +321,15 @@ class PLIST(XML):
             value (Union[datetime.date, datetime.datetime]): content to be dumped
             file (io.TextIOWrapper): output file
 
+        Notes:
+            A property list ``<date>`` carries whole seconds only, so any
+            microseconds on ``value`` are discarded -- the same thing
+            :func:`plistlib.dump` does. Callers needing sub-second precision
+            have to record it in a field of their own.
+
         """
         tabs = '\t' * self._tctr
-        text = value.strftime(r'%Y-%m-%dT%H:%M:%S.%fZ')
+        text = _format_date(value)
         labs = '{tabs}<date>{text}</date>\n'.format(tabs=tabs, text=text)
         file.write(labs)
 
