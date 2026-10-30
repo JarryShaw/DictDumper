@@ -281,13 +281,22 @@ jobs:
           python -m pip install -U pip setuptools wheel
           python -m pip install -e .
 
+      # Fixed, not matrix.python-version: this installs the conda-build TOOL,
+      # which has to run under a Python it actually supports -- it has no
+      # cp314/cp315 build at all yet (LibMambaUnsatisfiableError, "nothing
+      # provides _python_rc needed by python-3.15..."). The package version
+      # this job actually produces is set independently, by the --python
+      # flag uibcdf/action-build-and-upload-conda-packages passes to `conda
+      # build` from its own python-version input (matrix.python-version,
+      # below) -- conda-build's own runtime version and its --python target
+      # are unrelated.
       - name: Conda environment creation and activation
         uses: conda-incubator/setup-miniconda@v3
         env:
           DICTDUMPER_VERSION: ${{ needs.version_check.outputs.DICTDUMPER_VERSION }}
           DICTDUMPER_BUILD: "0"
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: "3.13"
           environment-file: conda/conda-build.yaml    # Path to the build conda environment
           auto-update-conda: false
           auto-activate-base: false
