@@ -236,6 +236,7 @@ jobs:
     needs: [ tag, github, version_check ]
     if: ${{ startsWith(github.ref_name, 'v') || needs.version_check.outputs.DICTDUMPER_TAG_EXISTS == 'false' }}
     strategy:
+      fail-fast: false
       matrix:
         os:
           - macos-latest
@@ -322,7 +323,14 @@ jobs:
         with:
           meta_yaml_dir: conda/dictdumper
           python-version: ${{ matrix.python-version }} # Values previously defined in `matrix`
-          platform_osx-64: true
+          # macos-latest runners are Apple Silicon (osx-arm64) now, not Intel.
+          # Asking for platform_osx-64 made the action try to conda-convert
+          # the host build to a different arch -- its own logic for locating
+          # that host build assumes osx-64 and found nothing there, passing
+          # an empty path to `conda convert` ("error: the following
+          # arguments are required: files"). Targeting the host's actual
+          # architecture needs no conversion and avoids the bug entirely.
+          platform_osx-arm64: true
           user: jarryshaw
           label: ${{ needs.version_check.outputs.DICTDUMPER_CONDA_LABEL }}
           token: ${{ secrets.ANACONDA_TOKEN }} # Replace with the right name of your secret
