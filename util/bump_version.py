@@ -3,7 +3,7 @@
 import os
 from typing import TYPE_CHECKING, cast
 
-import pkg_resources
+import packaging.version
 
 if TYPE_CHECKING:
     from packaging.version import Version
@@ -25,7 +25,7 @@ except ImportError:
         raise RuntimeError("cannot find version")
 
 # parse version and bump version
-ver_obj = pkg_resources.parse_version(version)  # type: Version
+ver_obj = packaging.version.parse(version)  # type: Version
 base_version = ver_obj.base_version
 
 if ver_obj.is_devrelease:
