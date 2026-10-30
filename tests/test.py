@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 
 import collections
 import datetime
+import json
 import os
 import tempfile
 import unittest
@@ -13,6 +14,11 @@ import sys
 import dictdumper
 
 PY2 = '.py2' if sys.version_info.major < 3 else ''
+
+try:
+    from plistlib import load as load_plist
+except ImportError:
+    from plistlib import readPlist as load_plist
 
 try:
     from tempfile import TemporaryDirectory
@@ -69,6 +75,22 @@ test_3['far']['far_foo'] = [u"s1", u"s2", u"s3"]
 test_3['far']['far_var'] = u"s4"
 test_3['biu'] = float('nan')
 
+# Keys and values holding characters that are special to the output formats,
+# c.f. https://github.com/JarryShaw/DictDumper/issues/121. Every key here is
+# also used as a value, so that a dumper escaping only one of the two is caught.
+test_escape = collections.OrderedDict()
+test_escape[u'quote"key'] = u'quote"value'
+test_escape[u'back\\slash'] = u'back\\slash'
+test_escape[u'amp&key'] = u'lt<gt>value'
+test_escape[u'nested'] = collections.OrderedDict()
+test_escape[u'nested'][u'tab\tkey'] = u'tab\tvalue'
+
+# A non-string key, which is rendered through ``str()``. On Python 3 that is a
+# ``bytes`` repr and carries quotation marks; on Python 2 it is the bytes
+# themselves. Either way the rendering holds a character needing escaping.
+test_bytes_key = collections.OrderedDict()
+test_bytes_key[b'\x20\x21\x22\x23'] = u'client random'
+
 
 class TestDictDumper(unittest.TestCase):
     """Test DictDumper."""
@@ -101,6 +123,27 @@ class TestDictDumper(unittest.TestCase):
                 dumper(test_3, name='test_3')
                 self.assertFile(dst, os.path.join(rootdir, 'test_3%s.json' % PY2))
 
+    def test_json_escape(self):
+        """Test JSON dumper escapes mapping keys."""
+        with TemporaryDirectory() as tempdir:
+            dst = os.path.join(tempdir, 'test_escape.json')
+
+            dumper = dictdumper.JSON(dst)
+            dumper(test_escape, name='esc"ape')
+            dumper(test_bytes_key, name='bytes')
+
+            with open(dst) as file:
+                report = json.load(file)
+
+            self.assertEqual(sorted(report), ['bytes', 'esc"ape'])
+            self.assertEqual(report['esc"ape'], {
+                'quote"key': 'quote"value',
+                'back\\slash': 'back\\slash',
+                'amp&key': 'lt<gt>value',
+                'nested': {'tab\tkey': 'tab\tvalue'},
+            })
+            self.assertEqual(list(report['bytes'].values()), ['client random'])
+
     def test_plist(self):
         """Test PLIST dumper."""
         rootdir = os.path.join(ROOT, 'plist')
@@ -119,6 +162,27 @@ class TestDictDumper(unittest.TestCase):
 
                 dumper(test_3, name='test_3')
                 self.assertFile(dst, os.path.join(rootdir, 'test_3%s.plist' % PY2))
+
+    def test_plist_escape(self):
+        """Test PLIST dumper escapes mapping keys and string values."""
+        with TemporaryDirectory() as tempdir:
+            dst = os.path.join(tempdir, 'test_escape.plist')
+
+            dumper = dictdumper.PLIST(dst)
+            dumper(test_escape, name='esc&ape')
+            dumper(test_bytes_key, name='bytes')
+
+            with open(dst, 'rb') as file:
+                report = load_plist(file)
+
+            self.assertEqual(sorted(report), ['bytes', 'esc&ape'])
+            self.assertEqual(report['esc&ape'], {
+                'quote"key': 'quote"value',
+                'back\\slash': 'back\\slash',
+                'amp&key': 'lt<gt>value',
+                'nested': {'tab\tkey': 'tab\tvalue'},
+            })
+            self.assertEqual(list(report['bytes'].values()), ['client random'])
 
     def test_tree(self):
         """Test text tree dumper."""

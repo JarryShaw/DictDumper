@@ -28,5 +28,7 @@ Dumper class
 Internal utilities
 ------------------
 
+.. autofunction:: dictdumper.plist.encode_xml
+
 .. autodata:: dictdumper.plist._HEADER_START
 .. autodata:: dictdumper.plist._HEADER_END

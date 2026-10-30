@@ -19,6 +19,7 @@ sample is described as below.
 import base64
 import datetime
 import os
+from xml.sax.saxutils import escape
 
 from dictdumper._types import bytes_type, str_type
 from dictdumper.xml import XML
@@ -38,6 +39,26 @@ _HEADER_END = '''\
 </dict>
 </plist>
 '''
+
+
+def encode_xml(value):
+    """Escape ``value`` for use as XML character data.
+
+    Args:
+        value (Any): object to escape, converted to :obj:`str` beforehand
+            should it not be one already
+
+    Returns:
+        str: The escaped text, with ``&``, ``<`` and ``>`` replaced by the
+        corresponding XML entity references.
+
+    Notes:
+        Both mapping keys and string values are escaped through this function,
+        so that a key is always written exactly as the string beside it would
+        be.
+
+    """
+    return escape(value if isinstance(value, str_type) else str_type(value))
 
 
 class PLIST(XML):
@@ -170,7 +191,7 @@ class PLIST(XML):
 
         """
         tabs = '\t' * self._tctr
-        keys = '{tabs}<key>{name}</key>\n'.format(tabs=tabs, name=name)
+        keys = '{tabs}<key>{name}</key>\n'.format(tabs=tabs, name=encode_xml(name))
 
         file.seek(self._sptr, os.SEEK_SET)
         file.write(keys)
@@ -199,7 +220,7 @@ class PLIST(XML):
                 continue
 
             tabs = '\t' * self._tctr
-            keys = '{tabs}<key>{item}</key>\n'.format(tabs=tabs, item=item)
+            keys = '{tabs}<key>{item}</key>\n'.format(tabs=tabs, item=encode_xml(item))
             file.write(keys)
 
             enc_text = self._encode_value(text)
@@ -246,7 +267,7 @@ class PLIST(XML):
 
         """
         tabs = '\t' * self._tctr
-        text = value
+        text = encode_xml(value)
         labs = '{tabs}<string>{text}</string>\n'.format(tabs=tabs, text=text)
         file.write(labs)
 
