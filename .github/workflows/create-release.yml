@@ -127,7 +127,11 @@ jobs:
           git config --local user.name "github-actions[bot]"
 
           git tag -d v${{ needs.version_check.outputs.DICTDUMPER_VERSION }} || true
-          git tag "conda-${{ needs.version_check.outputs.DICTDUMPER_VERSION }}+0" -m"Conda Build"
+          # -f: a retry of the same version (e.g. after fixing something else
+          # in this workflow) finds this tag already pushed by the previous
+          # attempt, and would otherwise fail outright with "tag already
+          # exists" before ever reaching the Push Tag step.
+          git tag -f "conda-${{ needs.version_check.outputs.DICTDUMPER_VERSION }}+0" -m"Conda Build"
 
       - name: Push Tag
         uses: ad-m/github-push-action@v1.3.0
@@ -135,6 +139,10 @@ jobs:
           github_token: ${{ secrets.DICTDUMPER }}
           atomic: false
           tags: true
+          # force: a retried run recreates conda-<version>+0 as a new
+          # annotated tag object (different SHA, same ref name and commit)
+          # even when nothing else changed, which a plain push rejects.
+          force: true
 
   pypi:
     name: PyPI distribution for Python ${{ matrix.python-version }}
