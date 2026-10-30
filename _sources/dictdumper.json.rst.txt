@@ -42,5 +42,7 @@ Dumper class
 Internal utilities
 ------------------
 
+.. autofunction:: dictdumper.json.encode_string
+
 .. autodata:: dictdumper.json._HEADER_START
 .. autodata:: dictdumper.json._HEADER_END
