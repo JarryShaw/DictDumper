@@ -24,7 +24,7 @@ jobs:
 
       - name: Install and Setup
         run: |
-          python -m pip install -U pip setuptools wheel
+          python -m pip install -U pip setuptools wheel packaging
 
       - name: Get Version
         id: get_version
@@ -34,8 +34,8 @@ jobs:
           python -m pip install -e .
 
           echo "DICTDUMPER_VERSION=$(python -c 'import dictdumper; print(dictdumper.__version__)')" >> $GITHUB_OUTPUT
-          echo "DICTDUMPER_PRERELEASE=$(python -c 'import dictdumper, pkg_resources; print(str(pkg_resources.parse_version(dictdumper.__version__).is_prerelease).lower())')" >> $GITHUB_OUTPUT
-          echo "DICTDUMPER_CONDA_LABEL=$(python -c 'import dictdumper, pkg_resources; print("dev" if pkg_resources.parse_version(dictdumper.__version__).is_prerelease else "main")')" >> $GITHUB_OUTPUT
+          echo "DICTDUMPER_PRERELEASE=$(python -c 'import dictdumper, packaging.version; print(str(packaging.version.parse(dictdumper.__version__).is_prerelease).lower())')" >> $GITHUB_OUTPUT
+          echo "DICTDUMPER_CONDA_LABEL=$(python -c 'import dictdumper, packaging.version; print("dev" if packaging.version.parse(dictdumper.__version__).is_prerelease else "main")')" >> $GITHUB_OUTPUT
 
       - uses: mukunku/tag-exists-action@v1.2.0
         id: check_tag
@@ -61,7 +61,7 @@ jobs:
           fetch-depth: 0
 
       - name: Changelog
-        uses: Bullrich/generate-release-changelog@master
+        uses: Bullrich/generate-release-changelog@2.0.2
         id: changelog
         env:
           REPO: ${{ github.repository }}
@@ -115,7 +115,7 @@ jobs:
           git commit -m"Reset conda build number" || true
 
       - name: Push Changes
-        uses: ad-m/github-push-action@master
+        uses: ad-m/github-push-action@v1.3.0
         with:
           github_token: ${{ secrets.DICTDUMPER }}
 
@@ -130,7 +130,7 @@ jobs:
           git tag "conda-${{ needs.version_check.outputs.DICTDUMPER_VERSION }}+0" -m"Conda Build"
 
       - name: Push Tag
-        uses: ad-m/github-push-action@master
+        uses: ad-m/github-push-action@v1.3.0
         with:
           github_token: ${{ secrets.DICTDUMPER }}
           atomic: false
