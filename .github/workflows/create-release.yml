@@ -314,6 +314,18 @@ jobs:
       - name: Ensure conda-build is importable from base conda
         run: conda install -n base -y -c conda-forge conda-build anaconda-client
 
+      # uibcdf/action-build-and-upload-conda-packages's own bundled script
+      # captures the host build's path with a hardcoded `.tar.bz2` suffix
+      # check, from before conda-build defaulted to the newer .conda format.
+      # With no .tar.bz2 file to find, $HOST_PACKAGE comes up empty and the
+      # action's next step runs `conda convert -p <platform>  -o <dir>` with
+      # no file argument at all ("error: the following arguments are
+      # required: files") -- on every platform, not just one. Forcing the
+      # legacy format globally is the only lever available from outside the
+      # action itself.
+      - name: Force the legacy .tar.bz2 package format
+        run: conda config --set conda_build.pkg_format 1
+
       - name: Build and upload the conda packages (macOS)
         uses: uibcdf/action-build-and-upload-conda-packages@v1.2.0
         if: ${{ matrix.os == 'macos-latest' }}
