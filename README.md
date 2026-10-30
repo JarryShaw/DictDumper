@@ -25,13 +25,13 @@
  - `dictdumper.XML` -- dump extensible markup language (`XML`) file (__base class__)
  - `dictdumper.HTML` -- dump JavaScript file under `Vue.js` framework (__DEPRECATED__)
 
-![](https://github.com/JarryShaw/dictdumper/blob/master/doc/dictdumper.png)
+![](https://github.com/JarryShaw/dictdumper/blob/main/doc/dictdumper.png)
 
 &nbsp;
 
 ### Installation:
 
-> Note that `dictdumper` supports Python versions __2.7__ and all versions __since 3.0__
+> Note that `dictdumper` supports Python __3.8__ and above
 
 ```
 pip install dictdumper

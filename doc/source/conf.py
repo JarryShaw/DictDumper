@@ -37,7 +37,7 @@ extensions = [
     'sphinx.ext.viewcode',
     'sphinx.ext.intersphinx',
     'sphinx.ext.todo',
-    'sphinx.ext.autodoc', 'sphinx.ext.autodoc.typehints',
+    'sphinx.ext.autodoc',
     'sphinx.ext.napoleon',
 ]
 

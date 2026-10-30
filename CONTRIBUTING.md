@@ -6,14 +6,37 @@ resources to make it easier to get your contribution accepted.
 ## Getting started
 
 - Fork the repository on GitHub.
-- Read the README.md for build instructions.
+- Set up a local development environment (see below).
 - Play with the project, submit bugs, submit patches!
+
+## Development setup
+
+```
+git clone https://github.com/<you>/DictDumper.git
+cd DictDumper
+pip install -e .
+python tests/test.py
+```
+
+`requires-python` is `>=3.8`; any CPython or PyPy at or above that works. There
+is no separate dev/test dependency group — the test suite (`tests/test.py`) is
+a plain `unittest` runner with no third-party dependencies of its own. `tox.ini`
+runs it across installed interpreters from `py38` to `py315` if you have more
+than one on `PATH`.
+
+To build the documentation locally:
+
+```
+pip install -e ".[docs]"
+cd doc
+make html
+```
 
 ## Contribution flow
 
 This is a rough outline of what a contributor's workflow looks like:
 
-- Create a topic branch from where you want to base your work. This is usually master.
+- Create a topic branch from where you want to base your work. This is usually main.
 - Make commits of logical units and add test case if the change fixes a bug or adds new functionality.
 - Run tests and make sure all the tests are passed.
 - Make sure your commit messages are in the proper format (see below).
