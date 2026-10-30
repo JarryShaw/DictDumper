@@ -138,10 +138,11 @@ jobs:
 
   pypi:
     name: PyPI distribution for Python ${{ matrix.python-version }}
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os || 'ubuntu-latest' }}
     needs: [ github, version_check ]
     if: ${{ startsWith(github.ref_name, 'v') || needs.version_check.outputs.DICTDUMPER_TAG_EXISTS == 'false' }}
     strategy:
+      fail-fast: false
       matrix:
         python-version:
           - "3.9"
@@ -149,9 +150,17 @@ jobs:
           - "3.11"
           - "3.12"
           - "3.13"
+          - "3.14"
+          - "3.15"
           - "pypy3.8"
           - "pypy3.9"
           - "pypy3.10"
+        # setup-python's manifest has no 3.9 build for ubuntu-latest (26.04) --
+        # pin it to the last Ubuntu image that still has one, same fix as
+        # unit-tests.yml.
+        include:
+          - python-version: "3.9"
+            os: ubuntu-24.04
     permissions:
       contents: write
       id-token: write  # IMPORTANT: this permission is mandatory for trusted publishing
@@ -213,7 +222,9 @@ jobs:
 
   conda:
     name: Conda deployment of package for platform ${{ matrix.os }} with Python ${{ matrix.python-version }}
-    runs-on: ${{ matrix.os }}
+    # matrix.runner overrides this for the one combination setup-python can't
+    # serve directly -- see the include entry below.
+    runs-on: ${{ matrix.runner || matrix.os }}
     needs: [ tag, github, version_check ]
     if: ${{ startsWith(github.ref_name, 'v') || needs.version_check.outputs.DICTDUMPER_TAG_EXISTS == 'false' }}
     strategy:
@@ -227,6 +238,17 @@ jobs:
           - "3.10"
           - "3.11"
           - "3.12"
+          - "3.13"
+          - "3.14"
+          - "3.15"
+        # setup-python's manifest has no 3.9 build for ubuntu-latest (26.04).
+        # matrix.os stays 'ubuntu-latest' here on purpose -- the platform_*
+        # conditionals below key off that exact string -- only the runner
+        # this job actually executes on moves to ubuntu-24.04.
+        include:
+          - os: ubuntu-latest
+            python-version: "3.9"
+            runner: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
         with:
