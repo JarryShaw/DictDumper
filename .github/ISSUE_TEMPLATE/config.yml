@@ -1,0 +1,19 @@
+# The "New issue" chooser.
+#
+# ``blank_issues_enabled`` is deliberately true, so a maintainer can file an issue
+# without a template.
+
+blank_issues_enabled: true
+
+contact_links:
+  - name: Ask a question, or get usage help
+    url: https://github.com/JarryShaw/DictDumper/discussions
+    about: >-
+      For "how do I ...?" rather than "this is broken". Discussions keep the issue
+      tracker for defects and feature requests.
+
+  - name: Read the documentation
+    url: https://jarryshaw.github.io/DictDumper/
+    about: >-
+      The API reference, which answers most usage questions faster than an issue
+      will.

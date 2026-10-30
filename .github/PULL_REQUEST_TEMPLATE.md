@@ -4,15 +4,23 @@
 - Put an `x` into all the boxes [ ] relevant to your *pull request* (like that [x])
 - Use *Preview* tab to see how your *pull request* will actually look like
 
-- [ ] [Searched](https://github.com/JarryShaw/DictDumper/search?q=is%3Apr&type=Issues) for similar pull requests
-- [ ] Followed PEP8 coding style
-- [ ] Tested with proper test samples
+- [ ] [Searched](https://github.com/JarryShaw/DictDumper/pulls?q=is%3Apr) for similar pull requests
+- [ ] Followed PEP 8 coding style
+- [ ] `python tests/test.py` passes, and a test case covers the change
 
 ### What is the purpose of your *pull request*?
 
-- [ ] Bug fix
-- [ ] Improvement
-- [ ] New feature
+Tick the type your subject line carries.
+
+- [ ] `fix` — corrects a defect
+- [ ] `feat` — adds a feature
+- [ ] `perf` — changes performance, not behaviour
+- [ ] `refactor` — changes neither behaviour nor performance
+- [ ] `test` — tests only
+- [ ] `docs` — documentation only
+- [ ] `ci` — workflows or build tooling
+- [ ] `release` — bumps the version or rolls up a distribution
+- [ ] `chore` — anything else
 
 ---
 
