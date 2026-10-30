@@ -91,6 +91,13 @@ test_escape[u'nested'][u'tab\tkey'] = u'tab\tvalue'
 test_bytes_key = collections.OrderedDict()
 test_bytes_key[b'\x20\x21\x22\x23'] = u'client random'
 
+# A ``datetime`` carrying microseconds, which a property list ``<date>`` has no
+# field for, and a bare ``date``, which carries no time of day at all. C.f.
+# https://github.com/JarryShaw/DictDumper/issues/122.
+test_date = collections.OrderedDict()
+test_date['stamp'] = datetime.datetime(2020, 1, 31, 20, 15, 10, 163010)
+test_date['day'] = datetime.date(2020, 1, 31)
+
 
 class TestDictDumper(unittest.TestCase):
     """Test DictDumper."""
@@ -202,6 +209,23 @@ class TestDictDumper(unittest.TestCase):
 
                 dumper(test_3, name='test_3')
                 self.assertFile(dst, os.path.join(rootdir, 'test_3%s.txt' % PY2))
+
+    def test_plist_date(self):
+        """Test PLIST dumper writes a date plistlib can read."""
+        with TemporaryDirectory() as tempdir:
+            dst = os.path.join(tempdir, 'test_date.plist')
+
+            dumper = dictdumper.PLIST(dst)
+            dumper(test_date, name='test_date')
+
+            with open(dst, 'rb') as file:
+                report = load_plist(file)
+
+            # the microseconds are gone -- a <date> has no field for them
+            self.assertEqual(report['test_date'], {
+                'stamp': datetime.datetime(2020, 1, 31, 20, 15, 10),
+                'day': datetime.datetime(2020, 1, 31, 0, 0),
+            })
 
 
 if __name__ == "__main__":

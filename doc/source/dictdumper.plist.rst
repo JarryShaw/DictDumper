@@ -29,6 +29,7 @@ Internal utilities
 ------------------
 
 .. autofunction:: dictdumper.plist.encode_xml
+.. autofunction:: dictdumper.plist._format_date
 
 .. autodata:: dictdumper.plist._HEADER_START
 .. autodata:: dictdumper.plist._HEADER_END
