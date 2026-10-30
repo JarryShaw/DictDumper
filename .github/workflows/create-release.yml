@@ -285,6 +285,17 @@ jobs:
           auto-activate-base: false
           show-channel-urls: true
 
+      # conda-build.yaml installs conda-build into the "test" env, but `conda
+      # build` is a subcommand of whichever conda executable the next action's
+      # run step actually invokes -- and uibcdf/action-build-and-upload-conda-
+      # packages runs its build command in a login shell (bash -l), which
+      # doesn't source the .bashrc setup-miniconda edits to activate "test".
+      # The result: `conda build` resolves against base, which never got the
+      # plugin, and fails with "invalid choice: 'build'". Installing it into
+      # base directly sidesteps the activation question entirely.
+      - name: Ensure conda-build is importable from base conda
+        run: conda install -n base -y -c conda-forge conda-build anaconda-client
+
       - name: Build and upload the conda packages (macOS)
         uses: uibcdf/action-build-and-upload-conda-packages@v1.2.0
         if: ${{ matrix.os == 'macos-latest' }}
